@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "format": "prettier --write .",
+    "lint:css": "stylelint \"src/**/*.css\" --fix",
+    "lint:fix": "npm run format && npm run lint:css"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.12.0",
