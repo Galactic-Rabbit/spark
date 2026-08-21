@@ -1,0 +1,5 @@
+.eslintrc.js
+.eslintrc.json
+.prettierrc
+package-lock.json
+*.log

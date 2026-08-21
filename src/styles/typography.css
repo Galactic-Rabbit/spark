@@ -1,0 +1,142 @@
+:root {
+  --font-family: 'Inter', sans-serif;
+  --font-size-large: 26px;
+  --font-size-h1: 20px;
+  --font-size-h2: 18px;
+  --font-size-h3: 16px;
+  --font-size-base: 16px;
+  --font-size-sm: 14px;
+  --font-size-xs: 12px;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --line-height-large: 138%;
+  --line-height-h1: 180%;
+  --line-height-h2: 133%;
+  --line-height-h3: 150%;
+  --line-height-base: 150%;
+  --line-height-sm: 171%;
+  --line-height-xs: 133%;
+}
+
+/* ----- Large (26px / 600) ----- */
+.text-large {
+  font-family: var(--font-family);
+  font-size: var(--font-size-large);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-large);
+  color: var(--dark-900);
+}
+
+/* ----- H1 (20px / 700) ----- */
+.text-h1 {
+  font-family: var(--font-family);
+  font-size: var(--font-size-h1);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-h1);
+  color: var(--dark-900);
+}
+
+/* ----- H2 (18px / 700) ----- */
+.text-h2 {
+  font-family: var(--font-family);
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-h2);
+  color: var(--dark-900);
+}
+
+/* ----- H3 (16px / 600) ----- */
+.text-h3 {
+  font-family: var(--font-family);
+  font-size: var(--font-size-h3);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-h3);
+  color: var(--dark-900);
+}
+
+/* ----- Regular Text 16 (16px / 400) ----- */
+.text-regular {
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-base);
+  color: var(--dark-900);
+}
+
+/* ----- Bold Text 16 (16px / 700) ----- */
+.text-bold {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-base);
+  color: var(--dark-900);
+}
+
+/* ----- Regular Text 14 (14px / 400) ----- */
+.text-regular-sm {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-sm);
+  color: var(--dark-900);
+}
+
+/* ----- Medium Text 14 (14px / 500) ----- */
+.text-medium-sm {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-sm);
+  color: var(--dark-900);
+}
+
+/* ----- Bold Text 14 (14px / 700) ----- */
+.text-bold-sm {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-sm);
+  color: var(--dark-900);
+}
+
+/* ----- Small Text (12px / 400) ----- */
+.text-small {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-xs);
+  color: var(--dark-900);
+}
+
+/* ----- Semi-bold Small Text (12px / 600) ----- */
+.text-small-semibold {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-xs);
+  color: var(--dark-900);
+}
+
+/* ----- Regular Link (14px / 400 / underline) ----- */
+.link-regular {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-sm);
+  color: var(--primary-500);
+  text-decoration: underline;
+  text-decoration-skip-ink: none;
+}
+
+/* ----- Small Link (12px / 400 / underline) ----- */
+.link-small {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-xs);
+  color: var(--primary-500);
+  text-decoration: underline;
+  text-decoration-skip-ink: none;
+}
