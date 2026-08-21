@@ -1,4 +1,4 @@
-'use client'
+"use client"
 import * as Checkbox from '@radix-ui/react-checkbox';
 import Ok from './ok-sq.svg'
 import Image from 'next/image'
@@ -24,7 +24,7 @@ export const CheckBox = ({checked, onChange, text}: Props) => {
       <Checkbox.Root className={s.checkboxRoot} checked={checked} onCheckedChange={onChange}>
         <div className={s.checkBox}>
           <Checkbox.Indicator>
-            <Image src={Ok} alt="" className={s.s}/>
+            <Image src={Ok} alt=""/>
             <div className={s.bgIndicator}/>
           </Checkbox.Indicator>
         </div>
