@@ -1,0 +1,1 @@
+export { ProfileSettingsPage } from './ProfileSettingsPage'
