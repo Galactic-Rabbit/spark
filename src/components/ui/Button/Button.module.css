@@ -1,0 +1,114 @@
+.button {
+    min-width: 182px;
+    height: 36px;
+    padding: 6px 24px;
+    border: none;
+    border-radius: 2px;
+    font-family: var(--font-family);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-base);
+    text-align: center;
+    transition: background-color 0.2s ease;
+    cursor: pointer;
+}
+
+.primary {
+    background-color: var(--primary-500);
+    color: var(--light-100);
+}
+
+.primary:hover {
+    background-color: var(--primary-100);
+}
+
+.primary:active {
+    background-color: var(--primary-700);
+}
+
+.primary:focus-visible {
+    outline: 2px solid var(--primary-700);
+    outline-offset: -2px;
+}
+
+.primary:disabled {
+    background-color: var(--primary-900);
+    color: var(--light-900);
+    cursor: not-allowed;
+}
+
+.secondary {
+    background-color: var(--dark-300);
+    color: var(--light-100);
+}
+
+.secondary:active {
+    background-color: #212121;
+}
+
+.secondary:hover {
+    background-color: var(--dark-100);
+}
+
+.secondary:focus-visible {
+    outline: 1px solid var(--primary-300);;
+    outline-offset: -1px;
+}
+
+.secondary:disabled {
+    background-color: var(--dark-500);
+    color: var(--light-900);
+    cursor: not-allowed;
+}
+
+.outline {
+    outline: 1px solid var(--primary-500);
+    background-color: transparent;
+    outline-offset: -1px;
+    color: var(--primary-500);
+}
+
+.outline:active {
+    outline-color: var(--primary-700);
+    color: var(--primary-700);
+}
+
+.outline:hover {
+    outline-color: var(--primary-100);
+    color: var(--primary-100);
+}
+
+.outline:focus-visible {
+    outline: 2px solid var(--primary-700);
+    outline-offset: -2px;
+    color: var(--primary-700);
+}
+.outline:disabled {
+    outline-color: var(--primary-900);
+    color: var(--primary-900);
+}
+
+.textButton {
+    min-width: max-content;
+    color: var(--primary-500);
+    background-color: transparent;
+}
+
+.textButton:active {
+    color: var(--primary-700);
+}
+
+.textButton:hover {
+    color: var(--primary-100);
+}
+
+.textButton:focus-visible {
+    outline: 2px solid var(--primary-700);
+    outline-offset: -2px;
+    color: var(--primary-500);
+}
+
+.textButton:disabled {
+    color: var(--primary-900);
+    cursor: not-allowed;
+}
