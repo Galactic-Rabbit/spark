@@ -1,0 +1,136 @@
+.field {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.input {
+    background-color: transparent;
+    height: 36px;
+    border: none;
+    border-radius: 2px;
+    outline: 1px solid var(--dark-100);
+    padding-left: 12px;
+    padding-right: 12px;
+    color: var(--light-900);
+    min-width: 100%;
+}
+
+.input.withSearchIcon {
+    padding-left: 42px;
+}
+
+.searchIcon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    pointer-events: none;
+    color: var(--light-900);
+}
+
+.showPassword {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    color: var(--light-100);
+}
+
+.wrapper:has(.input:active) .searchIcon,
+.wrapper:has(.input:focus) .searchIcon
+{
+    color: var(--light-100);
+}
+
+.showPassword {
+    color: var(--light-100);
+}
+
+.input:disabled ~ .showPassword {
+    color: var(--light-900);
+    cursor: not-allowed;
+}
+
+.input:hover {
+    background-color: transparent;
+    outline: 1px solid var(--light-900);
+    outline-offset: -1px;
+}
+
+.input:active,
+.input:focus {
+    background-color: var(--dark-500);
+    color: var(--light-100);
+    outline: 1px solid var(--light-100);
+    outline-offset: -1px;
+}
+
+.input:disabled {
+    outline: 1px solid var(--dark-100);
+    outline-offset: -1px;
+    cursor: not-allowed;
+}
+
+.input.error {
+    outline: 1px solid var(--danger-500);
+    outline-offset: -1px;
+}
+
+.input.error:focus {
+    outline: 1px solid var(--danger-500);
+    outline-offset: -1px;
+}
+
+.wrapper:has(.input.error) .searchIcon,
+.wrapper:has(.input.error:focus) .searchIcon {
+    color: var(--light-100);
+}
+
+/*В будующем, докидывать класс при клике с tab*/
+.input.keyboard-focus {
+    outline: 2px solid var(--primary-500);
+    outline-offset: -2px;
+    color: var(--light-100);
+}
+
+.input::placeholder {
+    font-family: var(--font-family);
+    font-weight: var(--font-weight-regular);
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-base);
+    color: var(--light-900);
+}
+
+.input:disabled::placeholder {
+    color: var(--dark-100);
+}
+
+.label {
+    font-family: var(--font-family);
+    font-weight: var(--font-weight-regular);
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-sm);
+    color: var(--light-900);
+}
+
+.errorText {
+    font-family: var(--font-family);
+    font-weight: var(--font-weight-regular);
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-sm);
+    color: var(--danger-500);
+}
