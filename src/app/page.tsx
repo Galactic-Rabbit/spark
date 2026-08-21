@@ -1,9 +1,5 @@
+import { MainPage } from '@/screens/MainPage'
+
 export default function Home() {
-  return (
-    <div>
-      <main>
-        <h1>Home</h1>
-      </main>
-    </div>
-  )
+  return <MainPage />
 }
