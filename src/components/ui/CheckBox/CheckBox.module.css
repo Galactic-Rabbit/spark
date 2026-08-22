@@ -1,0 +1,34 @@
+.checkboxRoot {
+    padding: 10px;
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.checkBox {
+    position: relative;
+    width: 18px;
+    height: 18px;
+}
+
+.bgIndicator {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    border-radius: 10px;
+    width: 100%;
+    height: 100%;
+    background: var(--dark-900);
+    animation: opacity 0.5s forwards;
+}
+
+@keyframes opacity {
+    from {
+        opacity: 0
+    }
+    to {
+        opacity: 1;
+    }
+}
+
