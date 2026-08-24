@@ -1,36 +1,35 @@
-"use client"
+'use client'
 import * as Checkbox from '@radix-ui/react-checkbox';
-import Ok from './ok-sq.svg'
-import Image from 'next/image'
 import s from './CheckBox.module.css'
+import {ReactNode, useId} from 'react';
+import {CheckmarkIcon} from '@/components/icons/CheckmarkIcon/CheckmarkIcon';
+
 
 type Props = {
   checked: boolean,
   onChange: (checked: boolean) => void,
-  text: string,
+  id?: string,
+  label: string | ReactNode,
+  className?: string,
 }
 
-/**
- * @example
- * Принимает пропсы калбэка и стейта
- * <CheckBox
- * checked={checked}
- * onChange={changeChecked}
- * text={"любой текст"}/>
- */
-export const CheckBox = ({checked, onChange, text}: Props) => {
+export const CheckBox = ({checked, onChange, label, id, className}: Props) => {
+  const defaultId = useId()
+  const newId = id ?? defaultId
+
+
   return (
-    <div>
-      <Checkbox.Root className={s.checkboxRoot} checked={checked} onCheckedChange={onChange}>
-        <div className={s.checkBox}>
-          <Checkbox.Indicator>
-            <Image src={Ok} alt=""/>
-            <div className={s.bgIndicator}/>
-          </Checkbox.Indicator>
-        </div>
+    <div className={`${s.checkContainer} ${className}`}>
+      <Checkbox.Root id={newId}
+                     className={s.checkboxRoot}
+                     checked={checked}
+                     onCheckedChange={(value) => onChange(value === true)}>
+        <Checkbox.Indicator>
+          <CheckmarkIcon className={s.icon} />
+        </Checkbox.Indicator>
       </Checkbox.Root>
-      <label htmlFor="c1" className={'text-small'}>
-        {text}
+      <label htmlFor={newId} className={'text-small'}>
+        {label}
       </label>
     </div>
   );
