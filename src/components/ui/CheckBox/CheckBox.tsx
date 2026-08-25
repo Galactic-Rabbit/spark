@@ -11,9 +11,10 @@ type Props = {
   id?: string,
   label: string | ReactNode,
   className?: string,
+  disabled?: boolean,
 }
 
-export const CheckBox = ({checked, onChange, label, id, className}: Props) => {
+export const CheckBox = ({checked, onChange, label, id, disabled = false, className}: Props) => {
   const defaultId = useId()
   const newId = id ?? defaultId
 
@@ -23,9 +24,10 @@ export const CheckBox = ({checked, onChange, label, id, className}: Props) => {
       <Checkbox.Root id={newId}
                      className={s.checkboxRoot}
                      checked={checked}
-                     onCheckedChange={(value) => onChange(value === true)}>
-        <Checkbox.Indicator>
-          <CheckmarkIcon className={s.icon} />
+                     onCheckedChange={(value) => onChange(value === true)}
+                     disabled={disabled}>
+        <Checkbox.Indicator className={s.indicator}>
+          <CheckmarkIcon className={s.icon} tickColor={disabled ? 'var(--light-100)' : undefined}/>
         </Checkbox.Indicator>
       </Checkbox.Root>
       <label htmlFor={newId} className={'text-small'}>
