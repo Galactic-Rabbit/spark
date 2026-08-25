@@ -12,8 +12,8 @@
 .input {
   width: 100%;
   height: 36px;
-  padding-right: 12px;
-  padding-left: 12px;
+  padding-right: 0.75rem;
+  padding-left: 0.75rem;
   color: var(--light-900);
   outline: 1px solid var(--dark-100);
   background-color: transparent;
@@ -22,7 +22,7 @@
 }
 
 .input.withSearchIcon {
-  padding-left: 42px;
+  padding-left: 2.625rem;
 }
 
 .searchIcon {
