@@ -34,6 +34,5 @@ export const CheckBox = ({checked, onChange, label, id, disabled = false, classN
         {label}
       </label>
     </div>
-  );
-};
-
+  )
+}

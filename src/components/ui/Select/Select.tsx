@@ -16,6 +16,7 @@ type SelectProps = {
   placeholder?: string
   options: SelectOption[]
   label?: string
+  className?: string; //добавил
 }
 
 const SelectBox = ({
@@ -25,12 +26,13 @@ const SelectBox = ({
   placeholder,
   options,
   label,
+  className
 }: SelectProps) => {
   return (
-    <div className={s.wrapper}>
+    <div className={`${s.wrapper} ${className || ''}`}>
       {label && <span className={`${s.label} text-regular-sm`}>{label}</span>}
       <Select.Root value={value} onValueChange={onValueChange} disabled={disabled}>
-        <Select.Trigger className={`${s.trigger} text-regular`}>
+        <Select.Trigger className={`${s.trigger} text-regular ${className || ''}`}>
           <Select.Value placeholder={placeholder} />
 
           <Select.Icon className={s.icon}>
