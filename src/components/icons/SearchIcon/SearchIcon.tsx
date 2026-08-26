@@ -1,4 +1,4 @@
-interface SearchIconProps {
+type SearchIconProps = {
     className?: string;
 }
 

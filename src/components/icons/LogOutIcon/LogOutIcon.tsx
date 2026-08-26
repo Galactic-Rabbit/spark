@@ -1,4 +1,4 @@
-interface LogOutIconProps {
+type LogOutIconProps = {
     className?: string;
 }
 

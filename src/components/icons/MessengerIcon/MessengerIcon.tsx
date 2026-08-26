@@ -1,4 +1,4 @@
-interface MessengerIconProps {
+type MessengerIconProps = {
     className?: string;
 }
 

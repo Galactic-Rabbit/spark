@@ -1,5 +1,5 @@
 
-interface ProfileIconProps {
+type ProfileIconProps = {
     className?: string;
 }
 

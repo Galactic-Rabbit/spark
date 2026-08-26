@@ -1,4 +1,4 @@
-interface FavoritesIconProps {
+type FavoritesIconProps = {
     className?: string;
 }
 

@@ -1,4 +1,4 @@
-interface StatisticsIconProps {
+type StatisticsIconProps = {
     className?: string;
 }
 

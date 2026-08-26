@@ -1,4 +1,4 @@
-interface FeedIconProps {
+type FeedIconProps = {
     className?: string;
 }
 
