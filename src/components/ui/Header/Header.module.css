@@ -1,0 +1,193 @@
+/* --- Header --- */
+.header {
+    box-sizing: border-box;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    width: 100%;
+    max-width: 100%;
+    height: 3.75rem; /* 60px */
+    background-color: var(--dark-900, #0d0d0d);
+    border-bottom: 1px solid #333333;
+    padding: 0.75rem 0; /* 12px */
+    overflow: visible;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 80rem; /* 1280px */
+    margin: 0 auto;
+    padding: 0 4rem 0 3.75rem; /* 64px 60px */
+    height: 100%;
+    overflow: visible;
+    min-width: 0;
+}
+
+/* --- Логотип --- */
+.logo {
+    min-width: 8rem; /* 128px */
+    display: inline-flex;
+    font-family: var(--font-family);
+    font-weight: 600;
+    font-size: 1.625rem; /* 26px */
+    line-height: 138%;
+    color: var(--light-100);
+    text-decoration: none;
+}
+
+/* --- Правая группа --- */
+.rightGroup {
+    display: flex;
+    align-items: center;
+    gap: 1.875rem; /* 30px */
+    margin-left: auto;
+    min-width: fit-content;
+    flex-shrink: 0;
+}
+
+/* --- Блок: колокольчик + Select --- */
+.bellSelectGroup {
+    display: flex;
+    align-items: center;
+    gap: 2.8125rem; /* 45px */
+    flex-shrink: 0;
+    min-width: 12.5rem; /* 200px */
+}
+
+/* --- Колокольчик --- */
+.notificationButton {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem; /* 36px */
+    height: 2.25rem; /* 36px */
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    background: transparent;
+    border: none;
+    color: var(--light-100);
+}
+
+.notificationButton:hover {
+    background-color: var(--dark-500);
+}
+
+.notificationButton[data-state="open"] {
+    background-color: var(--dark-300);
+}
+
+/* --- Бейдж --- */
+.badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1rem; /* 16px */
+    height: 1rem; /* 16px */
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    color: var(--light-100);
+    background: var(--danger-500);
+    border-radius: 50%;
+    border: 2px solid var(--dark-900);
+}
+
+/* --- Кнопки --- */
+.actions {
+    display: flex;
+    align-items: center;
+    gap: 1.875rem; /* 30px */
+}
+
+.loginButton {
+    min-width: 6.25rem; /* 100px */
+    width: 6.25rem; /* 100px */
+    height: 2.25rem; /* 36px */
+    padding: 0.375rem 1.5rem; /* 6px 24px */
+    border-radius: 2px;
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-base);
+    font-family: var(--font-family);
+    background: transparent;
+    border: none;
+    outline: none;
+    text-align: center;
+}
+
+.signupButton {
+    min-width: 6.25rem; /* 100px */
+    width: 6.25rem; /* 100px */
+    height: 2.25rem; /* 36px */
+    min-height: 2.25rem; /* 36px */
+    padding: 0.375rem 1.5rem; /* 6px 24px */
+    border-radius: 2px;
+    font-family: var(--font-family);
+    font-weight: 600;
+    font-size: 1rem; /* 16px */
+    line-height: 1;
+    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+/* --- Dropdown Menu (Radix) --- */
+.dropdownContent {
+    min-width: 12.5rem; /* 200px */
+    padding: 0.5rem; /* 8px */
+    background: var(--dark-700);
+    border: 1px solid var(--dark-300);
+    border-radius: 2px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+.dropdownItem {
+    padding: 0.5rem 0.75rem; /* 8px 12px */
+    border-radius: 2px;
+    font-family: var(--font-family);
+    font-size: var(--font-size-sm);
+    color: var(--light-100);
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.dropdownItem:hover {
+    background-color: var(--dark-300);
+}
+
+/* --- Обёртка Select --- */
+.selectWrapper {
+    width: 10.1875rem; /* 163px */
+    height: 2.25rem; /* 36px */
+}
+
+/* --- Контейнер для Select + флаг --- */
+.selectContainer {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+}
+
+/* --- Единый стиль для фокуса --- */
+.header a:focus-visible,
+.header button:focus-visible,
+.header [role="combobox"]:focus-visible {
+    outline: 2px solid var(--primary-700);
+    outline-offset: 2px;
+}
+
+/* --- Логотип (Inctagram) --- */
+.logo:focus-visible {
+    outline: 2px solid var(--primary-700);
+    outline-offset: 2px;
+}
