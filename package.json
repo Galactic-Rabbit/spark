@@ -5,11 +5,13 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:production": "next build",
     "start": "next start",
     "lint": "eslint",
     "format": "prettier --write .",
-    "lint:css": "stylelint \"src/**/*.css\" --fix",
-    "lint:fix": "npm run format && npm run lint:css"
+    "stylelint": "stylelint \"src/**/*.{css,scss,module.css}\"",
+    "stylelint:fix": "stylelint \"src/**/*.{css,scss,module.css}\" --fix",
+    "lint:fix": "npm run format && npm run stylelint:fix && npm run lint -- --fix"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.12.0",

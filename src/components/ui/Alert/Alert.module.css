@@ -1,0 +1,35 @@
+.alert {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 387px;
+  height: 48px;
+  padding: 0.75rem 1.5rem;
+  border-radius: 2px;
+}
+
+.error {
+  background: var(--danger-900);
+  border: 1px solid var(--danger-500);
+}
+
+.success {
+  background: var(--success-900);
+  border: 1px solid var(--success-500);
+}
+
+.closeButton {
+  color: var(--light-100);
+}
+
+.message {
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-base);
+  color: var(--light-100);
+}
+
+.errorTitle {
+  font-weight: var(--font-weight-bold);
+}
