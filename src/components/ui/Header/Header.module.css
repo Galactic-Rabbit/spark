@@ -8,7 +8,7 @@
   height: 3.75rem; /* 60px */
   padding: 0.75rem 0; /* 12px */
   overflow: visible;
-  background-color: var(--dark-900, #0d0d0d);
+  background-color: var(--dark-700, #1a1a1a);
   border-bottom: 1px solid #333;
 }
 
@@ -16,11 +16,10 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  min-width: 0;
-  max-width: 80rem; /* 1280px */
+  width: 100%;
+  min-width: 22.5rem; /* 360px */
   height: 100%;
-  padding: 0 4rem; /* 64px 60px */
-  margin: 0 auto;
+  padding: 0 4rem; /* 64px */
   overflow: visible;
 }
 

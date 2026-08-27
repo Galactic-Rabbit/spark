@@ -19,7 +19,7 @@ body {
   font-weight: var(--font-weight-regular);
   line-height: var(--line-height-base);
   color: var(--light-100);
-  background: var(--dark-900);
+  background: var(--dark-700);
 }
 
 .content {

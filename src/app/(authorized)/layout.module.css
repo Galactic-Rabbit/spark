@@ -1,0 +1,17 @@
+.layout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.contentWrapper {
+  display: flex;
+  flex: 1;
+  overflow: hidden; /* чтобы контент не вылезал за пределы */
+}
+
+.main {
+  flex: 1;
+  padding: 1.5rem;
+  overflow-y: auto; /* скролл только у контента, если не помещается */
+}
