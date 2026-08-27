@@ -24,7 +24,8 @@ body {
 
 .content {
   width: 100%;
-  max-width: 80rem;
+
+  /* max-width: 80rem; */
   min-height: 100vh;
   margin-inline: auto;
 }
