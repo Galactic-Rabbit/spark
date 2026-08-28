@@ -14,13 +14,15 @@
     "lint:fix": "npm run format && npm run stylelint:fix && npm run lint -- --fix"
   },
   "dependencies": {
+    "@hookform/resolvers": "^5.9.1",
     "@reduxjs/toolkit": "^2.12.0",
     "next": "16.3.1",
     "radix-ui": "^1.6.7",
     "react": "19.2.8",
     "react-dom": "19.2.8",
     "react-hook-form": "^7.85.0",
-    "react-redux": "^9.3.0"
+    "react-redux": "^9.3.0",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@types/node": "^20",
