@@ -26,7 +26,7 @@
   font-size: var(--font-size-large);
   font-weight: var(--font-weight-semibold);
   line-height: var(--line-height-large);
-  color: var(--dark-900);
+  color: var(--light-100);
 }
 
 /* ----- H1 (20px / 700) ----- */
@@ -35,7 +35,7 @@
   font-size: var(--font-size-h1);
   font-weight: var(--font-weight-bold);
   line-height: var(--line-height-h1);
-  color: var(--dark-900);
+  color: var(--light-100);
 }
 
 /* ----- H2 (18px / 700) ----- */
@@ -44,7 +44,7 @@
   font-size: var(--font-size-h2);
   font-weight: var(--font-weight-bold);
   line-height: var(--line-height-h2);
-  color: var(--dark-900);
+  color: var(--light-100);
 }
 
 /* ----- H3 (16px / 600) ----- */
@@ -53,7 +53,7 @@
   font-size: var(--font-size-h3);
   font-weight: var(--font-weight-semibold);
   line-height: var(--line-height-h3);
-  color: var(--dark-900);
+  color: var(--light-100);
 }
 
 /* ----- Regular Text 16 (16px / 400) ----- */
@@ -62,7 +62,7 @@
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-regular);
   line-height: var(--line-height-base);
-  color: var(--dark-900);
+  color: var(--light-100);
 }
 
 /* ----- Bold Text 16 (16px / 700) ----- */
@@ -71,7 +71,7 @@
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-bold);
   line-height: var(--line-height-base);
-  color: var(--dark-900);
+  color: var(--light-100);
 }
 
 /* ----- Regular Text 14 (14px / 400) ----- */
@@ -80,7 +80,7 @@
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-regular);
   line-height: var(--line-height-sm);
-  color: var(--dark-900);
+  color: var(--light-100);
 }
 
 /* ----- Medium Text 14 (14px / 500) ----- */
@@ -89,7 +89,7 @@
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-medium);
   line-height: var(--line-height-sm);
-  color: var(--dark-900);
+  color: var(--light-100);
 }
 
 /* ----- Bold Text 14 (14px / 700) ----- */
@@ -98,7 +98,7 @@
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-bold);
   line-height: var(--line-height-sm);
-  color: var(--dark-900);
+  color: var(--light-100);
 }
 
 /* ----- Small Text (12px / 400) ----- */
@@ -107,7 +107,7 @@
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-regular);
   line-height: var(--line-height-xs);
-  color: var(--dark-900);
+  color: var(--light-100);
 }
 
 /* ----- Semi-bold Small Text (12px / 600) ----- */
@@ -116,7 +116,7 @@
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-semibold);
   line-height: var(--line-height-xs);
-  color: var(--dark-900);
+  color: var(--light-100);
 }
 
 /* ----- Regular Link (14px / 400 / underline) ----- */

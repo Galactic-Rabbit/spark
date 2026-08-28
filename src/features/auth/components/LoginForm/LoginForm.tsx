@@ -1,28 +1,17 @@
 'use client'
 
 import { useForm } from 'react-hook-form'
-import { z } from 'zod'
+
 import { zodResolver } from '@hookform/resolvers/zod'
 import s from './LoginForm.module.css'
-import { Input } from '../Input'
-import { Button } from '../Button'
+
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { VkIcon } from '@/components/icons/VkIcon/VkIcon'
-
-const loginSchema = z.object({
-  email: z
-    .string()
-    .min(1, 'Email обязателен для заполнения')
-    .email('The email must match the format example@example.com'),
-  password: z
-    .string()
-    .min(1, 'Пароль обязателен для заполнения')
-    .min(6, 'Пароль должен содержать минимум 6 символов'),
-})
-
-type LoginFormData = z.infer<typeof loginSchema>
+import { Button } from '@/components/ui/Button'
+import { Input } from '@/components/ui/Input'
+import { LoginFormData, loginSchema } from '../../schemas'
 
 export const LoginForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -52,13 +41,12 @@ export const LoginForm = () => {
   }
 
   const handleSignUp = () => {
-    router.push('/signup')
+    router.push('/register')
   }
 
   return (
     <div className={s.container}>
       <h1 className="text-h1">Sign In</h1>
-
       <Button className={s.vkButton}>
         <VkIcon />
         <span>Войти с VK ID</span>

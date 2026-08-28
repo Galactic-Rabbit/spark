@@ -1,45 +1,45 @@
 .text {
-    color: var(--light-900);
-    display: inline-block;
-    margin-bottom: calc(20 / 16 * var(--font-size-base));
-
+  display: inline-block;
+  margin-bottom: calc(20 / 16 * var(--font-size-base));
+  color: var(--light-900);
 }
 
 .h1 {
-    color: var(--light-100);
-    margin-bottom: calc(40 / 16 * var(--font-size-base));
+  margin-bottom: calc(40 / 16 * var(--font-size-base));
+  color: var(--light-100);
 }
 
 .textSendAgain {
-    color: var(--light-100);
-    display: inline-block;
-    margin-bottom: calc(20 / 16 * var(--font-size-base));
+  display: inline-block;
+  margin-bottom: calc(20 / 16 * var(--font-size-base));
+  color: var(--light-100);
 }
 
 .link {
-    display: block;
-    margin-top: calc(25 / 16 * var(--font-size-base));
-    margin-bottom: calc(25 / 16 * var(--font-size-base));
-
+  display: block;
+  margin-top: calc(25 / 16 * var(--font-size-base));
+  margin-bottom: calc(25 / 16 * var(--font-size-base));
 }
 
 .inputEmail {
-    margin-bottom: calc(15 / 16 * var(--font-size-base));
+  margin-bottom: calc(15 / 16 * var(--font-size-base));
 }
-.inputForm{
-    display: flex;
-    flex-direction: column;
-    gap:calc(25 / 16 * var(--font-size-base));
-    margin-bottom: calc(10/ 16 * var(--font-size-base));
+
+.inputForm {
+  display: flex;
+  flex-direction: column;
+  gap: calc(25 / 16 * var(--font-size-base));
+  margin-bottom: calc(10 / 16 * var(--font-size-base));
 }
+
 .form {
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    min-height: 0;
-    height: 100%;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
 }
 
 .btn {
-    margin: auto 0 0 0;
+  margin: auto 0 0;
 }
