@@ -19,12 +19,13 @@ body {
   font-weight: var(--font-weight-regular);
   line-height: var(--line-height-base);
   color: var(--light-100);
-  background: var(--dark-900);
+  background: var(--dark-700);
 }
 
 .content {
   width: 100%;
-  max-width: 80rem;
+
+  /* max-width: 80rem; */
   min-height: 100vh;
   margin-inline: auto;
 }

@@ -16,7 +16,7 @@ type SelectProps = {
   placeholder?: string
   options: SelectOption[]
   label?: string
-  className?: string; //добавил
+  className?: string //добавил
 }
 
 const SelectBox = ({
@@ -26,7 +26,7 @@ const SelectBox = ({
   placeholder,
   options,
   label,
-  className
+  className,
 }: SelectProps) => {
   return (
     <div className={`${s.wrapper} ${className || ''}`}>

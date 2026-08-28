@@ -10,7 +10,8 @@ module.exports = {
     // Тонкая настройка для конкретных свойств
     'declaration-property-unit-allowed-list': {
       // Для всех свойств, начинающихся с border, разрешаем только px
-      '/^border/': ['px'],
+      '/^border(?!-radius)/': ['px'],
+      'border-radius': ['%', 'px'],
       // Для отступов и шрифтов разрешаем только rem
       // (используем регулярное выражение, чтобы охватить padding, padding-top, margin и т.д.)
       '/^padding|^margin/': ['rem'],
