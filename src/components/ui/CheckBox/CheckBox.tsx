@@ -30,7 +30,7 @@ export const CheckBox = ({checked, onChange, label, id, disabled = false, classN
           <CheckmarkIcon className={s.icon} tickColor={disabled ? 'var(--light-100)' : undefined}/>
         </Checkbox.Indicator>
       </Checkbox.Root>
-      <label htmlFor={newId} className={'text-small'}>
+      <label htmlFor={newId} className={`text-small ${s.label}`}>
         {label}
       </label>
     </div>
