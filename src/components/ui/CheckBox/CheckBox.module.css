@@ -99,7 +99,9 @@
     color: var(--dark-100);
     box-sizing: border-box;
 }
-
+.label {
+   color:var(--light-100)
+}
 
 @keyframes popIn {
     from { opacity: 0; transform: scale(0); }
