@@ -1,13 +1,14 @@
 /* --- Sidebar --- */
 .sidebar {
-  position: sticky;
-  top: 3.75rem; /* 60px */
-  width: 13.75rem; /* 220px */
-  height: calc(100vh - 3.75rem); /* 60px */
-  padding: 4.5rem 0 2.25rem 3.75rem; /* 72px 0 36px 60px */
-  overflow-y: auto;
-  background: var(--dark-700);
-  border-right: 1px solid var(--dark-300);
+    position: sticky;
+    top: 3.75rem; /* 60px */
+    width: 13.75rem; /* 220px */
+    height: calc(100vh - 3.75rem); /*← УБИРАЕМ или КОММЕНТИРУЕМ */
+    /*min-height: calc(100vh - 3.75rem); !* ← добавляем минимальную высоту *!*/
+    padding: 4.5rem 0 2.25rem 3.75rem; /* 72px 0 36px 60px */
+    overflow-y: auto; /* ← меняем на visible */
+    background: var(--dark-700);
+    border-right: 1px solid var(--dark-300);
 }
 
 .navRoot {
@@ -38,19 +39,15 @@
 }
 
 /* --- Ссылки --- */
-.navLink {
-  position: relative;
-  display: flex;
-  gap: 0.75rem; /* 12px */
-  align-items: center;
-  font-family: var(--font-family);
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-regular);
-  line-height: var(--line-height-sm);
-  color: var(--light-100);
-  text-decoration: none;
-  border-radius: 2px;
-  transition: all 0.2s ease;
+.navLink{
+    position: relative;
+    display: flex;
+    gap: 0.75rem; /* 12px */
+    align-items: center;
+    color: var(--light-100);
+    text-decoration: none;
+    border-radius: 2px;
+    transition: all 0.1s ease;
 }
 
 /* --- Иконка --- */
@@ -59,69 +56,54 @@
   width: 1.5rem; /* 24px */
   height: 1.5rem; /* 24px */
   color: var(--light-100);
-  transition: color 0.2s ease;
+  transition: color 0.1s ease;
 }
 
 /* --- Hover --- */
-.navLink:hover {
+.navLink:hover,
+.logoutLink:hover{
   font-weight: 500;
   color: var(--primary-100);
 }
 
-.navLink:hover .icon {
+.navLink:hover .icon,
+.logoutLink:hover .icon {
   color: var(--primary-100);
 }
 
 /* --- Active --- */
 .navLink.active {
-  font-weight: var(--font-weight-semibold);
-  color: var(--primary-500);
-
-  /* background-color: var(--dark-300); */
-
-  /* не совсем понятно от куда здесь этот цвет, но на всякий случай оставлю закомментированным */
+    color: var(--primary-500);
+    background-color: transparent;
 }
 
+/* Иконка в активном состоянии */
 .navLink.active .icon {
-  color: var(--primary-500);
+    color: var(--primary-500);
 }
-
-.navLink.active::before {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  width: 0.25rem; /* 4px */
-  height: 60%;
-  content: '';
-  background: var(--primary-500);
-  border-radius: 0 2px 2px 0;
-  transform: translateY(-50%);
+.navLink.active span {
+    color: var(--primary-500);
 }
-
 /* --- Focus --- */
-.navLink:focus-visible {
+.navLink:focus-visible,
+.logoutLink:focus-visible{
   outline: 2px solid var(--primary-700);
   outline-offset: 2px;
+
 }
 
 .label {
-  font-family: var(--font-family);
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-regular);
-  line-height: var(--line-height-sm);
-  transition: all 0.2s ease;
+    transition: all 0.1s ease;
 }
 
 /* --- Disabled --- */
-.navLink.disabled {
-  font-family: var(--font-family);
-  font-size: 0.875rem; /* 14px */
-  font-weight: 500;
-  line-height: 171%;
+.navLink.disabled,
+.logoutLink.disabled {
   color: var(--dark-100);
 }
 
-.navLink.disabled .icon {
+.navLink.disabled .icon,
+.logoutLink.disabled .icon {
   color: var(--dark-100);
 }
 
@@ -129,30 +111,20 @@
 .logoutSection {
   padding-bottom: 2.25rem; /* 36px */
   margin-top: 11.25rem; /* 180px */
-  overflow-y: hidden;
   list-style: none;
 }
+.logoutLink{
+    position: relative;
+    display: flex;
+    gap: 0.75rem; /* 12px */
+    align-items: center;
+    color: var(--light-100);
+    text-decoration: none;
+    border-radius: 2px;
+    transition: all 0.1s ease;
 
-.logoutLink {
-  display: flex;
-  gap: 0.75rem; /* 12px */
-  align-items: center;
-  padding: 0.5rem 0.75rem; /* 8px 12px */
-  font-family: var(--font-family);
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-regular);
-  line-height: var(--line-height-sm);
-  color: var(--light-100);
-  text-decoration: none;
-  border-radius: 2px;
-  transition: all 0.2s ease;
 }
 
-.logoutLink:hover {
-  font-weight: 500;
-  color: var(--primary-100);
-}
 
-.logoutLink:hover .icon {
-  color: var(--primary-100);
-}
+
+
