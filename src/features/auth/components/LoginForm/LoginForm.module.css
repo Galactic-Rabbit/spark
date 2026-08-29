@@ -1,0 +1,34 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.vkButton {
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+}
+
+.forgotPasswordLink {
+  align-self: flex-end;
+  margin-top: 0.75rem;
+  color: var(--light-900, #8d9094);
+}
+
+.forgotPasswordLink:hover {
+  color: var(--primary-500, #397df6);
+  text-decoration: underline;
+}
+
+.signUpLink {
+  margin-top: -1.3rem;
+}

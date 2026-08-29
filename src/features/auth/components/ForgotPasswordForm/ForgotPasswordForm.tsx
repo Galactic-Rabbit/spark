@@ -1,49 +1,46 @@
 'use client'
-import {Input} from '@/components/ui/Input';
-import {SubmitHandler, useForm} from 'react-hook-form';
-import {zodResolver} from '@hookform/resolvers/zod';
-import {Button} from '@/components/ui/Button';
-import Link from 'next/link';
-import s from './ForgotPassward.module.css';
+import { Input } from '@/components/ui/Input'
+import { SubmitHandler, useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Button } from '@/components/ui/Button'
+import Link from 'next/link'
+import s from './ForgotPassward.module.css'
 import {
   createPasswordSchema,
+  CreatePasswordValues,
   forgotPasswordSchema,
-  type CreatePasswordValues,
-  type ForgotPasswordValues,
-} from '@/features/auth/schemas/forgotPassword.schema';
+  ForgotPasswordValues,
+} from '../../schemas'
 
-
-const   ENTER_MAIL =  true; // показывает форму  в зависимости от приходящих данных либо страницу для ввода email либо форму для создания нового пароля
-const   SEND_EMAIL_AGAIN = true; // для отображения текста и названия кнопки, если нужно отправить email повторно
+const ENTER_MAIL = true // показывает форму  в зависимости от приходящих данных либо страницу для ввода email либо форму для создания нового пароля
+const SEND_EMAIL_AGAIN = false // для отображения текста и названия кнопки, если нужно отправить email повторно
 
 export const ForgotPasswordForm = () => {
-
-
   const {
     register: registerEmail,
     handleSubmit: handleEmailSubmit,
-    formState: {errors: emailErrors},
+    formState: { errors: emailErrors },
   } = useForm<ForgotPasswordValues>({
     resolver: zodResolver(forgotPasswordSchema),
-    defaultValues: {email: ''},
-  });
+    defaultValues: { email: '' },
+  })
 
   const {
     register: registerPassword,
     handleSubmit: handlePasswordSubmit,
-    formState: {errors: passwordErrors},
+    formState: { errors: passwordErrors },
   } = useForm<CreatePasswordValues>({
     resolver: zodResolver(createPasswordSchema),
-    defaultValues: {password: '', confirmPassword: ''},
-  });
+    defaultValues: { password: '', confirmPassword: '' },
+  })
 
-  const onEmailSubmit: SubmitHandler<ForgotPasswordValues> = data => {
-    console.log(data);
-  };
+  const onEmailSubmit: SubmitHandler<ForgotPasswordValues> = (data) => {
+    console.log(data)
+  }
 
-  const onPasswordSubmit: SubmitHandler<CreatePasswordValues> = data => {
-    console.log(data);
-  };
+  const onPasswordSubmit: SubmitHandler<CreatePasswordValues> = (data) => {
+    console.log(data)
+  }
 
   return (
     <>
@@ -103,5 +100,5 @@ export const ForgotPasswordForm = () => {
         </form>
       )}
     </>
-  );
-};
+  )
+}

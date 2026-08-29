@@ -1,10 +1,7 @@
-import {z} from 'zod'
+import { z } from 'zod'
 
 export const forgotPasswordSchema = z.object({
-  email: z
-    .string()
-    .min(1, 'Email is required')
-    .email('Invalid email address'),
+  email: z.string().min(1, 'Email is required').email('Invalid email address'),
 })
 
 export const createPasswordSchema = z
@@ -15,7 +12,7 @@ export const createPasswordSchema = z
       .max(20, 'Password must be at most 20 characters'),
     confirmPassword: z.string().min(1, 'Confirm your password'),
   })
-  .refine(data => data.password === data.confirmPassword, {
+  .refine((data) => data.password === data.confirmPassword, {
     message: 'Passwords do not match',
     path: ['confirmPassword'],
   })
