@@ -5,3 +5,4 @@ export {
   createPasswordSchema,
 } from './forgotPassword.schema'
 export { type LoginFormData, loginSchema } from './login.schema'
+export { type RegisterFormData, registerSchema } from './register.schema'
