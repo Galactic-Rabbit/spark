@@ -1,0 +1,46 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 400px;
+  padding: 32px 24px;
+  border: 1px solid var(--dark-100);
+}
+
+.vkButton {
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+}
+
+.agreement {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.agreement input {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.link {
+  color: var(--primary-500);
+  text-decoration: underline;
+}
+
+.errorText {
+  color: var(--danger-500);
+}
+
+.signInLink {
+  margin-top: 8px;
+}
