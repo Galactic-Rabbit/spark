@@ -13,6 +13,7 @@ import { Input } from '@/components/ui/Input'
 import { RegisterFormData, registerSchema } from '../../schemas'
 
 import s from './RegisterForm.module.css'
+import { CheckBox } from '@/components/ui/CheckBox'
 
 export const RegisterForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -102,7 +103,7 @@ export const RegisterForm = () => {
         <div className={s.agreement}>
           <input type="checkbox" {...register('terms')} />
 
-          <span className="text-regular-sm">
+          <span className="text-small">
             I agree to the{' '}
             <Link href="/terms-of-service" className={s.link}>
               Terms of Service
