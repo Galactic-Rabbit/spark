@@ -1,14 +1,15 @@
 /* --- Sidebar --- */
 .sidebar {
-    position: sticky;
-    top: 3.75rem; /* 60px */
-    width: 13.75rem; /* 220px */
-    height: calc(100vh - 3.75rem); /*← УБИРАЕМ или КОММЕНТИРУЕМ */
-    /*min-height: calc(100vh - 3.75rem); !* ← добавляем минимальную высоту *!*/
-    padding: 4.5rem 0 2.25rem 3.75rem; /* 72px 0 36px 60px */
-    overflow-y: auto; /* ← меняем на visible */
-    background: var(--dark-700);
-    border-right: 1px solid var(--dark-300);
+  position: sticky;
+  top: 3.75rem; /* 60px */
+  width: 13.75rem; /* 220px */
+  height: calc(100vh - 3.75rem); /* ← УБИРАЕМ или КОММЕНТИРУЕМ */
+
+  /* min-height: calc(100vh - 3.75rem); !* ← добавляем минимальную высоту *! */
+  padding: 4.5rem 0 2.25rem 3.75rem; /* 72px 0 36px 60px */
+  overflow-y: auto; /* ← меняем на visible */
+  background: var(--dark-700);
+  border-right: 1px solid var(--dark-300);
 }
 
 .navRoot {
@@ -39,15 +40,15 @@
 }
 
 /* --- Ссылки --- */
-.navLink{
-    position: relative;
-    display: flex;
-    gap: 0.75rem; /* 12px */
-    align-items: center;
-    color: var(--light-100);
-    text-decoration: none;
-    border-radius: 2px;
-    transition: all 0.1s ease;
+.navLink {
+  position: relative;
+  display: flex;
+  gap: 0.75rem; /* 12px */
+  align-items: center;
+  color: var(--light-100);
+  text-decoration: none;
+  border-radius: 2px;
+  transition: all 0.1s ease;
 }
 
 /* --- Иконка --- */
@@ -61,7 +62,7 @@
 
 /* --- Hover --- */
 .navLink:hover,
-.logoutLink:hover{
+.logoutLink:hover {
   font-weight: 500;
   color: var(--primary-100);
 }
@@ -73,27 +74,28 @@
 
 /* --- Active --- */
 .navLink.active {
-    color: var(--primary-500);
-    background-color: transparent;
+  color: var(--primary-500);
+  background-color: transparent;
 }
 
 /* Иконка в активном состоянии */
 .navLink.active .icon {
-    color: var(--primary-500);
+  color: var(--primary-500);
 }
+
 .navLink.active span {
-    color: var(--primary-500);
+  color: var(--primary-500);
 }
+
 /* --- Focus --- */
 .navLink:focus-visible,
-.logoutLink:focus-visible{
+.logoutLink:focus-visible {
   outline: 2px solid var(--primary-700);
   outline-offset: 2px;
-
 }
 
 .label {
-    transition: all 0.1s ease;
+  transition: all 0.1s ease;
 }
 
 /* --- Disabled --- */
@@ -113,18 +115,14 @@
   margin-top: 11.25rem; /* 180px */
   list-style: none;
 }
-.logoutLink{
-    position: relative;
-    display: flex;
-    gap: 0.75rem; /* 12px */
-    align-items: center;
-    color: var(--light-100);
-    text-decoration: none;
-    border-radius: 2px;
-    transition: all 0.1s ease;
 
+.logoutLink {
+  position: relative;
+  display: flex;
+  gap: 0.75rem; /* 12px */
+  align-items: center;
+  color: var(--light-100);
+  text-decoration: none;
+  border-radius: 2px;
+  transition: all 0.1s ease;
 }
-
-
-
-
