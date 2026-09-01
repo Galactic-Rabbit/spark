@@ -1,0 +1,1 @@
+export { RecaptchaCheckIcon } from './RecaptchaCheckIcon'

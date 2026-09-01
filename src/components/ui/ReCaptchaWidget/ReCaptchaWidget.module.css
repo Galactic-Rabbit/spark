@@ -1,0 +1,141 @@
+.container {
+    position: relative;
+
+
+}
+/* прячет стили от гугла  по дефолту */
+.container :global(.grecaptcha-badge) {
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    overflow: hidden !important;
+}
+
+.widget {
+    display: flex;
+    flex-direction: column;
+    margin-top: calc(24/ 16 * var(--font-size-base));
+    gap: calc(8 / 16 * var(--font-size-base));
+}
+
+.widgetMain {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    min-height: calc(70 / 16 * var(--font-size-base));
+    align-items: center;
+    gap: calc(13 / 16 * var(--font-size-base));
+    padding: calc(12 / 16 * var(--font-size-base)) calc(20 / 16 * var(--font-size-base));
+    border: 1px solid var(--dark-300);
+    border-radius: 2px;
+    background-color: var(--dark-500);
+}
+
+.widgetError {
+    border: 1px solid var(--danger-500);
+    padding: 8px;
+    border-radius: 2px;
+}
+
+.errorBadge {
+    flex-basis: 100%;
+    width: 100%;
+    margin: 0 0 calc(-15 / 16 * var(--font-size-base)) 0;
+    font-size:calc(10 / 16 * var(--font-size-base));
+    line-height: 100%;
+    color: var(--danger-500, #cc1439);
+}
+
+.error {
+    margin: 0;
+    padding-left: calc(4 / 16 * var(--font-size-base));
+    font-size: calc(10 / 16 * var(--font-size-base));
+    line-height: 100%;
+    color: var(--danger-500, #cc1439);
+}
+
+.widget .checkbox {
+    flex-shrink: 0;
+}
+
+.widget .checkbox[data-state='checked']:not([data-disabled])::before {
+    display: none;
+}
+.checkbox[data-disabled]::before {
+    border: none!important;
+}
+.spin {
+    position: relative;
+    display: block;
+    width: calc(36 / 16 * var(--font-size-base));
+    height: calc(36 / 16 * var(--font-size-base));
+    animation: spin 0.8s linear infinite;
+    z-index: 10;
+}
+
+.spinner {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: calc(17 / 16 * var(--font-size-base));
+    height: calc(17 / 16 * var(--font-size-base));
+}
+
+.check {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: calc(19 / 16 * var(--font-size-base));
+    height:calc(14 / 16 * var(--font-size-base));
+    transform: translate(-50%, -50%);
+}
+
+.recaptchaLabel {
+    flex: 1;
+    min-width: 0;
+    white-space: nowrap;
+    font-size: var(--font-size-xs);
+    cursor: pointer;
+    margin-left: 5px
+}
+
+.reCaptcha {
+    font-size: 8px;
+    line-height: 100%;
+    margin: 7px 0 2px 0;
+}
+
+.privacy {
+    font-size: 6px;
+    line-height: 100%;
+
+}
+
+.iconText {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: calc(29.5 / 16 * var(--font-size-base));
+    height: calc(30 / 16 * var(--font-size-base));
+    flex-shrink: 0;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}

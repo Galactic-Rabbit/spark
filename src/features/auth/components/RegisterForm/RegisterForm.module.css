@@ -1,10 +1,8 @@
 .container {
   display: flex;
   flex-direction: column;
+  gap: 1.5rem;
   align-items: center;
-  width: 25rem;
-  padding: 2rem 1.5rem;
-  border: 0.0625rem solid var(--dark-100);
 }
 
 .vkButton {
@@ -32,15 +30,15 @@
   cursor: pointer;
 }
 
+.agreement span {
+  line-height: var(--line-height-base);
+}
+
 .link {
   color: var(--primary-500);
   text-decoration: underline;
 }
 
-.errorText {
-  color: var(--danger-500);
-}
-
 .signInLink {
-  margin-top: 0.5rem;
+  margin-top: -1.3rem;
 }

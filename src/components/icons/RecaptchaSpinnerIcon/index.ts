@@ -1,0 +1,1 @@
+export { RecaptchaSpinnerIcon } from './RecaptchaSpinnerIcon'
