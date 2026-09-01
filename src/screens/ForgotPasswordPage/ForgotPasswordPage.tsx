@@ -1,10 +1,13 @@
 import { AuthFormWrapper } from '@/features/auth/components/AuthFormWrapper'
 import { ForgotPasswordForm } from '@/features/auth/components/ForgotPasswordForm'
 
-export const ForgotPasswordPage = () => {
+type Props = {
+  siteKey: string
+}
+export const ForgotPasswordPage = ({ siteKey }: Props) => {
   return (
     <AuthFormWrapper>
-      <ForgotPasswordForm />
+      <ForgotPasswordForm siteKey={siteKey} />
     </AuthFormWrapper>
   )
 }

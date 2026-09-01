@@ -1,63 +1,62 @@
 'use client'
-import { useState } from 'react'
-import { Input } from '@/components/ui/Input'
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { Button } from '@/components/ui/Button'
+import {useState} from 'react'
+import {Input} from '@/components/ui/Input'
+import {Controller, SubmitHandler, useForm} from 'react-hook-form'
+import {zodResolver} from '@hookform/resolvers/zod'
+import {Button} from '@/components/ui/Button'
 import s from './ForgotPassword.module.css'
-import {
-  createPasswordSchema,
-  CreatePasswordValues,
-  forgotPasswordSchema,
-  ForgotPasswordValues,
-} from '../../schemas'
-import { useRouter } from 'next/navigation'
-import { ReCaptchaWidget } from '@/components/ui/ReCaptchaWidget'
+import {createPasswordSchema, CreatePasswordValues, forgotPasswordSchema, ForgotPasswordValues,} from '../../schemas'
+import {useRouter} from 'next/navigation'
+import {ReCaptchaWidget} from '@/components/ui/ReCaptchaWidget'
 
-export const ForgotPasswordForm = () => {
+
+type Props = {
+  siteKey: string
+  isVerifying?: boolean
+}
+
+export const ForgotPasswordForm = ({siteKey,isVerifying = false}: Props) => {
   const [error, setError] = useState<string | null>(null)
   const [enterMail, setEnterMail] = useState(true)
   const [sendEmailAgain, setSendEmailAgain] = useState(false)
 
   const router = useRouter()
 
-  const emailMethods = useForm<ForgotPasswordValues>({
-    resolver: zodResolver(forgotPasswordSchema),
-    mode: 'onBlur',
-    defaultValues: { email: '', recaptchaToken: '' },
-  })
 
   const {
     register: registerEmail,
     handleSubmit: handleEmailSubmit,
-    formState: { errors: emailErrors, isSubmitting: isEmailSubmitting },
-  } = emailMethods
+    control: emailControl,
+    formState: {errors: emailErrors, isSubmitting: isEmailSubmitting},
+  } = useForm<ForgotPasswordValues>({
+    resolver: zodResolver(forgotPasswordSchema),
+    mode: 'onBlur',
+    defaultValues: {email: '', recaptchaToken: ''},
+  })
 
   const {
     register: registerPassword,
     handleSubmit: handlePasswordSubmit,
-    formState: { errors: passwordErrors, isSubmitting: isPasswordSubmitting },
+    formState: {errors: passwordErrors, isSubmitting: isPasswordSubmitting},
   } = useForm<CreatePasswordValues>({
     resolver: zodResolver(createPasswordSchema),
     mode: 'onBlur',
-    defaultValues: { password: '', confirmPassword: '' },
+    defaultValues: {password: '', confirmPassword: ''},
   })
 
-  const onEmailSubmit: SubmitHandler<ForgotPasswordValues> = async ({ email }) => {
+  const onEmailSubmit: SubmitHandler<ForgotPasswordValues> = async () => {
     setError(null)
     try {
       // recaptchaToken валидируется через схему, но на сервер уходит только email
-      console.log({ email })
       setSendEmailAgain(true)
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Something went wrong. Please try again.')
     }
   }
 
-  const onPasswordSubmit: SubmitHandler<CreatePasswordValues> = async (data) => {
+  const onPasswordSubmit: SubmitHandler<CreatePasswordValues> = async () => {
     setError(null)
     try {
-      console.log(data)
       setEnterMail(true)
       setSendEmailAgain(false)
       router.push('/login')
@@ -73,40 +72,47 @@ export const ForgotPasswordForm = () => {
   return (
     <>
       {enterMail && (
-        <FormProvider {...emailMethods}>
-          <div className={s.container}>
-            <h1 className={`text-h1`}>Forgot Password</h1>
-            <form onSubmit={handleEmailSubmit(onEmailSubmit)} className={s.form}>
-              <Input
-                label="Email"
-                variant="text"
-                placeholder="Epam@epam.com"
-                error={!!emailErrors.email}
-                errorText={emailErrors.email?.message}
-                {...registerEmail('email')}
-              />
-              <p className={`text-regular-sm ${s.text}`}>
-                Enter your email address and we will send you further instructions{' '}
+        <div className={s.container}>
+          <h1 className={`text-h1`}>Forgot Password</h1>
+          <form onSubmit={handleEmailSubmit(onEmailSubmit)} className={s.form}>
+            <Input
+              label="Email"
+              variant="text"
+              placeholder="Epam@epam.com"
+              error={!!emailErrors.email}
+              errorText={emailErrors.email?.message}
+              {...registerEmail('email')}
+            />
+            <p className={`text-regular-sm ${s.text}`}>
+              Enter your email address and we will send you further instructions{' '}
+            </p>
+            {sendEmailAgain && (
+              <p className={`text-regular-sm ${s.textSendAgain}`}>
+                The link has been sent by email. If you don’t receive an email send link again
               </p>
-              {sendEmailAgain && (
-                <p className={`text-regular-sm ${s.textSendAgain}`}>
-                  The link has been sent by email. If you don’t receive an email send link again
-                </p>
-              )}
-              {error && <p className={`text-regular-sm ${s.error}`}>{error}</p>}
-              <Button type={'submit'} disabled={isEmailSubmitting} className={s.btn}>
-                {isEmailSubmitting ? 'Sending...' : sendEmailAgain ? 'Send Link Again' : 'Send Link'}
-              </Button>
-              <Button type="button" variant="textButton" onClick={handleSignIn} className={s.link}>
-                Back to Sign In
-              </Button>
-              <ReCaptchaWidget
-                siteKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || '6Lfcy54tAAAAAOGBRLoz3lDRT--v51yrfPr4vfnt'}
-              />
-
-            </form>
-          </div>
-        </FormProvider>
+            )}
+            <Button type={'submit'} disabled={isEmailSubmitting} className={s.btn}>
+              {isEmailSubmitting ? 'Sending...' : sendEmailAgain ? 'Send Link Again' : 'Send Link'}
+            </Button>
+            <Button type="button" variant="textButton" onClick={handleSignIn} className={s.link}>
+              Back to Sign In
+            </Button>
+            {error && <p className={`text-regular-sm ${s.error}`}>{error}</p>}
+            {!sendEmailAgain && !isVerifying &&
+              <Controller
+                control={emailControl}
+                name="recaptchaToken"
+                render={({field, fieldState}) => (
+                  <ReCaptchaWidget
+                    siteKey={siteKey}
+                    value={field.value}
+                    onChange={field.onChange}
+                    error={fieldState.error?.message}
+                  />
+                )}
+              />}
+          </form>
+        </div>
       )}
 
       {!enterMail && (

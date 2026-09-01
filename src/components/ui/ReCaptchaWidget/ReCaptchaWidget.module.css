@@ -3,8 +3,7 @@
 
 
 }
-
-/* Hide default Google badge (task bar bottom right) — use badge="inline" + hide */
+/* прячет стили от гугла  по дефолту */
 .container :global(.grecaptcha-badge) {
     visibility: hidden !important;
     opacity: 0 !important;
@@ -17,6 +16,7 @@
 .widget {
     display: flex;
     flex-direction: column;
+    margin-top: calc(24/ 16 * var(--font-size-base));
     gap: calc(8 / 16 * var(--font-size-base));
 }
 
@@ -42,18 +42,17 @@
 .errorBadge {
     flex-basis: 100%;
     width: 100%;
-    margin: 0 0 calc(4 / 16 * var(--font-size-base)) 0;
-    font-size: var(--font-size-xs);
-    line-height: 1.4;
+    margin: 0 0 calc(-15 / 16 * var(--font-size-base)) 0;
+    font-size:calc(10 / 16 * var(--font-size-base));
+    line-height: 100%;
     color: var(--danger-500, #cc1439);
 }
 
 .error {
-    width: 100%;
     margin: 0;
     padding-left: calc(4 / 16 * var(--font-size-base));
-    font-size: var(--font-size-xs);
-    line-height: 1.4;
+    font-size: calc(10 / 16 * var(--font-size-base));
+    line-height: 100%;
     color: var(--danger-500, #cc1439);
 }
 
@@ -70,8 +69,8 @@
 .spin {
     position: relative;
     display: block;
-    width: 36px;
-    height: 36px;
+    width: calc(36 / 16 * var(--font-size-base));
+    height: calc(36 / 16 * var(--font-size-base));
     animation: spin 0.8s linear infinite;
     z-index: 10;
 }
@@ -88,8 +87,8 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 19px;
-    height: 14px;
+    width: calc(19 / 16 * var(--font-size-base));
+    height:calc(14 / 16 * var(--font-size-base));
     transform: translate(-50%, -50%);
 }
 

@@ -1,8 +1,7 @@
 'use client'
 
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import ReCAPTCHA from 'react-google-recaptcha'
-import { useFormContext } from 'react-hook-form'
 import { CheckboxRoot, CheckboxIndicator } from '@/components/ui/CheckBox/primitives/CheckBoxPrimitive'
 import { RecaptchaIcon } from '@/components/icons/RecaptchaIcon'
 import { RecaptchaCheckIcon } from '@/components/icons/RecaptchaCheckIcon'
@@ -11,75 +10,104 @@ import s from './ReCaptchaWidget.module.css'
 
 type Props = {
   siteKey: string
-  name?: string
+  value: string
+  onChange: (token: string) => void
+  error?: string
   label?: string
 }
 
-export const ReCaptchaWidget = ({
-  siteKey,
-  name = 'recaptchaToken',
-  label = "I'm not a robot",
-}: Props) => {
+export const ReCaptchaWidget = ({ siteKey, value, onChange, error, label = "I'm not a robot" }: Props) => {
   const recaptchaRef = useRef<ReCAPTCHA>(null)
-  const {
-    setValue,
-    clearErrors,
-    formState: { errors, isSubmitted, touchedFields },
-  } = useFormContext()
-  const [checked, setChecked] = useState(false)
   const [isVerifying, setIsVerifying] = useState(false)
-  const [expired, setExpired] = useState(false)
   const [recaptchaError, setRecaptchaError] = useState<string | null>(null)
+  const [hasInteracted, setHasInteracted] = useState(false)
+  const verifyTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  const isDone = checked && !expired && !isVerifying
+  const isDone = !!value && !isVerifying && !recaptchaError
 
-  const formError = errors[name]?.message as string | undefined
-  // Валидационная ошибка схемы ("Please verify...") — только после сабмита/тача, рендерится внизу widget
-  const shouldShowFormError = !!formError && (!!isSubmitted || !!touchedFields[name])
-  const validationError = shouldShowFormError ? formError : undefined
-  // Сервер/badge ошибка (onErrored/onExpired) — рендерится между widgetMain и CheckboxRoot
-  const hasAnyError = !!validationError || !!recaptchaError
+  const validationError = error
+  const displayRecaptchaError = hasInteracted ? recaptchaError : null
+
+  const clearVerifyTimeout = () => {
+    if (verifyTimeoutRef.current) {
+      clearTimeout(verifyTimeoutRef.current)
+      verifyTimeoutRef.current = null
+    }
+  }
+
+  useEffect(() => {
+    return () => clearVerifyTimeout()
+  }, [])
 
   const handleChange = (token: string | null) => {
+    clearVerifyTimeout()
     setIsVerifying(false)
     if (token) {
-      setValue(name, token)
-      clearErrors(name)
+      onChange(token)
       setRecaptchaError(null)
-      setChecked(true)
-      setExpired(false)
     } else {
-      setValue(name, null)
-      setChecked(false)
+      onChange('')
     }
   }
 
   const handleExpired = () => {
-    setValue(name, null)
-    setChecked(false)
+    clearVerifyTimeout()
+    onChange('')
     setIsVerifying(false)
-    setExpired(true)
     setRecaptchaError('Verification expired. Please try again.')
   }
 
   const handleError = () => {
-    setValue(name, null)
-    setChecked(false)
+    clearVerifyTimeout()
+    onChange('')
     setIsVerifying(false)
     setRecaptchaError('Verification failed. Please try again.')
   }
 
-  const handleCheckboxChange = (newChecked: boolean) => {
-    if (!newChecked || checked || expired || isVerifying) return
+  const handleCheckboxChange = async (newChecked: boolean) => {
+    if (!newChecked || !!value || isVerifying) return
+    setHasInteracted(true)
     setIsVerifying(true)
     setRecaptchaError(null)
-    clearErrors(name)
+
+    clearVerifyTimeout()
+    verifyTimeoutRef.current = setTimeout(() => {
+      setIsVerifying(false)
+      setRecaptchaError('Verification failed. Please try again.')
+      recaptchaRef.current?.reset()
+    }, 10000)
+
     try {
+      const maybePromise = recaptchaRef.current?.executeAsync?.()
+      if (maybePromise && typeof (maybePromise as Promise<string | null>).then === 'function') {
+        const token = await (maybePromise as Promise<string | null>)
+        clearVerifyTimeout()
+        if (token) {
+          handleChange(token)
+        } else {
+          setIsVerifying(false)
+          setRecaptchaError('Verification failed. Please try again.')
+        }
+        return
+      }
       recaptchaRef.current?.execute()
     } catch {
+      clearVerifyTimeout()
       setIsVerifying(false)
       setRecaptchaError('Verification failed. Please try again.')
     }
+  }
+
+  if (!siteKey) {
+    return (
+      <div className={`${s.widget} ${s.widgetError}`}>
+        <div className={s.widgetMain}>
+          <p className={s.errorBadge} role="alert">
+            Missing reCAPTCHA site key
+          </p>
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -94,11 +122,11 @@ export const ReCaptchaWidget = ({
         onErrored={handleError}
       />
 
-      <div className={`${s.widget} ${hasAnyError ? s.widgetError : ''}`}>
+      <div className={`${s.widget} ${!!validationError  ? s.widgetError : ''}`}>
         <div className={s.widgetMain}>
-          {recaptchaError && (
-            <p className={s.errorBadge} role="alert">
-              {recaptchaError}
+          {displayRecaptchaError && (
+            <p className={`text-regular-sm ${s.errorBadge}`} role="alert">
+              {displayRecaptchaError}
             </p>
           )}
           <CheckboxRoot
@@ -125,7 +153,7 @@ export const ReCaptchaWidget = ({
           </div>
         </div>
         {validationError && (
-          <p className={s.error} role="alert">
+          <p className={`text-regular-sm ${s.error}`} role="alert">
             {validationError}
           </p>
         )}
