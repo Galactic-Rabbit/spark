@@ -13,16 +13,16 @@ import { SearchIcon } from '@/components/icons/SearchIcon/SearchIcon'
 import { StatisticsIcon } from '@/components/icons/StatisticsIcon/StatisticIcon'
 import { FavoritesIcon } from '@/components/icons/FavoritesIcon/FavoritesIcon'
 import { LogOutIcon } from '@/components/icons/LogOutIcon/LogOutIcon'
-import {FeedIconSolid} from '@/components/icons/FeedIconSolid/FeedIconSolid'
-import {CreateIconSolid} from '@/components/icons/CreateIconSolid/CreateIconSolid'
-import {ProfileIconSolid} from '@/components/icons/ProfileIconSolid/ProfileIconSolid'
-import {FavoritesIconSolid} from '@/components/icons/FavoritesIconSolid/FavoritesIconSolid'
+import { FeedIconSolid } from '@/components/icons/FeedIconSolid/FeedIconSolid'
+import { CreateIconSolid } from '@/components/icons/CreateIconSolid/CreateIconSolid'
+import { ProfileIconSolid } from '@/components/icons/ProfileIconSolid/ProfileIconSolid'
+import { FavoritesIconSolid } from '@/components/icons/FavoritesIconSolid/FavoritesIconSolid'
 
 type MenuItem = {
   label: string
   href: string
   icon: ({ className }: { className?: string }) => React.ReactNode
-  iconActive?: ({ className }: { className?: string }) => React.ReactNode;
+  iconActive?: ({ className }: { className?: string }) => React.ReactNode
   isGroupStart?: boolean
   disabled?: boolean
 }
@@ -32,11 +32,11 @@ const menuItems: MenuItem[] = [
   { label: 'Feed', href: '/feed', icon: FeedIcon, iconActive: FeedIconSolid },
   { label: 'Create', href: '/create', icon: CreateIcon, iconActive: CreateIconSolid },
   { label: 'My Profile', href: '/profile', icon: ProfileIcon, iconActive: ProfileIconSolid },
-  { label: 'Messenger', href: '/messenger', icon: MessengerIcon},
+  { label: 'Messenger', href: '/messenger', icon: MessengerIcon },
   { label: 'Search', href: '/search', icon: SearchIcon },
   // Группа 2: Statistics
   { label: 'Statistics', href: '/statistics', icon: StatisticsIcon, isGroupStart: true },
-  { label: 'Favorites', href: '/favorites', icon: FavoritesIcon, iconActive: FavoritesIconSolid},
+  { label: 'Favorites', href: '/favorites', icon: FavoritesIcon, iconActive: FavoritesIconSolid },
 ]
 
 export const Sidebar = () => {
@@ -48,7 +48,7 @@ export const Sidebar = () => {
         <NavigationMenu.List className={s.navList}>
           {menuItems.map((item, index) => {
             const isActive = pathname === item.href
-              const Icon = isActive && item.iconActive ? item.iconActive : item.icon;
+            const Icon = isActive && item.iconActive ? item.iconActive : item.icon
             const isFirstInGroup = item.isGroupStart && index > 0
 
             return (
@@ -78,7 +78,9 @@ export const Sidebar = () => {
             <NavigationMenu.Link asChild>
               <Link href="/login" className={s.logoutLink}>
                 <LogOutIcon className={s.icon} />
-                <span className="text-medium-sm" style={{ color: 'inherit' }}>Log Out</span>
+                <span className="text-medium-sm" style={{ color: 'inherit' }}>
+                  Log Out
+                </span>
               </Link>
             </NavigationMenu.Link>
           </NavigationMenu.Item>
