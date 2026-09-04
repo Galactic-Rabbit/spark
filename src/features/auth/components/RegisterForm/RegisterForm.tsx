@@ -6,19 +6,16 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
-
 import { RegisterFormData, registerSchema } from '../../schemas'
-
 import s from './RegisterForm.module.css'
-import { CheckBox } from '@/components/ui/CheckBox'
+import { useSignUp } from '../../hooks/useSignUp'
 
 export const RegisterForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const router = useRouter()
-
+    const { mutateAsync: signUp } = useSignUp()
   const {
     register,
     handleSubmit,
@@ -30,14 +27,14 @@ export const RegisterForm = () => {
   })
 
   const onSubmit = async (data: RegisterFormData) => {
+      const { terms, ...signUpData } = data;
     setIsSubmitting(true)
 
     try {
       console.log('Данные формы регистрации:', data)
-
-      // Здесь будет API запрос
-
-      router.push('/')
+        await signUp(signUpData)
+        console.log('Регистрация успешна!')
+      router.push('/email-verification')
     } catch (error) {
       console.error('Ошибка регистрации:', error)
     } finally {
@@ -64,10 +61,10 @@ export const RegisterForm = () => {
           variant="text"
           label="Username"
           placeholder="Username"
-          {...register('username')}
-          error={!!errors.username}
-          errorText={errors.username?.message}
-          onBlur={() => trigger('username')}
+          {...register('userName')}
+          error={!!errors.userName}
+          errorText={errors.userName?.message}
+          onBlur={() => trigger('userName')}
         />
 
         <Input
