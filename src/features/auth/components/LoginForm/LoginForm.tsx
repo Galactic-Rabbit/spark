@@ -1,5 +1,6 @@
 'use client'
 
+import { useLoginMutation } from '@/features/auth/api/useLogin.mutation'
 import { useForm } from 'react-hook-form'
 
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -16,6 +17,7 @@ import { LoginFormData, loginSchema } from '../../schemas'
 export const LoginForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const router = useRouter()
+  const {mutateAsync: loginMutation} = useLoginMutation()
 
   const {
     register,
@@ -31,7 +33,11 @@ export const LoginForm = () => {
     setIsSubmitting(true)
     try {
       console.log('Данные формы:', data)
-      // Здесь будет API запрос
+
+      const result = await loginMutation({
+        email: data.email,
+        password: data.password,
+      })
       router.push('/')
     } catch (error) {
       console.error('Ошибка входа:', error)
