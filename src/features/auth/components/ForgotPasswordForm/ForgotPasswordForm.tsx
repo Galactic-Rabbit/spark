@@ -1,53 +1,61 @@
 'use client'
-import {useState} from 'react'
-import {Input} from '@/components/ui/Input'
-import {Controller, SubmitHandler, useForm} from 'react-hook-form'
-import {zodResolver} from '@hookform/resolvers/zod'
-import {Button} from '@/components/ui/Button'
+import {useForgotPasswordMutation} from "@/features/auth/api/useForgotPassword.mutation";
+import { useState } from 'react'
+import { Input } from '@/components/ui/Input'
+import { Controller, SubmitHandler, useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Button } from '@/components/ui/Button'
 import s from './ForgotPassword.module.css'
-import {createPasswordSchema, CreatePasswordValues, forgotPasswordSchema, ForgotPasswordValues,} from '../../schemas'
-import {useRouter} from 'next/navigation'
-import {ReCaptchaWidget} from '@/components/ui/ReCaptchaWidget'
-
+import {
+  createPasswordSchema,
+  CreatePasswordValues,
+  forgotPasswordSchema,
+  ForgotPasswordValues,
+} from '../../schemas'
+import { useRouter } from 'next/navigation'
+import { ReCaptchaWidget } from '@/components/ui/ReCaptchaWidget'
 
 type Props = {
   siteKey: string
   isVerifying?: boolean
 }
 
-export const ForgotPasswordForm = ({siteKey,isVerifying = false}: Props) => {
+export const ForgotPasswordForm = ({ siteKey, isVerifying = false }: Props) => {
   const [error, setError] = useState<string | null>(null)
   const [enterMail, setEnterMail] = useState(true)
   const [sendEmailAgain, setSendEmailAgain] = useState(false)
+  const {mutateAsync: forgotPassword} = useForgotPasswordMutation()
 
   const router = useRouter()
-
 
   const {
     register: registerEmail,
     handleSubmit: handleEmailSubmit,
     control: emailControl,
-    formState: {errors: emailErrors, isSubmitting: isEmailSubmitting},
+    formState: { errors: emailErrors, isSubmitting: isEmailSubmitting },
   } = useForm<ForgotPasswordValues>({
     resolver: zodResolver(forgotPasswordSchema),
     mode: 'onBlur',
-    defaultValues: {email: '', recaptchaToken: ''},
+    defaultValues: { email: '', recaptchaToken: '' },
   })
 
   const {
     register: registerPassword,
     handleSubmit: handlePasswordSubmit,
-    formState: {errors: passwordErrors, isSubmitting: isPasswordSubmitting},
+    formState: { errors: passwordErrors, isSubmitting: isPasswordSubmitting },
   } = useForm<CreatePasswordValues>({
     resolver: zodResolver(createPasswordSchema),
     mode: 'onBlur',
-    defaultValues: {password: '', confirmPassword: ''},
+    defaultValues: { password: '', confirmPassword: '' },
   })
 
-  const onEmailSubmit: SubmitHandler<ForgotPasswordValues> = async () => {
+  const onEmailSubmit: SubmitHandler<ForgotPasswordValues> = async (data) => {
     setError(null)
     try {
-      // recaptchaToken валидируется через схему, но на сервер уходит только email
+      await forgotPassword({
+        email: data.email,
+        recaptchaToken: data.recaptchaToken,
+      })
       setSendEmailAgain(true)
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Something went wrong. Please try again.')
@@ -98,11 +106,11 @@ export const ForgotPasswordForm = ({siteKey,isVerifying = false}: Props) => {
               Back to Sign In
             </Button>
             {error && <p className={`text-regular-sm ${s.error}`}>{error}</p>}
-            {!sendEmailAgain && !isVerifying &&
+            {!sendEmailAgain && !isVerifying && (
               <Controller
                 control={emailControl}
                 name="recaptchaToken"
-                render={({field, fieldState}) => (
+                render={({ field, fieldState }) => (
                   <ReCaptchaWidget
                     siteKey={siteKey}
                     value={field.value}
@@ -110,7 +118,8 @@ export const ForgotPasswordForm = ({siteKey,isVerifying = false}: Props) => {
                     error={fieldState.error?.message}
                   />
                 )}
-              />}
+              />
+            )}
           </form>
         </div>
       )}
