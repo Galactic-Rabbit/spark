@@ -2,7 +2,7 @@
 import * as Checkbox from '@radix-ui/react-checkbox'
 import s from './CheckBox.module.css'
 import { ReactNode, useId } from 'react'
-import { CheckmarkIcon } from '@/components/icons/CheckmarkIcon/CheckmarkIcon'
+import Checkmark from '@/assets/icons/Checkmark.svg'
 
 type Props = {
   checked: boolean
@@ -27,7 +27,7 @@ export const CheckBox = ({ checked, onChange, label, id, disabled = false, class
         disabled={disabled}
       >
         <Checkbox.Indicator className={s.indicator}>
-          <CheckmarkIcon className={s.icon} tickColor={disabled ? 'var(--light-100)' : undefined} />
+          {checked && <Checkmark className={s.icon} />}
         </Checkbox.Indicator>
       </Checkbox.Root>
       <label htmlFor={newId} className={`text-small ${s.label}`}>
