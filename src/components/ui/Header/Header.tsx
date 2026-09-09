@@ -4,8 +4,9 @@ import Link from 'next/link'
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
 import { Button } from '@/components/ui/Button'
 import SelectBox from '@/components/ui/Select/Select'
-import { OutlineBell } from '@/components/icons/OutlineBell/OutlineBell'
+// import { OutlineBell } from '@/components/icons/OutlineBell/OutlineBell'
 import s from './Header.module.css'
+import Bell from '@/assets/icons/Bell.svg'
 
 const languageOptions = [
   { value: 'en', label: 'English' },
@@ -30,7 +31,7 @@ export const Header = () => {
             <div className={s.bellSelectGroup}>
               <DropdownMenu.Root>
                 <DropdownMenu.Trigger className={s.notificationButton} aria-label="Notifications">
-                  <OutlineBell />
+                  <Bell width={18} height={20} />
                   <span className={s.badge}>1</span>
                 </DropdownMenu.Trigger>
 

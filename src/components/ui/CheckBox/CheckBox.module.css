@@ -60,7 +60,6 @@
   justify-content: center;
   opacity: 0;
   transform: scale(0);
-  /* color: var(--dark-900); */
 }
 
 .checkboxRoot[data-state='checked'] {
