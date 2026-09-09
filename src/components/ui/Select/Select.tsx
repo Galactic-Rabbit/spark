@@ -1,8 +1,9 @@
 'use client'
 
-import SelectDropdownIcon from '@/components/icons/SelectDropdownIcon/SelectDropdownIcon'
+// import SelectDropdownIcon from '@/components/icons/SelectDropdownIcon/SelectDropdownIcon'
 import { Select } from 'radix-ui'
 import s from './Select.module.css'
+import { ArrowIosDown } from '@/assets/icons'
 
 type SelectOption = {
   value: string
@@ -36,7 +37,7 @@ const SelectBox = ({
           <Select.Value placeholder={placeholder} />
 
           <Select.Icon className={s.icon}>
-            <SelectDropdownIcon />
+            <ArrowIosDown width={20} height={20} />
           </Select.Icon>
         </Select.Trigger>
 

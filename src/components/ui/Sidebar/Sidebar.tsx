@@ -4,19 +4,21 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import * as NavigationMenu from '@radix-ui/react-navigation-menu'
 import s from './Sidebar.module.css'
-
-import { FeedIcon } from '@/components/icons/FeedIcon/FeedIcon'
-import { CreateIcon } from '@/components/icons/CreateIcon/CreateIcon'
-import { ProfileIcon } from '@/components/icons/ProfileIcon/ProfileIcon'
-import { MessengerIcon } from '@/components/icons/MessengerIcon/MessengerIcon'
-import { SearchIcon } from '@/components/icons/SearchIcon/SearchIcon'
-import { StatisticsIcon } from '@/components/icons/StatisticsIcon/StatisticIcon'
-import { FavoritesIcon } from '@/components/icons/FavoritesIcon/FavoritesIcon'
-import { LogOutIcon } from '@/components/icons/LogOutIcon/LogOutIcon'
-import { FeedIconSolid } from '@/components/icons/FeedIconSolid/FeedIconSolid'
-import { CreateIconSolid } from '@/components/icons/CreateIconSolid/CreateIconSolid'
-import { ProfileIconSolid } from '@/components/icons/ProfileIconSolid/ProfileIconSolid'
-import { FavoritesIconSolid } from '@/components/icons/FavoritesIconSolid/FavoritesIconSolid'
+import {
+  Bookmark,
+  BookmarkFill,
+  Home,
+  HomeFill,
+  LogOut,
+  MessageCircle,
+  MessageCircleFill,
+  Person,
+  PersonFill,
+  PlusSquare,
+  PlusSquareFill,
+  Search,
+  TrendingUp,
+} from '@/assets/icons'
 
 type MenuItem = {
   label: string
@@ -29,14 +31,14 @@ type MenuItem = {
 
 const menuItems: MenuItem[] = [
   // Группа 1: Feed
-  { label: 'Feed', href: '/feed', icon: FeedIcon, iconActive: FeedIconSolid },
-  { label: 'Create', href: '/create', icon: CreateIcon, iconActive: CreateIconSolid },
-  { label: 'My Profile', href: '/profile', icon: ProfileIcon, iconActive: ProfileIconSolid },
-  { label: 'Messenger', href: '/messenger', icon: MessengerIcon },
-  { label: 'Search', href: '/search', icon: SearchIcon },
+  { label: 'Feed', href: '/feed', icon: Home, iconActive: HomeFill },
+  { label: 'Create', href: '/create', icon: PlusSquare, iconActive: PlusSquareFill },
+  { label: 'My Profile', href: '/profile', icon: Person, iconActive: PersonFill },
+  { label: 'Messenger', href: '/messenger', icon: MessageCircle, iconActive: MessageCircleFill },
+  { label: 'Search', href: '/search', icon: Search },
   // Группа 2: Statistics
-  { label: 'Statistics', href: '/statistics', icon: StatisticsIcon, isGroupStart: true },
-  { label: 'Favorites', href: '/favorites', icon: FavoritesIcon, iconActive: FavoritesIconSolid },
+  { label: 'Statistics', href: '/statistics', icon: TrendingUp, isGroupStart: true },
+  { label: 'Favorites', href: '/favorites', icon: Bookmark, iconActive: BookmarkFill },
 ]
 
 export const Sidebar = () => {
@@ -77,7 +79,7 @@ export const Sidebar = () => {
           <NavigationMenu.Item className={`${s.navItem} ${s.logoutSection}`}>
             <NavigationMenu.Link asChild>
               <Link href="/login" className={s.logoutLink}>
-                <LogOutIcon className={s.icon} />
+                <LogOut className={s.icon} />
                 <span className="text-medium-sm" style={{ color: 'inherit' }}>
                   Log Out
                 </span>

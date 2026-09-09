@@ -1,6 +1,5 @@
 'use client'
 
-import { VkIcon } from '@/components/icons/VkIcon/VkIcon'
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -15,7 +14,7 @@ import { useSignUp } from '../../hooks/useSignUp'
 export const RegisterForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const router = useRouter()
-    const { mutateAsync: signUp } = useSignUp()
+  const { mutateAsync: signUp } = useSignUp()
   const {
     register,
     handleSubmit,
@@ -27,13 +26,13 @@ export const RegisterForm = () => {
   })
 
   const onSubmit = async (data: RegisterFormData) => {
-      const { terms, ...signUpData } = data;
+    const { terms, ...signUpData } = data
     setIsSubmitting(true)
 
     try {
       console.log('Данные формы регистрации:', data)
-        await signUp(signUpData)
-        console.log('Регистрация успешна!')
+      await signUp(signUpData)
+      console.log('Регистрация успешна!')
       router.push('/email-verification')
     } catch (error) {
       console.error('Ошибка регистрации:', error)
@@ -49,12 +48,6 @@ export const RegisterForm = () => {
   return (
     <div className={s.container}>
       <h1 className="text-h1">Sign Up</h1>
-
-      <Button className={s.vkButton}>
-        <VkIcon />
-        <span>Войти с VK ID</span>
-        {/* Здесь вставишь свою иконку */}
-      </Button>
 
       <form onSubmit={handleSubmit(onSubmit)} className={s.form}>
         <Input

@@ -1,7 +1,7 @@
 'use client'
-import { EyeIcon, EyeIconOff, SearchIcon } from '@/components/ui/Input/icons'
 import React, { useState } from 'react'
 import s from './Input.module.css'
+import { Eye, EyeOff, Search } from '@/assets/icons'
 
 type InputVariant = 'text' | 'password' | 'search'
 
@@ -30,7 +30,7 @@ export const Input = ({
 
   const renderShowPassword = () => {
     if (variant === 'password') {
-      const Icon = showPassword ? EyeIconOff : EyeIcon
+      const Icon = showPassword ? Eye : EyeOff
       return (
         <button
           type="button"
@@ -39,7 +39,7 @@ export const Input = ({
           tabIndex={-1}
           disabled={disabled}
         >
-          <Icon />
+          <Icon width={24} height={24} />
         </button>
       )
     }
@@ -50,7 +50,7 @@ export const Input = ({
     if (variant === 'search') {
       return (
         <span className={s.searchIcon}>
-          <SearchIcon />
+          <Search width={24} height={24} />
         </span>
       )
     }
