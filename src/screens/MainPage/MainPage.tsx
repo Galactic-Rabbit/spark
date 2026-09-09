@@ -1,6 +1,7 @@
 'use client'
 import { useState } from 'react'
 import { CheckBox } from '@/components/ui/CheckBox/CheckBox'
+import Heart from '@/assets/icons/Heart.svg'
 
 export const MainPage = () => {
   const [checked1, setChecked1] = useState(false)
@@ -10,6 +11,8 @@ export const MainPage = () => {
   return (
     <div style={{ padding: '40px' }}>
       <h1>Main Page - CheckBox Component Demo</h1>
+
+      <Heart width={48} height={48} />
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '30px' }}>
         <CheckBox

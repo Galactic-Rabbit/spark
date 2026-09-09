@@ -27,7 +27,7 @@ export const CheckBox = ({ checked, onChange, label, id, disabled = false, class
         disabled={disabled}
       >
         <Checkbox.Indicator className={s.indicator}>
-          {checked && <Checkmark className={s.icon} />}
+          {checked && <Checkmark className={s.icon} width={18} height={18} />}
         </Checkbox.Indicator>
       </Checkbox.Root>
       <label htmlFor={newId} className={`text-small ${s.label}`}>
