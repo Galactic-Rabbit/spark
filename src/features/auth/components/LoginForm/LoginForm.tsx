@@ -17,7 +17,7 @@ import { LoginFormData, loginSchema } from '../../schemas'
 export const LoginForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const router = useRouter()
-  const {mutateAsync: loginMutation} = useLoginMutation()
+  const { mutateAsync: loginMutation } = useLoginMutation()
 
   const {
     register,
@@ -53,10 +53,6 @@ export const LoginForm = () => {
   return (
     <div className={s.container}>
       <h1 className="text-h1">Sign In</h1>
-      <Button className={s.vkButton}>
-        <VkIcon />
-        <span>Войти с VK ID</span>
-      </Button>
       <form onSubmit={handleSubmit(onSubmit)} className={s.form}>
         <Input
           variant="text"
