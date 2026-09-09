@@ -1,8 +1,8 @@
 'use client'
 
-import EmailVerificationSuccessImage from '@/components/icons/EmailVerificationImages/EmailVerificationSuccessImage'
 import { Button } from '@/components/ui/Button'
 import s from './EmailVerification.module.css'
+import { EmailVerificationSuccessImage } from '@/assets/icons'
 
 export const EmailVerificationSuccess = () => {
   const handleSignIn = () => {
