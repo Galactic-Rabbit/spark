@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import { CheckBox } from '@/components/ui/CheckBox/CheckBox'
 import Heart from '@/assets/icons/Heart.svg'
+import { Modal } from '@/components/ui/Modal'
 
 export const MainPage = () => {
   const [checked1, setChecked1] = useState(false)
@@ -11,6 +12,9 @@ export const MainPage = () => {
   return (
     <div style={{ padding: '40px' }}>
       <h1>Main Page - CheckBox Component Demo</h1>
+      <Modal title="Demo Modal" open={true} onOpenChange={() => {}}>
+        <p>This is a simple modal example.</p>
+      </Modal>
 
       <Heart width={48} height={48} />
 

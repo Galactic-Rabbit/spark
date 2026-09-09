@@ -36,7 +36,27 @@
 
 .button {
   padding: 0;
+  padding: 0 0.375rem;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
   color: var(--light-100);
+  display: flex;
+  align-items: center;
+}
+
+.button:hover {
+  background: var(--dark-100);
+  border-color: var(--dark-100);
+}
+
+.button:active {
+  background: var(--dark-300);
+  border-color: var(--dark-300);
+}
+
+.button:focus-visible {
+  border-color: var(--dark-300);
 }
 
 @keyframes overlay-show {

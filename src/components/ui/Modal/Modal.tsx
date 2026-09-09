@@ -2,7 +2,7 @@ import * as Dialog from '@radix-ui/react-dialog'
 import { ReactNode } from 'react'
 import s from './Modal.module.css'
 import { Button } from '../Button'
-import { CloseIcon } from '@/components/icons/CloseIcon/CloseIcon'
+import { Close } from '@/assets/icons'
 
 type ModalProps = {
   // Для программного управления
@@ -30,7 +30,7 @@ export function Modal({ open, onOpenChange, title, children, trigger }: ModalPro
             <Dialog.Title className="text-h1">{title}</Dialog.Title>
             <Dialog.Close asChild>
               <Button variant="textButton" className={s.button}>
-                <CloseIcon />
+                <Close width={24} height={24} />
               </Button>
             </Dialog.Close>
           </div>
