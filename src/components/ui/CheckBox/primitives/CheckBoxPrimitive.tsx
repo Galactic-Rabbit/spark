@@ -22,7 +22,7 @@ export const CheckboxRoot = forwardRef<ComponentRef<typeof Checkbox.Root>, RootP
         {children}
       </Checkbox.Root>
     )
-  }
+  },
 )
 CheckboxRoot.displayName = 'CheckboxRoot'
 
@@ -31,17 +31,14 @@ type IndicatorProps = {
   children?: ReactNode
 } & Omit<Checkbox.CheckboxIndicatorProps, 'className'>
 
-export const CheckboxIndicator = forwardRef<ComponentRef<typeof Checkbox.Indicator>, IndicatorProps>(
-  ({ className, children, ...props }, ref) => {
-    return (
-      <Checkbox.Indicator
-        ref={ref}
-        {...props}
-        className={`${s.indicator} ${className ?? ''}`}
-      >
-        {children}
-      </Checkbox.Indicator>
-    )
-  }
-)
+export const CheckboxIndicator = forwardRef<
+  ComponentRef<typeof Checkbox.Indicator>,
+  IndicatorProps
+>(({ className, children, ...props }, ref) => {
+  return (
+    <Checkbox.Indicator ref={ref} {...props} className={`${s.indicator} ${className ?? ''}`}>
+      {children}
+    </Checkbox.Indicator>
+  )
+})
 CheckboxIndicator.displayName = 'CheckboxIndicator'

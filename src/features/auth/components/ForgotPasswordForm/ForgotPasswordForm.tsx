@@ -1,5 +1,5 @@
 'use client'
-import {useForgotPasswordMutation} from "@/features/auth/api/useForgotPassword.mutation";
+import { useForgotPasswordMutation } from '@/features/auth/api/useForgotPassword.mutation'
 import { useState } from 'react'
 import { Input } from '@/components/ui/Input'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
@@ -24,7 +24,7 @@ export const ForgotPasswordForm = ({ siteKey, isVerifying = false }: Props) => {
   const [error, setError] = useState<string | null>(null)
   const [enterMail, setEnterMail] = useState(true)
   const [sendEmailAgain, setSendEmailAgain] = useState(false)
-  const {mutateAsync: forgotPassword} = useForgotPasswordMutation()
+  const { mutateAsync: forgotPassword } = useForgotPasswordMutation()
 
   const router = useRouter()
 

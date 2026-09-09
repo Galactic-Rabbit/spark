@@ -1,11 +1,11 @@
 import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
-    turbopack: {
+  turbopack: {
     rules: {
       '*.svg': {
         loaders: ['@svgr/webpack'], // <-- используем тот же загрузчик
-        as: '*.js',                 // <-- обрабатываем как JavaScript-модуль
+        as: '*.js', // <-- обрабатываем как JavaScript-модуль
       },
     },
   },

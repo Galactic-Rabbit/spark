@@ -2,7 +2,10 @@
 
 import { useEffect, useRef, useState } from 'react'
 import ReCAPTCHA from 'react-google-recaptcha'
-import { CheckboxRoot, CheckboxIndicator } from '@/components/ui/CheckBox/primitives/CheckBoxPrimitive'
+import {
+  CheckboxRoot,
+  CheckboxIndicator,
+} from '@/components/ui/CheckBox/primitives/CheckBoxPrimitive'
 import { RecaptchaIcon } from '@/components/icons/RecaptchaIcon'
 import { RecaptchaCheckIcon } from '@/components/icons/RecaptchaCheckIcon'
 import { RecaptchaSpinnerIcon } from '@/components/icons/RecaptchaSpinnerIcon'
@@ -16,7 +19,13 @@ type Props = {
   label?: string
 }
 
-export const ReCaptchaWidget = ({ siteKey, value, onChange, error, label = "I'm not a robot" }: Props) => {
+export const ReCaptchaWidget = ({
+  siteKey,
+  value,
+  onChange,
+  error,
+  label = "I'm not a robot",
+}: Props) => {
   const recaptchaRef = useRef<ReCAPTCHA>(null)
   const [isVerifying, setIsVerifying] = useState(false)
   const [recaptchaError, setRecaptchaError] = useState<string | null>(null)
@@ -122,7 +131,7 @@ export const ReCaptchaWidget = ({ siteKey, value, onChange, error, label = "I'm 
         onErrored={handleError}
       />
 
-      <div className={`${s.widget} ${!!validationError  ? s.widgetError : ''}`}>
+      <div className={`${s.widget} ${!!validationError ? s.widgetError : ''}`}>
         <div className={s.widgetMain}>
           {displayRecaptchaError && (
             <p className={`text-regular-sm ${s.errorBadge}`} role="alert">
