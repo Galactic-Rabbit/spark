@@ -1,6 +1,5 @@
 'use client'
 
-import { VkIcon } from '@/components/icons/VkIcon/VkIcon'
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
