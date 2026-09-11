@@ -1,18 +1,17 @@
 import { Header } from '@/components/ui/Header'
 import { Sidebar } from '@/components/ui/Sidebar'
 import { MainPage } from '@/screens/MainPage'
+import s from './page.module.css'
 
 export default function Home() {
-  const isAuthorized = true
+  const isAuthorized = false // Замените на реальную проверку из token/storage
 
   return (
-    <div>
+    <div className={s.layout}>
       <Header />
-
-      <div className="flex-1 flex">
+      <div className={s.contentWrapper}>
         {isAuthorized && <Sidebar />}
-
-        <main>
+        <main className={s.main}>
           <MainPage />
         </main>
       </div>
