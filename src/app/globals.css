@@ -22,13 +22,13 @@ body {
   background: var(--dark-700);
 }
 
-.content {
+/* .content {
   width: 100%;
 
-  /* max-width: 80rem; */
+  max-width: 80rem;
   min-height: 100vh;
   margin-inline: auto;
-}
+} */
 
 h1 {
   font-family: var(--font-family);
