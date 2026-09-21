@@ -1,5 +1,5 @@
-import { Header } from '@shared/ui/Header'
-import { Sidebar } from '@shared/ui/Sidebar'
+import { Header } from '@widgets/header'
+import { Sidebar } from '@widgets/sidebar'
 import s from './layout.module.css'
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
