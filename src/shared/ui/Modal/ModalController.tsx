@@ -1,5 +1,5 @@
 // components/Modal/ModalController.tsx
-import { useModalStore } from '@/stores'
+import { useModalStore } from '@app/store'
 import { Modal } from './Modal'
 import { ReactNode } from 'react'
 
