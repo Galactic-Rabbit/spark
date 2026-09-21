@@ -1,6 +1,6 @@
-@import url('../styles/reset.css');
-@import url('../styles/tokens.css');
-@import url('../styles/typography.css');
+@import url('./reset.css');
+@import url('./tokens.css');
+@import url('./typography.css');
 
 html {
   height: 100%;
