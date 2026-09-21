@@ -2,7 +2,7 @@
 import * as Checkbox from '@radix-ui/react-checkbox'
 import s from './CheckBox.module.css'
 import { ReactNode, useId } from 'react'
-import { Checkmark } from '@/assets/icons'
+import { Checkmark } from '@shared/ui/icons'
 
 type Props = {
   checked: boolean

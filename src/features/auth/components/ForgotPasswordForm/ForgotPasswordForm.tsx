@@ -1,10 +1,10 @@
 'use client'
 import { useForgotPasswordMutation } from '@/features/auth/api/useForgotPassword.mutation'
 import { useState } from 'react'
-import { Input } from '@/components/ui/Input'
+import { Input } from '@shared/ui/Input'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Button } from '@/components/ui/Button'
+import { Button } from '@shared/ui/Button'
 import s from './ForgotPassword.module.css'
 import {
   createPasswordSchema,
@@ -13,7 +13,7 @@ import {
   ForgotPasswordValues,
 } from '../../schemas'
 import { useRouter } from 'next/navigation'
-import { ReCaptchaWidget } from '@/components/ui/ReCaptchaWidget'
+import { ReCaptchaWidget } from '@shared/ui/ReCaptchaWidget'
 
 type Props = {
   siteKey: string

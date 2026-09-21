@@ -2,7 +2,7 @@ import * as Dialog from '@radix-ui/react-dialog'
 import { ReactNode } from 'react'
 import s from './Modal.module.css'
 import { Button } from '../Button'
-import { Close } from '@/assets/icons'
+import { Close } from '@shared/ui/icons'
 
 type ModalProps = {
   // Для программного управления

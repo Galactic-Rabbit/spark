@@ -18,7 +18,7 @@ import {
   PlusSquareFill,
   Search,
   TrendingUp,
-} from '@/assets/icons'
+} from '@shared/ui/icons'
 
 type MenuItem = {
   label: string

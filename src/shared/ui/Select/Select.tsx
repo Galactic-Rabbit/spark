@@ -1,9 +1,9 @@
 'use client'
 
-// import SelectDropdownIcon from '@/components/icons/SelectDropdownIcon/SelectDropdownIcon'
+// import SelectDropdownIcon from '@shared/ui/icons/SelectDropdownIcon/SelectDropdownIcon'
 import { Select } from 'radix-ui'
 import s from './Select.module.css'
-import { ArrowIosDown } from '@/assets/icons'
+import { ArrowIosDown } from '@shared/ui/icons'
 
 type SelectOption = {
   value: string

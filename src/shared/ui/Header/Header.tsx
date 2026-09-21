@@ -2,10 +2,10 @@
 
 import Link from 'next/link'
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
-import { Button } from '@/components/ui/Button'
-import SelectBox from '@/components/ui/Select/Select'
+import { Button } from '@shared/ui/Button'
+import SelectBox from '@shared/ui/Select/Select'
 import s from './Header.module.css'
-import { Bell } from '@/assets/icons'
+import { Bell } from '@shared/ui/icons'
 
 const languageOptions = [
   { value: 'en', label: 'English' },

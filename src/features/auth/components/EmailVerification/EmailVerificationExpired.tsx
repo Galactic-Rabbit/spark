@@ -1,9 +1,9 @@
 'use client'
 
-import { Button } from '@/components/ui/Button'
-import { Input } from '@/components/ui/Input'
+import { Button } from '@shared/ui/Button'
+import { Input } from '@shared/ui/Input'
 import s from './EmailVerification.module.css'
-import { EmailVerificationExpiredImage } from '@/assets/icons'
+import { EmailVerificationExpiredImage } from '@shared/ui/icons'
 
 export const EmailVerificationExpired = () => {
   const handleSignIn = () => {

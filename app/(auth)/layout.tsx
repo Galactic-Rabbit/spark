@@ -1,4 +1,4 @@
-import { Header } from '@/components/ui/Header'
+import { Header } from '@shared/ui/Header'
 import s from './layout.module.css'
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {

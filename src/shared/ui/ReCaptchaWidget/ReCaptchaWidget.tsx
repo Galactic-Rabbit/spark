@@ -5,10 +5,10 @@ import ReCAPTCHA from 'react-google-recaptcha'
 import {
   CheckboxRoot,
   CheckboxIndicator,
-} from '@/components/ui/CheckBox/primitives/CheckBoxPrimitive'
-import { RecaptchaIcon } from '@/components/icons/RecaptchaIcon'
-import { RecaptchaCheckIcon } from '@/components/icons/RecaptchaCheckIcon'
-import { RecaptchaSpinnerIcon } from '@/components/icons/RecaptchaSpinnerIcon'
+} from '@shared/ui/CheckBox/primitives/CheckBoxPrimitive'
+import { RecaptchaIcon } from '@shared/ui/icons/RecaptchaIcon'
+import { RecaptchaCheckIcon } from '@shared/ui/icons/RecaptchaCheckIcon'
+import { RecaptchaSpinnerIcon } from '@shared/ui/icons/RecaptchaSpinnerIcon'
 import s from './ReCaptchaWidget.module.css'
 
 type Props = {

@@ -1,7 +1,7 @@
 'use client'
 import React, { useState } from 'react'
 import s from './Input.module.css'
-import { Eye, EyeOff, Search } from '@/assets/icons'
+import { Eye, EyeOff, Search } from '@shared/ui/icons'
 
 type InputVariant = 'text' | 'password' | 'search'
 

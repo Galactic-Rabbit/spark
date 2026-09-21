@@ -2,7 +2,7 @@
 
 import React from 'react'
 import s from './Alert.module.css'
-import { Close } from '@/assets/icons'
+import { Close } from '@shared/ui/icons'
 
 type AlertType = {
   variant: 'error' | 'success'

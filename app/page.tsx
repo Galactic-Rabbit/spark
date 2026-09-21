@@ -1,5 +1,5 @@
-import { Header } from '@/components/ui/Header'
-import { Sidebar } from '@/components/ui/Sidebar'
+import { Header } from '@shared/ui/Header'
+import { Sidebar } from '@shared/ui/Sidebar'
 import { MainPage } from '@/screens/MainPage'
 import s from './page.module.css'
 

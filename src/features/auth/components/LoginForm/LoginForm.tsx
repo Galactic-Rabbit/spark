@@ -9,8 +9,8 @@ import s from './LoginForm.module.css'
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { Button } from '@/components/ui/Button'
-import { Input } from '@/components/ui/Input'
+import { Button } from '@shared/ui/Button'
+import { Input } from '@shared/ui/Input'
 import { LoginFormData, loginSchema } from '../../schemas'
 
 export const LoginForm = () => {
