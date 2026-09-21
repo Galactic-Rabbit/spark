@@ -7,9 +7,9 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button } from '@shared/ui/Button'
 import { Input } from '@shared/ui/Input'
-import { RegisterFormData, registerSchema } from '../../schemas'
 import s from './RegisterForm.module.css'
-import { useSignUp } from '../../hooks/useSignUp'
+import { useSignUp } from '../api/useSignUp'
+import { RegisterFormData, registerSchema } from '../model/register.schema'
 
 export const RegisterForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false)

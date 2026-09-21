@@ -1,5 +1,5 @@
-import { AuthFormWrapper } from '@/features/auth/components/AuthFormWrapper'
-import { ForgotPasswordForm } from '@/features/auth/components/ForgotPasswordForm'
+import { ForgotPasswordForm } from '@/features/auth-forgot-password'
+import { AuthFormWrapper } from '@/shared/ui/AuthFormWrapper'
 
 type Props = {
   siteKey: string

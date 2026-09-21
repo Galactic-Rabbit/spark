@@ -1,6 +1,5 @@
 'use client'
 
-import { useLoginMutation } from '@/features/auth/api/useLogin.mutation'
 import { useForm } from 'react-hook-form'
 
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -11,7 +10,8 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { Button } from '@shared/ui/Button'
 import { Input } from '@shared/ui/Input'
-import { LoginFormData, loginSchema } from '../../schemas'
+import { useLoginMutation } from '../api/useLogin.mutation'
+import { LoginFormData, loginSchema } from '../model/login.schema'
 
 export const LoginForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false)
