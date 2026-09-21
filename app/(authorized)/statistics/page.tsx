@@ -1,4 +1,4 @@
-import { StatisticsPage } from '@/screens/StatisticsPage'
+import { StatisticsPage } from '@pages/statistics'
 
 export default function Statistics() {
   return <StatisticsPage />

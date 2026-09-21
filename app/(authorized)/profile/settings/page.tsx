@@ -1,4 +1,4 @@
-import { ProfileSettingsPage } from '@/screens/ProfileSettingsPage'
+import { ProfileSettingsPage } from '@pages/profile-settings'
 
 export default function ProfileSettings() {
   return <ProfileSettingsPage />

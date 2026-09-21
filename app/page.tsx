@@ -1,6 +1,6 @@
 import { Header } from '@widgets/header'
 import { Sidebar } from '@widgets/sidebar'
-import { MainPage } from '@/screens/MainPage'
+import { MainPage } from '@pages/main'
 import s from './page.module.css'
 
 export default function Home() {

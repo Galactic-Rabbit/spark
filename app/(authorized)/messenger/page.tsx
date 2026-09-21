@@ -1,4 +1,4 @@
-import { MessengerPage } from '@/screens/MessengerPage'
+import { MessengerPage } from '@pages/messenger'
 
 export default function Messenger() {
   return <MessengerPage />

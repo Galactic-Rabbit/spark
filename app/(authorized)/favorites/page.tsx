@@ -1,4 +1,4 @@
-import { FavoritesPage } from '@/screens/FavoritesPage'
+import { FavoritesPage } from '@pages/favorites'
 
 export default function Favorites() {
   return <FavoritesPage />

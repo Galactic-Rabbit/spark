@@ -1,4 +1,4 @@
-import { CreatePage } from '@/screens/CreatePage'
+import { CreatePage } from '@pages/create'
 
 export default function Create() {
   return <CreatePage />

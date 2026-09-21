@@ -1,4 +1,4 @@
-import { ForgotPasswordPage } from '@/screens/ForgotPasswordPage'
+import { ForgotPasswordPage } from '@pages/forgot-password'
 
 export default function ForgotPassword() {
   // Server component — reads both envs:
