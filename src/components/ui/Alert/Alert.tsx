@@ -2,7 +2,7 @@
 
 import React from 'react'
 import s from './Alert.module.css'
-import CloseIcon from '../../icons/CloseIcon/CloseIcon'
+import { Close } from '@/assets/icons'
 
 type AlertType = {
   variant: 'error' | 'success'
@@ -18,7 +18,7 @@ const Alert = ({ variant, text, onClose }: AlertType) => {
         {text}
       </div>
       <button className={s.closeButton} type="button" onClick={onClose} aria-label="Close alert">
-        <CloseIcon />
+        <Close />
       </button>
     </div>
   )

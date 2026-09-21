@@ -1,5 +1,4 @@
 export { default as ArrowBack } from './ArrowBack.svg'
-import EmailVerificationSuccessImage from '../../components/icons/EmailVerificationImages/EmailVerificationSuccessImage'
 export { default as ArrowForward } from './ArrowForward.svg'
 export { default as ArrowIosBack } from './ArrowIosBack.svg'
 export { default as ArrowIosDown } from './ArrowIosDown.svg'
