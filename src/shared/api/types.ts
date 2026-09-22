@@ -223,7 +223,7 @@ export type paths = {
 
 export type RegistrationDto = {
   /** Уникальный username */
-  username: string
+  userName: string
   /** Email нового пользователя */
   email: string
   /** Пароль от аккаунта (min 6, max 20) */

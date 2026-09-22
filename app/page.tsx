@@ -1,0 +1,20 @@
+import { Header } from '@widgets/header'
+import { Sidebar } from '@widgets/sidebar'
+import { MainPage } from '@pages/main'
+import s from './page.module.css'
+
+export default function Home() {
+  const isAuthorized = false // Замените на реальную проверку из token/storage
+
+  return (
+    <div className={s.layout}>
+      <Header />
+      <div className={s.contentWrapper}>
+        {isAuthorized && <Sidebar />}
+        <main className={s.main}>
+          <MainPage />
+        </main>
+      </div>
+    </div>
+  )
+}
