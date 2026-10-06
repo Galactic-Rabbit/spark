@@ -8,18 +8,11 @@
 - [ ] Переписать фичи `auth-*` — вызывать `authApi.*`, а не `apiClient.*` напрямую.
 - [ ] Решить, куда положить `/me` — в `entities/session` или `entities/user`.
 
-## API-типы
-
-- [ ] заменить ручные типы в апи-авторизации на тип из `paths`, когда сваггер будет актуальным.
-- [ ] `auth-register`: уточнить у бэков, зачем обязательные `firstName`/`lastName` в регистрации. Если не нужны — попросить сделать опциональными (сейчас отправляем пустые строки).
-- [ ] `shared/api/types.ts`: сгенерировать полный `paths` из OpenAPI.
-
 ## Заготовки на будущее (линтер ругается)
 
 - [ ] `features/auth-forgot-password/api/useForgotPassword.mutation.ts` — дореализовать `authStorage`, `queryClient`, `data`.
 - [ ] `features/auth-login/ui/LoginForm.tsx` — дореализовать `result`.
 - [ ] `features/auth-register/ui/RegisterForm.tsx` — дореализовать `terms`.
-- [ ] `shared/api/client.ts` — подключить `authMiddleware` в `apiClient`.
 
 ## Сущности — скелеты
 

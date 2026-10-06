@@ -55,7 +55,7 @@ export const ForgotPasswordForm = ({ siteKey, isVerifying = false }: Props) => {
     try {
       await forgotPassword({
         email: data.email,
-        recaptchaToken: data.recaptchaToken,
+        recaptcha: data.recaptchaToken,
       })
       setSendEmailAgain(true)
     } catch (e) {
