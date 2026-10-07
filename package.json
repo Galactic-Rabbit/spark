@@ -11,7 +11,8 @@
     "format": "prettier --write .",
     "stylelint": "stylelint \"src/**/*.{css,scss,module.css}\"",
     "stylelint:fix": "stylelint \"src/**/*.{css,scss,module.css}\" --fix",
-    "lint:fix": "npm run format && npm run stylelint:fix && npm run lint -- --fix"
+    "lint:fix": "npm run format && npm run stylelint:fix && npm run lint -- --fix",
+    "api:types": "openapi-typescript https://inctagram.work/api/v1/swagger-json -o src/shared/api/types.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.9.1",
@@ -39,6 +40,7 @@
     "eslint-config-next": "16.3.1",
     "eslint-plugin-boundaries": "^7.2.0",
     "next-plugin-svgr": "^1.1.12",
+    "openapi-typescript": "^7.13.0",
     "prettier": "^3.9.6",
     "stylelint": "^17.14.1",
     "stylelint-config-recess-order": "^7.8.0",

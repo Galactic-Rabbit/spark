@@ -9,6 +9,7 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
 // и тогда когда клиент будет видеть какой-то endpoint, он сразу будет знать что может/или должно прийти
 export const apiClient = createClient<paths>({
   baseUrl: API_BASE_URL,
+  credentials: 'include',
 })
 
 //Нужен для того чтобы лочить параллельные запросы, к примеру ситуация: У нас летит несколько запросов с протухшим токеном =>
@@ -16,9 +17,9 @@ export const apiClient = createClient<paths>({
 const mutex = new Mutex()
 
 //Функция, которая будет рефрешить токен, запрос не через клиент, чтобы не было рекурсии, credentials включены,
-// чтобы бек смог считать refreshToken из куков, но пока рабочего ендпоинта нет, будет такая заглушка на будущее
+// чтобы бек смог считать refreshToken из куков
 async function refreshTokens(): Promise<string | null> {
-  const response = await fetch(`${API_BASE_URL}/api/auth/refresh`, {
+  const response = await fetch(`${API_BASE_URL}/api/v1/auth/update`, {
     method: 'POST',
     credentials: 'include',
   })
@@ -75,3 +76,5 @@ const authMiddleware: Middleware = {
     }
   },
 }
+
+apiClient.use(authMiddleware)
