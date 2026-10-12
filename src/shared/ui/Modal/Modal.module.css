@@ -12,6 +12,7 @@
   left: 50%;
   z-index: 51;
   min-width: 23.625rem;
+  max-width: calc(100vw - 2rem);
   background: var(--dark-300);
   border: 1px solid var(--dark-100);
   border-radius: 2px;
