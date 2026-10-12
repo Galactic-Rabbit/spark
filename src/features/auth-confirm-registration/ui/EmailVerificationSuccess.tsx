@@ -1,14 +1,10 @@
 'use client'
 
-import { Button } from '@shared/ui/Button'
 import s from './EmailVerification.module.css'
 import { EmailVerificationSuccessImage } from '@shared/ui/icons'
+import Link from 'next/link'
 
 export const EmailVerificationSuccess = () => {
-  const handleSignIn = () => {
-    console.log('Redirect to Sign In')
-  }
-
   return (
     <section className={s.container}>
       <div className={s.content}>
@@ -16,9 +12,7 @@ export const EmailVerificationSuccess = () => {
 
         <p className={s.description}>Your email has been confirmed</p>
 
-        <Button onClick={handleSignIn} className={s.button}>
-          Sign In
-        </Button>
+        <Link href="/login">Sign In</Link>
 
         <div className={s.imageWrapper}>
           <EmailVerificationSuccessImage />
