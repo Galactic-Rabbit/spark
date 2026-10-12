@@ -64,7 +64,12 @@ export const RegisterForm = () => {
 
   if (isModalOpen) {
     return (
-      <Modal open={isModalOpen} onOpenChange={setIsModalOpen} title="Email sent">
+      <Modal
+        open={isModalOpen}
+        onOpenChange={setIsModalOpen}
+        title="Email sent"
+        className={s.emailSentModal}
+      >
         <p>We have sent a link to confirm your email to {email}</p>
       </Modal>
     )
