@@ -44,8 +44,28 @@
   margin-top: 2rem;
 }
 
+/* SVGR вырезает viewBox: сжатая картинка не масштабируется, а обрезается. Держим её в исходном размере */
+.imageWrapper svg {
+  flex-shrink: 0;
+}
+
 .inputWrapper {
   width: 100%;
   max-width: 229px;
   margin-top: 1.5rem;
+}
+
+.errorText {
+  display: block;
+  margin-top: 0.75rem;
+  font-family: var(--font-family);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-sm);
+  color: var(--danger-500);
+  text-align: center;
+}
+
+.emailSentModal {
+  width: 23.625rem;
 }

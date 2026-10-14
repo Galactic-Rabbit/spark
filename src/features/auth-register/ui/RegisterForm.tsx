@@ -8,7 +8,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Button } from '@shared/ui/Button'
 import { Input } from '@shared/ui/Input'
 import s from './RegisterForm.module.css'
-import { useSignUp } from '../api/useSignUp'
+import { useSignUp } from '../api/useSignUp.mutation'
 import { RegisterFormData, registerSchema } from '../model/register.schema'
 import { Modal } from '@/shared/ui/Modal'
 import { isServerError } from '@/shared/api/isServerError'
@@ -64,7 +64,12 @@ export const RegisterForm = () => {
 
   if (isModalOpen) {
     return (
-      <Modal open={isModalOpen} onOpenChange={setIsModalOpen} title="Email sent">
+      <Modal
+        open={isModalOpen}
+        onOpenChange={setIsModalOpen}
+        title="Email sent"
+        className={s.emailSentModal}
+      >
         <p>We have sent a link to confirm your email to {email}</p>
       </Modal>
     )

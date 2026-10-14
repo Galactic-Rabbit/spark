@@ -12,7 +12,6 @@
 
 - [ ] `features/auth-forgot-password/api/useForgotPassword.mutation.ts` — дореализовать `authStorage`, `queryClient`, `data`.
 - [ ] `features/auth-login/ui/LoginForm.tsx` — дореализовать `result`.
-- [ ] `features/auth-register/ui/RegisterForm.tsx` — дореализовать `terms`.
 
 ## Сущности — скелеты
 
@@ -23,7 +22,3 @@
 
 - [ ] Убрать логику `isAuthorized` в `entities/session`, когда появится реальная проверка.
 - [ ] Рассмотреть переезд логики `Header`/`Sidebar` в layout приложения, если это возможно без усложнения.
-
-## Email Verification
-
-- [ ] `features/auth-verify-email` создан, но нигде не используется. Подключить, когда будет страница подтверждения email.

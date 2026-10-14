@@ -42,3 +42,15 @@
 .signInLink {
   margin-top: -1.3rem;
 }
+
+.errorText {
+  font-family: var(--font-family);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-sm);
+  color: var(--danger-500);
+}
+
+.emailSentModal {
+  width: 23.625rem;
+}

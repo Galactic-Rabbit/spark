@@ -15,9 +15,12 @@ type ModalProps = {
 
   // Для случаев с кнопкой-триггером
   trigger?: ReactNode
+
+  // Ширину и прочую геометрию задаёт тот, кто открывает модалку
+  className?: string
 }
 
-export function Modal({ open, onOpenChange, title, children, trigger }: ModalProps) {
+export function Modal({ open, onOpenChange, title, children, trigger, className }: ModalProps) {
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
       {/* Триггер - только если передан */}
@@ -25,7 +28,7 @@ export function Modal({ open, onOpenChange, title, children, trigger }: ModalPro
 
       <Dialog.Portal>
         <Dialog.Overlay className={s.overlay} />
-        <Dialog.Content className={s.content}>
+        <Dialog.Content className={`${s.content} ${className || ''}`.trim()}>
           <div className={s.modalHeader}>
             <Dialog.Title className="text-h1">{title}</Dialog.Title>
             <Dialog.Close asChild>
