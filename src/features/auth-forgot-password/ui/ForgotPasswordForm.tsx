@@ -9,30 +9,25 @@ import s from './ForgotPassword.module.css'
 import { useRouter } from 'next/navigation'
 import { ReCaptchaWidget } from '@shared/ui/ReCaptchaWidget'
 import { useForgotPasswordMutation } from '../api/useForgotPassword.mutation'
+import { ForgotPasswordValues, forgotPasswordSchema } from '../model/forgotPassword.schema'
+import { Modal } from '@shared/ui/Modal'
 import {
-  ForgotPasswordValues,
-  forgotPasswordSchema,
-  CreatePasswordValues,
-  createPasswordSchema,
-} from '../model/forgotPassword.schema'
+  usePasswordRecoveryResendingMutation
+} from '@features/auth-forgot-password/api/usePasswordRecoveryResending.mutation'
 
-type Props = {
-  siteKey: string
-  isVerifying?: boolean
-}
-
-export const ForgotPasswordForm = ({ siteKey, isVerifying = false }: Props) => {
+export const ForgotPasswordForm = () => {
   const [error, setError] = useState<string | null>(null)
-  const [enterMail, setEnterMail] = useState(true)
+  const [modal, setModal] = useState(false)
   const [sendEmailAgain, setSendEmailAgain] = useState(false)
   const { mutateAsync: forgotPassword } = useForgotPasswordMutation()
-
+  const { mutateAsync: recoveryResending } = usePasswordRecoveryResendingMutation()
   const router = useRouter()
 
   const {
     register: registerEmail,
     handleSubmit: handleEmailSubmit,
     control: emailControl,
+    reset,
     formState: { errors: emailErrors, isSubmitting: isEmailSubmitting },
   } = useForm<ForgotPasswordValues>({
     resolver: zodResolver(forgotPasswordSchema),
@@ -40,36 +35,26 @@ export const ForgotPasswordForm = ({ siteKey, isVerifying = false }: Props) => {
     defaultValues: { email: '', recaptchaToken: '' },
   })
 
-  const {
-    register: registerPassword,
-    handleSubmit: handlePasswordSubmit,
-    formState: { errors: passwordErrors, isSubmitting: isPasswordSubmitting },
-  } = useForm<CreatePasswordValues>({
-    resolver: zodResolver(createPasswordSchema),
-    mode: 'onBlur',
-    defaultValues: { password: '', confirmPassword: '' },
-  })
-
   const onEmailSubmit: SubmitHandler<ForgotPasswordValues> = async (data) => {
     setError(null)
     try {
-      await forgotPassword({
-        email: data.email,
-        recaptcha: data.recaptchaToken,
-      })
-      setSendEmailAgain(true)
+      if (!sendEmailAgain) {
+        await forgotPassword({
+          email: data.email,
+          recaptcha: data.recaptchaToken,
+          baseUrl: `${window.location.origin}/password-recovery`,
+        })
+        setSendEmailAgain(true)
+        setModal(true)
+      } else {
+        await recoveryResending({
+          email: data.email,
+          baseUrl: `${window.location.origin}/password-recovery`,
+        })
+      }
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Something went wrong. Please try again.')
-    }
-  }
-
-  const onPasswordSubmit: SubmitHandler<CreatePasswordValues> = async () => {
-    setError(null)
-    try {
-      setEnterMail(true)
-      setSendEmailAgain(false)
-      router.push('/login')
-    } catch (e) {
+      reset({ recaptchaToken: '' })
+      console.log(e, '----------12132')
       setError(e instanceof Error ? e.message : 'Something went wrong. Please try again.')
     }
   }
@@ -80,7 +65,7 @@ export const ForgotPasswordForm = ({ siteKey, isVerifying = false }: Props) => {
 
   return (
     <>
-      {enterMail && (
+      {
         <div className={s.container}>
           <h1 className={`text-h1`}>Forgot Password</h1>
           <form onSubmit={handleEmailSubmit(onEmailSubmit)} className={s.form}>
@@ -107,13 +92,13 @@ export const ForgotPasswordForm = ({ siteKey, isVerifying = false }: Props) => {
               Back to Sign In
             </Button>
             {error && <p className={`text-regular-sm ${s.error}`}>{error}</p>}
-            {!sendEmailAgain && !isVerifying && (
+            {!sendEmailAgain && (
               <Controller
                 control={emailControl}
                 name="recaptchaToken"
                 render={({ field, fieldState }) => (
                   <ReCaptchaWidget
-                    siteKey={siteKey}
+                    siteKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ''}
                     value={field.value}
                     onChange={field.onChange}
                     error={fieldState.error?.message}
@@ -123,38 +108,16 @@ export const ForgotPasswordForm = ({ siteKey, isVerifying = false }: Props) => {
             )}
           </form>
         </div>
-      )}
+      }
 
-      {!enterMail && (
-        <div className={s.container}>
-          <h1 className={`text-h1`}>Create New Password</h1>
-          <form onSubmit={handlePasswordSubmit(onPasswordSubmit)} className={s.form}>
-            <div className={s.inputForm}>
-              <Input
-                label="New password"
-                variant="password"
-                error={!!passwordErrors.password}
-                errorText={passwordErrors.password?.message}
-                {...registerPassword('password')}
-              />
-              <Input
-                label="Password confirmation"
-                variant="password"
-                error={!!passwordErrors.confirmPassword}
-                errorText={passwordErrors.confirmPassword?.message}
-                {...registerPassword('confirmPassword')}
-              />
-            </div>
-            <p className={`text-regular-sm ${s.text}`}>
-              Your password must be between 6 and 20 characters
-            </p>
-            {error && <p className={`text-regular-sm ${s.error}`}>{error}</p>}
-            <Button type={'submit'} disabled={isPasswordSubmitting} className={s.btnNewPassword}>
-              {isPasswordSubmitting ? 'Creating...' : 'Create new password'}
-            </Button>
-          </form>
-        </div>
-      )}
+      {
+        <Modal open={modal} onOpenChange={() => setModal(false)} title="Email sent">
+          <p>We have sent a link to confirm your email to email</p>
+          <Button className={s.button} onClick={() => setModal(false)}>
+            Ok
+          </Button>
+        </Modal>
+      }
     </>
   )
 }
