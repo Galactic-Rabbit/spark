@@ -1,20 +1,20 @@
-import {components} from '@shared/api/types';
-import {useMutation} from '@tanstack/react-query';
-import {apiClient} from '@shared/api/client';
+import { useMutation } from '@tanstack/react-query'
+import { createApiError } from '@shared/api/apiError'
+import { apiClient } from '@shared/api/client'
+import { components } from '@shared/api/types'
 
 type RecoveryData = components['schemas']['NewPasswordInputDto']
 
-
 export const usePasswordRecoveryMutation = () => {
   return useMutation({
-    mutationFn: async ({newPassword, recoveryCode }: RecoveryData) => {
-      const { data, error } = await apiClient.POST('/api/v1/auth/new-password', {
+    mutationFn: async ({ newPassword, recoveryCode }: RecoveryData) => {
+      const { data, error, response } = await apiClient.POST('/api/v1/auth/new-password', {
         body: {
           newPassword,
-          recoveryCode
+          recoveryCode,
         },
       })
-      if (error) throw error
+      if (!response.ok) throw createApiError(response.status, error)
       return data
     },
   })
