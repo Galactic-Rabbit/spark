@@ -19,6 +19,13 @@ type Props = {
   label?: string
 }
 
+/**
+ * Google на execute() даёт 30 секунд (cfg['execute-ms'] в /recaptcha/api.js),
+ * а человеку на решение капчи-картинки нужно заметно больше.
+ * Таймаут меньше — это сброс виджета прямо во время решения.
+ */
+const VERIFY_TIMEOUT_MS = 120_000
+
 export const ReCaptchaWidget = ({
   siteKey,
   value,
@@ -26,7 +33,6 @@ export const ReCaptchaWidget = ({
   error,
   label = "I'm not a robot",
 }: Props) => {
-  const recaptchaRef = useRef<ReCAPTCHA>(null)
   const [isVerifying, setIsVerifying] = useState(false)
   const [recaptchaError, setRecaptchaError] = useState<string | null>(null)
   const [hasInteracted, setHasInteracted] = useState(false)
@@ -73,38 +79,22 @@ export const ReCaptchaWidget = ({
     setRecaptchaError('Verification failed. Please try again.')
   }
 
-  const handleCheckboxChange = async (newChecked: boolean) => {
-    if (!newChecked || !!value || isVerifying) return
+  /**
+   * Клик физически попадает в прозрачный нативный виджет, который лежит поверх
+   * нашей вёрстки, поэтому «начало проверки» ловим на самой плашке.
+   * Программно дёрнуть нативный чекбокс нельзя: execute() работает только
+   * для invisible-ключа, а прокликать чужой iframe из JS невозможно.
+   */
+  const handlePointerDown = () => {
+    if (value || isVerifying) return
     setHasInteracted(true)
     setIsVerifying(true)
     setRecaptchaError(null)
-
     clearVerifyTimeout()
     verifyTimeoutRef.current = setTimeout(() => {
       setIsVerifying(false)
       setRecaptchaError('Verification failed. Please try again.')
-      recaptchaRef.current?.reset()
-    }, 10000)
-
-    try {
-      const maybePromise = recaptchaRef.current?.executeAsync?.()
-      if (maybePromise && typeof (maybePromise as Promise<string | null>).then === 'function') {
-        const token = await (maybePromise as Promise<string | null>)
-        clearVerifyTimeout()
-        if (token) {
-          handleChange(token)
-        } else {
-          setIsVerifying(false)
-          setRecaptchaError('Verification failed. Please try again.')
-        }
-        return
-      }
-      recaptchaRef.current?.execute()
-    } catch {
-      clearVerifyTimeout()
-      setIsVerifying(false)
-      setRecaptchaError('Verification failed. Please try again.')
-    }
+    }, VERIFY_TIMEOUT_MS)
   }
 
   if (!siteKey) {
@@ -121,18 +111,21 @@ export const ReCaptchaWidget = ({
 
   return (
     <div className={s.container}>
-      <ReCAPTCHA
-        ref={recaptchaRef}
-        sitekey={siteKey}
-        size="invisible"
-        badge="inline"
-        onChange={handleChange}
-        onExpired={handleExpired}
-        onErrored={handleError}
-      />
-
       <div className={`${s.widget} ${!!validationError ? s.widgetError : ''}`}>
-        <div className={s.widgetMain}>
+        <div className={s.widgetMain} onPointerDown={handlePointerDown}>
+          {/* Настоящая капча: прозрачная, но кликабельная, лежит поверх нашей вёрстки.
+              Стили в .nativeLayer — там же объяснение, почему прячется только анкор. */}
+          <div className={s.nativeLayer}>
+            <ReCAPTCHA
+              sitekey={siteKey}
+              theme="dark"
+              size="normal"
+              onChange={handleChange}
+              onExpired={handleExpired}
+              onErrored={handleError}
+            />
+          </div>
+
           {displayRecaptchaError && (
             <p className={`text-regular-sm ${s.errorBadge}`} role="alert">
               {displayRecaptchaError}
@@ -141,8 +134,9 @@ export const ReCaptchaWidget = ({
           <CheckboxRoot
             className={s.checkbox}
             checked={isVerifying || isDone}
-            onValueChange={handleCheckboxChange}
             disabled={isDone}
+            aria-hidden="true"
+            tabIndex={-1}
           >
             <CheckboxIndicator>
               {isVerifying ? (

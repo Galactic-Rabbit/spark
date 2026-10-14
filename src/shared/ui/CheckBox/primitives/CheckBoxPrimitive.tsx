@@ -5,7 +5,7 @@ import * as Checkbox from '@radix-ui/react-checkbox'
 import s from './CheckBoxPrimitive.module.css'
 
 type RootProps = {
-  onValueChange: (checked: boolean) => void
+  onValueChange?: (checked: boolean) => void
   className?: string
   children?: ReactNode
 } & Omit<Checkbox.CheckboxProps, 'onCheckedChange' | 'className'>
@@ -17,7 +17,7 @@ export const CheckboxRoot = forwardRef<ComponentRef<typeof Checkbox.Root>, RootP
         ref={ref}
         {...props}
         className={`${s.checkboxRoot} ${className ?? ''}`}
-        onCheckedChange={(value) => onValueChange(value === true)}
+        onCheckedChange={(value) => onValueChange?.(value === true)}
       >
         {children}
       </Checkbox.Root>
