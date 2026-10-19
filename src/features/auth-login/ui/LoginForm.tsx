@@ -35,10 +35,6 @@ export const LoginForm = () => {
     }
   }
 
-  const handleSignUp = () => {
-    router.push('/register')
-  }
-
   return (
     <div className={s.container}>
       <h1 className="text-h1">Sign In</h1>
@@ -72,9 +68,9 @@ export const LoginForm = () => {
         </Button>
       </form>
       <p className="text-regular">Don’t have an account?</p>
-      <Button variant="textButton" onClick={handleSignUp} className={s.signUpLink}>
-        Sign Up
-      </Button>
+        <Button as={Link} href="/register" variant="textButton" className={s.signUpLink}>
+            Sign Up
+        </Button>
     </div>
   )
 }

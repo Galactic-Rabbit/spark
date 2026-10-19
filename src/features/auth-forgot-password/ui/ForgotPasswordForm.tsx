@@ -1,17 +1,16 @@
 'use client'
-import { useEffect, useRef, useState } from 'react'
-import { Input } from '@shared/ui/Input'
-import { Controller, SubmitHandler, useForm, useWatch } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { Button } from '@shared/ui/Button'
+import {zodResolver} from '@hookform/resolvers/zod'
+import {Button} from '@shared/ui/Button'
+import {Input} from '@shared/ui/Input'
+import {Modal} from '@shared/ui/Modal'
+import {ReCaptchaWidget, type ReCaptchaWidgetHandle} from '@shared/ui/ReCaptchaWidget'
+import Link from 'next/link'
+import {useEffect, useRef, useState} from 'react'
+import {Controller, SubmitHandler, useForm, useWatch} from 'react-hook-form'
+import {useForgotPasswordMutation} from '../api/useForgotPassword.mutation'
+import {usePasswordRecoveryResendingMutation} from '../api/usePasswordRecoveryResending.mutation'
+import {forgotPasswordSchema, ForgotPasswordValues} from '../model/forgotPassword.schema'
 import s from './ForgotPassword.module.css'
-
-import { useRouter } from 'next/navigation'
-import { ReCaptchaWidget, type ReCaptchaWidgetHandle } from '@shared/ui/ReCaptchaWidget'
-import { Modal } from '@shared/ui/Modal'
-import { useForgotPasswordMutation } from '../api/useForgotPassword.mutation'
-import { usePasswordRecoveryResendingMutation } from '../api/usePasswordRecoveryResending.mutation'
-import { ForgotPasswordValues, forgotPasswordSchema } from '../model/forgotPassword.schema'
 
 export const ForgotPasswordForm = () => {
   const [error, setError] = useState<string | null>(null)
@@ -21,7 +20,6 @@ export const ForgotPasswordForm = () => {
   const captchaRef = useRef<ReCaptchaWidgetHandle>(null)
   const { mutateAsync: forgotPassword } = useForgotPasswordMutation()
   const { mutateAsync: recoveryResending } = usePasswordRecoveryResendingMutation()
-  const router = useRouter()
 
   const {
     register: registerEmail,
@@ -77,10 +75,6 @@ export const ForgotPasswordForm = () => {
     }
   }
 
-  const handleSignIn = () => {
-    router.push('/login')
-  }
-
   return (
     <>
       <div className={s.container}>
@@ -105,9 +99,9 @@ export const ForgotPasswordForm = () => {
           <Button type={'submit'} disabled={isEmailSubmitting} className={s.btn}>
             {isEmailSubmitting ? 'Sending...' : isResend ? 'Send Link Again' : 'Send Link'}
           </Button>
-          <Button type="button" variant="textButton" onClick={handleSignIn} className={s.link}>
-            Back to Sign In
-          </Button>
+            <Button as={Link} href="/login" variant="textButton" className={s.link}>
+                Back to Sign In
+            </Button>
           {error && (
             <p className={`text-regular-sm ${s.error}`} role="alert">
               {error}
