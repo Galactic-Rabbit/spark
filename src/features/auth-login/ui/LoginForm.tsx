@@ -1,47 +1,37 @@
 'use client'
 
-import { useForm } from 'react-hook-form'
-
-import { zodResolver } from '@hookform/resolvers/zod'
-import s from './LoginForm.module.css'
-
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { Button } from '@shared/ui/Button'
 import { Input } from '@shared/ui/Input'
-import { useLoginMutation } from '../api/useLogin.mutation'
-import { LoginFormData, loginSchema } from '../model/login.schema'
+import { useLoginMutation } from '@features/auth-login'
+import { LoginFormData, loginSchema } from '@features/auth-login'
+import s from './LoginForm.module.css'
 
 export const LoginForm = () => {
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [error, setError] = useState<string | null>(null)
   const router = useRouter()
   const { mutateAsync: loginMutation } = useLoginMutation()
 
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
-    trigger,
+    formState: { errors, isSubmitting },
   } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
     mode: 'onBlur',
   })
 
   const onSubmit = async (data: LoginFormData) => {
-    setIsSubmitting(true)
+    setError(null)
     try {
-      console.log('Данные формы:', data)
-
-      const result = await loginMutation({
-        email: data.email,
-        password: data.password,
-      })
+      await loginMutation({ email: data.email, password: data.password })
       router.push('/')
-    } catch (error) {
-      console.error('Ошибка входа:', error)
-    } finally {
-      setIsSubmitting(false)
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Something went wrong. Please try again.')
     }
   }
 
@@ -57,24 +47,27 @@ export const LoginForm = () => {
           variant="text"
           label="Email"
           placeholder="example@example.com"
-          {...register('email')}
           error={!!errors.email}
           errorText={errors.email?.message}
-          onBlur={() => trigger('email')}
+          {...register('email', { onChange: () => setError(null) })}
         />
         <Input
           variant="password"
           label="Password"
           placeholder="••••••••"
-          {...register('password')}
           error={!!errors.password}
           errorText={errors.password?.message}
-          onBlur={() => trigger('password')}
+          {...register('password', { onChange: () => setError(null) })}
         />
         <Link href="/forgot-password" className={`${s.forgotPasswordLink} text-regular-sm`}>
           Forgot Password
         </Link>
-        <Button variant="primary" type="submit" disabled={!isValid || isSubmitting}>
+        {error && (
+          <p className={`text-regular-sm ${s.error}`} role="alert">
+            {error}
+          </p>
+        )}
+        <Button variant="primary" type="submit" disabled={isSubmitting}>
           Sign In
         </Button>
       </form>
