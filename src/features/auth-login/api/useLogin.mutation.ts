@@ -1,8 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { createApiError } from '@shared/api/apiError'
 import { authStorage } from '@shared/api/authStorage'
 import { apiClient } from '@shared/api/client'
 import type { components } from '@shared/api/types'
+import { createApiError } from '@shared/api/apiError'
 
 
 type LoginArgs = components['schemas']['LoginInputDto']
