@@ -35,12 +35,15 @@
 - [ ] `features/auth-forgot-password/api/useForgotPassword.mutation.ts` — дореализовать `authStorage`, `queryClient`, `data`.
 - [ ] `features/auth-login/ui/LoginForm.tsx` — дореализовать `result`.
 
+## Состояние авторизации (`isAuthorized`) — @BalandinaM
+
+Сейчас в `app/page.tsx` захардкожено `isAuthorized = false`, а `useSession` читает токен один раз при монтировании и не замечает логин и логаут без перезагрузки страницы. Страницы из `(authorized)` ничем не защищены: разлогиненный пользователь открывает `/feed` по адресу.
+
+- [ ] Сделать `entities/session` реактивным: `isAuthorized` сам становится `true` после логина и `false` после логаута, без перезагрузки. Выбрать, где держать состояние (React Query или Zustand).
+- [ ] Заменить хардкод в `app/page.tsx` на `useSession`.
+- [ ] Защитить страницы из `(authorized)`: без авторизации — редирект на `/login`.
+- [ ] Рассмотреть переезд логики `Header`/`Sidebar` в layout приложения, если это возможно без усложнения.
+
 ## Сущности — скелеты
 
-- [ ] `entities/session` — реализовать чтение токена из `authStorage`, реактивность, использовать в `app/page.tsx` и `features/auth-*`.
 - [ ] `entities/user` — реализовать `getMe`, использовать в `widgets/header` (user-menu).
-
-## `app/page.tsx`
-
-- [ ] Убрать логику `isAuthorized` в `entities/session`, когда появится реальная проверка.
-- [ ] Рассмотреть переезд логики `Header`/`Sidebar` в layout приложения, если это возможно без усложнения.
