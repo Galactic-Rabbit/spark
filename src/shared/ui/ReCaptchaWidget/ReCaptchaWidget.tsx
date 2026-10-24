@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useImperativeHandle, useRef, useState, type Ref } from 'react'
 import ReCAPTCHA from 'react-google-recaptcha'
 import {
   CheckboxRoot,
@@ -10,13 +10,14 @@ import { RecaptchaIcon } from '@shared/ui/icons/RecaptchaIcon'
 import { RecaptchaCheckIcon } from '@shared/ui/icons/RecaptchaCheckIcon'
 import { RecaptchaSpinnerIcon } from '@shared/ui/icons/RecaptchaSpinnerIcon'
 import s from './ReCaptchaWidget.module.css'
-
+export type ReCaptchaWidgetHandle = { reset: () => void }
 type Props = {
   siteKey: string
   value: string
   onChange: (token: string) => void
   error?: string
   label?: string
+  ref?: Ref<ReCaptchaWidgetHandle>
 }
 
 /**
@@ -32,11 +33,13 @@ export const ReCaptchaWidget = ({
   onChange,
   error,
   label = "I'm not a robot",
+  ref
 }: Props) => {
   const [isVerifying, setIsVerifying] = useState(false)
   const [recaptchaError, setRecaptchaError] = useState<string | null>(null)
   const [hasInteracted, setHasInteracted] = useState(false)
   const verifyTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const nativeLayerRef = useRef<HTMLDivElement>(null)
 
   const isDone = !!value && !isVerifying && !recaptchaError
 
@@ -70,6 +73,8 @@ export const ReCaptchaWidget = ({
     onChange('')
     setIsVerifying(false)
     setRecaptchaError('Verification expired. Please try again.')
+
+    window.focus()
   }
 
   const handleError = () => {
@@ -77,15 +82,28 @@ export const ReCaptchaWidget = ({
     onChange('')
     setIsVerifying(false)
     setRecaptchaError('Verification failed. Please try again.')
+    window.focus()
   }
+  const recaptchaRef = useRef<ReCAPTCHA>(null)
+  useImperativeHandle(ref, () => ({
+    reset: () => {
+      recaptchaRef.current?.reset() // сброс галочки внутри iframe Google
+      clearVerifyTimeout()
+      setIsVerifying(false)
+      setRecaptchaError(null)
+    },
+  }))
+
 
   /**
-   * Клик физически попадает в прозрачный нативный виджет, который лежит поверх
-   * нашей вёрстки, поэтому «начало проверки» ловим на самой плашке.
-   * Программно дёрнуть нативный чекбокс нельзя: execute() работает только
-   * для invisible-ключа, а прокликать чужой iframe из JS невозможно.
+   * «Начало проверки» ловим не кликом по плашке, а уходом фокуса в iframe капчи:
+   * клик по прозрачному нативному виджету физически попадает в кросс-origin iframe,
+   * и его события не всплывают до нашей вёрстки — onPointerDown на плашке мёртв.
+   * В момент клика окно теряет фокус, а document.activeElement становится этим iframe
+   * (см. blur-listener ниже). Программно дёрнуть нативный чекбокс нельзя:
+   * execute() работает только для invisible-ключа, прокликать чужой iframe из JS нельзя.
    */
-  const handlePointerDown = () => {
+  const handlePointerDown = useCallback(() => {
     if (value || isVerifying) return
     setHasInteracted(true)
     setIsVerifying(true)
@@ -94,8 +112,22 @@ export const ReCaptchaWidget = ({
     verifyTimeoutRef.current = setTimeout(() => {
       setIsVerifying(false)
       setRecaptchaError('Verification failed. Please try again.')
+      // без возврата фокуса на страницу повторный клик по капче не даст blur
+      window.focus()
     }, VERIFY_TIMEOUT_MS)
-  }
+  }, [value, isVerifying])
+
+  useEffect(() => {
+    const handleWindowBlur = () => {
+      // фокус ушёл в iframe капчи — значит, кликнули по ней
+      const active = document.activeElement
+      if (active?.tagName === 'IFRAME' && nativeLayerRef.current?.contains(active)) {
+        handlePointerDown()
+      }
+    }
+    window.addEventListener('blur', handleWindowBlur)
+    return () => window.removeEventListener('blur', handleWindowBlur)
+  }, [handlePointerDown])
 
   if (!siteKey) {
     return (
@@ -112,11 +144,14 @@ export const ReCaptchaWidget = ({
   return (
     <div className={s.container}>
       <div className={`${s.widget} ${!!validationError ? s.widgetError : ''}`}>
-        <div className={s.widgetMain} onPointerDown={handlePointerDown}>
+        <div className={s.widgetMain}>
           {/* Настоящая капча: прозрачная, но кликабельная, лежит поверх нашей вёрстки.
-              Стили в .nativeLayer — там же объяснение, почему прячется только анкор. */}
-          <div className={s.nativeLayer}>
+              Стили в .nativeLayer — там же объяснение, почему прячется только анкор.
+              ref нужен blur-listener'у, чтобы отличить клик по капче от любого
+              другого ухода фокуса со страницы. */}
+          <div className={s.nativeLayer} ref={nativeLayerRef}>
             <ReCAPTCHA
+              ref={recaptchaRef}
               sitekey={siteKey}
               theme="dark"
               size="normal"

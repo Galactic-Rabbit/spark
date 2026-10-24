@@ -1,13 +1,13 @@
 'use client'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Input } from '@shared/ui/Input'
-import { Controller, SubmitHandler, useForm } from 'react-hook-form'
+import { Controller, SubmitHandler, useForm, useWatch } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button } from '@shared/ui/Button'
 import s from './ForgotPassword.module.css'
 
 import { useRouter } from 'next/navigation'
-import { ReCaptchaWidget } from '@shared/ui/ReCaptchaWidget'
+import { ReCaptchaWidget, type ReCaptchaWidgetHandle } from '@shared/ui/ReCaptchaWidget'
 import { Modal } from '@shared/ui/Modal'
 import { useForgotPasswordMutation } from '../api/useForgotPassword.mutation'
 import { usePasswordRecoveryResendingMutation } from '../api/usePasswordRecoveryResending.mutation'
@@ -18,6 +18,7 @@ export const ForgotPasswordForm = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [sentTo, setSentTo] = useState('')
   const [sendEmailAgain, setSendEmailAgain] = useState(false)
+  const captchaRef = useRef<ReCaptchaWidgetHandle>(null)
   const { mutateAsync: forgotPassword } = useForgotPasswordMutation()
   const { mutateAsync: recoveryResending } = usePasswordRecoveryResendingMutation()
   const router = useRouter()
@@ -26,6 +27,7 @@ export const ForgotPasswordForm = () => {
     register: registerEmail,
     handleSubmit: handleEmailSubmit,
     control: emailControl,
+    setValue,
     formState: { errors: emailErrors, isSubmitting: isEmailSubmitting },
   } = useForm<ForgotPasswordValues>({
     resolver: zodResolver(forgotPasswordSchema),
@@ -33,12 +35,22 @@ export const ForgotPasswordForm = () => {
     defaultValues: { email: '', recaptchaToken: '' },
   })
 
+  const emailValue = useWatch({ control: emailControl, name: 'email' })
+  const isResend = sendEmailAgain && emailValue === sentTo
+
+  useEffect(() => {
+    if (sendEmailAgain && emailValue !== sentTo) {
+      setValue('recaptchaToken', '')
+      captchaRef.current?.reset()
+    }
+  }, [emailValue, sendEmailAgain, sentTo, setValue])
+
   const onEmailSubmit: SubmitHandler<ForgotPasswordValues> = async (data) => {
     setError(null)
     try {
       const baseUrl = `${window.location.origin}/password-recovery`
 
-      if (sendEmailAgain) {
+      if (isResend) {
         await recoveryResending({ email: data.email, baseUrl })
       } else {
         await forgotPassword({
@@ -53,6 +65,9 @@ export const ForgotPasswordForm = () => {
       setIsModalOpen(true)
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Something went wrong. Please try again.')
+
+      setValue('recaptchaToken', '')
+      captchaRef.current?.reset()
     }
   }
 
@@ -64,7 +79,7 @@ export const ForgotPasswordForm = () => {
     <>
       <div className={s.container}>
         <h1 className={`text-h1`}>Forgot Password</h1>
-        <form onSubmit={handleEmailSubmit(onEmailSubmit)} className={s.form}>
+        <form onSubmit={(e) => handleEmailSubmit(onEmailSubmit)(e)} className={s.form}>
           <Input
             label="Email"
             variant="text"
@@ -76,13 +91,13 @@ export const ForgotPasswordForm = () => {
           <p className={`text-regular-sm ${s.text}`}>
             Enter your email address and we will send you further instructions{' '}
           </p>
-          {sendEmailAgain && (
+          {isResend && (
             <p className={`text-regular-sm ${s.textSendAgain}`}>
               The link has been sent by email. If you don’t receive an email send link again
             </p>
           )}
           <Button type={'submit'} disabled={isEmailSubmitting} className={s.btn}>
-            {isEmailSubmitting ? 'Sending...' : sendEmailAgain ? 'Send Link Again' : 'Send Link'}
+            {isEmailSubmitting ? 'Sending...' : isResend ? 'Send Link Again' : 'Send Link'}
           </Button>
           <Button type="button" variant="textButton" onClick={handleSignIn} className={s.link}>
             Back to Sign In
@@ -92,12 +107,13 @@ export const ForgotPasswordForm = () => {
               {error}
             </p>
           )}
-          {!sendEmailAgain && (
+          {!isResend && (
             <Controller
               control={emailControl}
               name="recaptchaToken"
               render={({ field, fieldState }) => (
                 <ReCaptchaWidget
+                  ref={captchaRef}
                   siteKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ''}
                   value={field.value}
                   onChange={field.onChange}
