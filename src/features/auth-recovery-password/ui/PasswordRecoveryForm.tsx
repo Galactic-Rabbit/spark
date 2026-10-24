@@ -10,7 +10,7 @@ import { Input } from '@shared/ui/Input'
 import { useCheckRecoveryCodeQuery } from '../api/useCheckRecoveryCode.query'
 import { usePasswordRecoveryMutation } from '../api/usePasswordRecovery.mutation'
 import { PasswordRecoveryData, recoverySchema } from '../model/recovery.schema'
-import s from '../../auth-forgot-password/ui/ForgotPassword.module.css'
+import s from './PasswordRecovery.module.css'
 
 export const PasswordRecoveryForm = () => {
   const router = useRouter()
