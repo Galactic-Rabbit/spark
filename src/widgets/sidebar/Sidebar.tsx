@@ -9,7 +9,6 @@ import {
   BookmarkFill,
   Home,
   HomeFill,
-  LogOut,
   MessageCircle,
   MessageCircleFill,
   Person,
@@ -19,6 +18,7 @@ import {
   Search,
   TrendingUp,
 } from '@shared/ui/icons'
+import {LogoutButton} from '@features/auth-logout'
 
 type MenuItem = {
   label: string
@@ -76,16 +76,9 @@ export const Sidebar = () => {
             )
           })}
 
-          <NavigationMenu.Item className={`${s.navItem} ${s.logoutSection}`}>
-            <NavigationMenu.Link asChild>
-              <Link href="/login" className={s.logoutLink}>
-                <LogOut className={s.icon} />
-                <span className="text-medium-sm" style={{ color: 'inherit' }}>
-                  Log Out
-                </span>
-              </Link>
-            </NavigationMenu.Link>
-          </NavigationMenu.Item>
+            <NavigationMenu.Item className={`${s.navItem} ${s.logoutSection}`}>
+                <LogoutButton />
+            </NavigationMenu.Item>
         </NavigationMenu.List>
       </NavigationMenu.Root>
     </aside>
