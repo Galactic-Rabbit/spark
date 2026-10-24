@@ -1,21 +1,23 @@
-import { authStorage } from '@/shared/api/authStorage'
-import { apiClient } from '@/shared/api/client'
-import { components } from '@/shared/api/types'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
+import { createApiError } from '@shared/api/apiError'
+import { apiClient } from '@shared/api/client'
+import { components } from '@shared/api/types'
 
-type RecoveryData = components['schemas']['PasswordRecoveryInputDto']
+type ForgotData = components['schemas']['PasswordRecoveryInputDto']
+type ForgotPayload = ForgotData & { baseUrl: string }
 
 export const useForgotPasswordMutation = () => {
-  const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: async ({ email, recaptcha }: RecoveryData) => {
-      const { data, error } = await apiClient.POST('/api/v1/auth/password-recovery', {
+    mutationFn: async ({ email, recaptcha, baseUrl }: ForgotPayload) => {
+      const { data, error, response } = await apiClient.POST('/api/v1/auth/password-recovery', {
         body: {
           email,
           recaptcha,
+          baseUrl,
         },
       })
-      if (error) throw error
+      if (!response.ok) throw createApiError(response.status, error)
+      return data
     },
   })
 }
