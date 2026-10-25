@@ -13,7 +13,7 @@ export const EmailVerificationSuccess = () => {
 
         <p className={s.description}>Your email has been confirmed</p>
 
-        <Button as={Link} href="/login" variant="primary">
+        <Button as={Link} href="/login" variant="primary" className={s.button}>
           Sign In
         </Button>
 

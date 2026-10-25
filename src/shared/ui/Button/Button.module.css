@@ -1,4 +1,7 @@
 .button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   min-width: 182px;
   height: 36px;
   padding: 0.375rem 1.5rem;
@@ -7,6 +10,7 @@
   font-weight: var(--font-weight-semibold);
   line-height: var(--line-height-base);
   text-align: center;
+  text-decoration: none;
   cursor: pointer;
   border: none;
   border-radius: 2px;

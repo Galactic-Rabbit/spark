@@ -27,7 +27,11 @@ export const Button = <T extends ElementType = 'button'>({
   const buttonClass = `${s.button} ${s[variant]} ${className || ''}`.trim()
 
   return (
-    <Component className={buttonClass} {...props}>
+    <Component
+      className={buttonClass}
+      {...(Component === 'button' ? { type: 'button' } : {})}
+      {...props}
+    >
       {children}
     </Component>
   )
