@@ -36,7 +36,8 @@ export const ForgotPasswordForm = () => {
   })
 
   const emailValue = useWatch({ control: emailControl, name: 'email' })
-  const isResend = sendEmailAgain && emailValue === sentTo
+  const recaptchaToken = useWatch({ control: emailControl, name: 'recaptchaToken' })
+  const isResend = sendEmailAgain && emailValue === sentTo && !!recaptchaToken
 
   useEffect(() => {
     if (sendEmailAgain && emailValue !== sentTo) {
@@ -66,8 +67,13 @@ export const ForgotPasswordForm = () => {
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Something went wrong. Please try again.')
 
-      setValue('recaptchaToken', '')
-      captchaRef.current?.reset()
+      // При падении повторной отправки капча не участвовала в запросе —
+      // чистим только когда токен реально уходил на бэк, иначе режим resend
+      // схлопнется, а виджет уже размонтирован.
+      if (!isResend) {
+        setValue('recaptchaToken', '')
+        captchaRef.current?.reset()
+      }
     }
   }
 

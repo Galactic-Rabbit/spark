@@ -7,8 +7,8 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button } from '@shared/ui/Button'
 import { Input } from '@shared/ui/Input'
-import { useLoginMutation } from '@features/auth-login'
-import { LoginFormData, loginSchema } from '@features/auth-login'
+import { useLoginMutation } from '../api/useLogin.mutation'
+import { LoginFormData, loginSchema } from '../model/login.schema'
 import s from './LoginForm.module.css'
 
 export const LoginForm = () => {
@@ -59,14 +59,14 @@ export const LoginForm = () => {
           errorText={errors.password?.message}
           {...register('password', { onChange: () => setError(null) })}
         />
-        <Link href="/forgot-password" className={`${s.forgotPasswordLink} text-regular-sm`}>
-          Forgot Password
-        </Link>
         {error && (
           <p className={`text-regular-sm ${s.error}`} role="alert">
             {error}
           </p>
         )}
+        <Link href="/forgot-password" className={`${s.forgotPasswordLink} text-regular-sm`}>
+          Forgot Password
+        </Link>
         <Button variant="primary" type="submit" disabled={isSubmitting}>
           Sign In
         </Button>
