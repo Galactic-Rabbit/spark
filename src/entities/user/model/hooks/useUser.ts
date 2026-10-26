@@ -7,3 +7,4 @@ export const useUser = () => {
     queryFn: userApi.getMe,
   })
 }
+
