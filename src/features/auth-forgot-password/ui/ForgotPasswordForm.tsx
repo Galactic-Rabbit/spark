@@ -1,38 +1,33 @@
 'use client'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Input } from '@shared/ui/Input'
-import { Controller, SubmitHandler, useForm } from 'react-hook-form'
+import { Controller, SubmitHandler, useForm, useWatch } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button } from '@shared/ui/Button'
 import s from './ForgotPassword.module.css'
 
 import { useRouter } from 'next/navigation'
-import { ReCaptchaWidget } from '@shared/ui/ReCaptchaWidget'
+import { ReCaptchaWidget, type ReCaptchaWidgetHandle } from '@shared/ui/ReCaptchaWidget'
+import { Modal } from '@shared/ui/Modal'
 import { useForgotPasswordMutation } from '../api/useForgotPassword.mutation'
-import {
-  ForgotPasswordValues,
-  forgotPasswordSchema,
-  CreatePasswordValues,
-  createPasswordSchema,
-} from '../model/forgotPassword.schema'
+import { usePasswordRecoveryResendingMutation } from '../api/usePasswordRecoveryResending.mutation'
+import { ForgotPasswordValues, forgotPasswordSchema } from '../model/forgotPassword.schema'
 
-type Props = {
-  siteKey: string
-  isVerifying?: boolean
-}
-
-export const ForgotPasswordForm = ({ siteKey, isVerifying = false }: Props) => {
+export const ForgotPasswordForm = () => {
   const [error, setError] = useState<string | null>(null)
-  const [enterMail, setEnterMail] = useState(true)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [sentTo, setSentTo] = useState('')
   const [sendEmailAgain, setSendEmailAgain] = useState(false)
+  const captchaRef = useRef<ReCaptchaWidgetHandle>(null)
   const { mutateAsync: forgotPassword } = useForgotPasswordMutation()
-
+  const { mutateAsync: recoveryResending } = usePasswordRecoveryResendingMutation()
   const router = useRouter()
 
   const {
     register: registerEmail,
     handleSubmit: handleEmailSubmit,
     control: emailControl,
+    setValue,
     formState: { errors: emailErrors, isSubmitting: isEmailSubmitting },
   } = useForm<ForgotPasswordValues>({
     resolver: zodResolver(forgotPasswordSchema),
@@ -40,37 +35,39 @@ export const ForgotPasswordForm = ({ siteKey, isVerifying = false }: Props) => {
     defaultValues: { email: '', recaptchaToken: '' },
   })
 
-  const {
-    register: registerPassword,
-    handleSubmit: handlePasswordSubmit,
-    formState: { errors: passwordErrors, isSubmitting: isPasswordSubmitting },
-  } = useForm<CreatePasswordValues>({
-    resolver: zodResolver(createPasswordSchema),
-    mode: 'onBlur',
-    defaultValues: { password: '', confirmPassword: '' },
-  })
+  const emailValue = useWatch({ control: emailControl, name: 'email' })
+  const isResend = sendEmailAgain && emailValue === sentTo
+
+  useEffect(() => {
+    if (sendEmailAgain && emailValue !== sentTo) {
+      setValue('recaptchaToken', '')
+      captchaRef.current?.reset()
+    }
+  }, [emailValue, sendEmailAgain, sentTo, setValue])
 
   const onEmailSubmit: SubmitHandler<ForgotPasswordValues> = async (data) => {
     setError(null)
     try {
-      await forgotPassword({
-        email: data.email,
-        recaptcha: data.recaptchaToken,
-      })
-      setSendEmailAgain(true)
-    } catch (e) {
-      setError(e instanceof Error ? e.message : 'Something went wrong. Please try again.')
-    }
-  }
+      const baseUrl = `${window.location.origin}/password-recovery`
 
-  const onPasswordSubmit: SubmitHandler<CreatePasswordValues> = async () => {
-    setError(null)
-    try {
-      setEnterMail(true)
-      setSendEmailAgain(false)
-      router.push('/login')
+      if (isResend) {
+        await recoveryResending({ email: data.email, baseUrl })
+      } else {
+        await forgotPassword({
+          email: data.email,
+          recaptcha: data.recaptchaToken,
+          baseUrl,
+        })
+        setSendEmailAgain(true)
+      }
+
+      setSentTo(data.email)
+      setIsModalOpen(true)
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Something went wrong. Please try again.')
+
+      setValue('recaptchaToken', '')
+      captchaRef.current?.reset()
     }
   }
 
@@ -80,81 +77,62 @@ export const ForgotPasswordForm = ({ siteKey, isVerifying = false }: Props) => {
 
   return (
     <>
-      {enterMail && (
-        <div className={s.container}>
-          <h1 className={`text-h1`}>Forgot Password</h1>
-          <form onSubmit={handleEmailSubmit(onEmailSubmit)} className={s.form}>
-            <Input
-              label="Email"
-              variant="text"
-              placeholder="Epam@epam.com"
-              error={!!emailErrors.email}
-              errorText={emailErrors.email?.message}
-              {...registerEmail('email')}
+      <div className={s.container}>
+        <h1 className={`text-h1`}>Forgot Password</h1>
+        <form onSubmit={(e) => handleEmailSubmit(onEmailSubmit)(e)} className={s.form}>
+          <Input
+            label="Email"
+            variant="text"
+            placeholder="Epam@epam.com"
+            error={!!emailErrors.email}
+            errorText={emailErrors.email?.message}
+            {...registerEmail('email', { onChange: () => setError(null) })}
+          />
+          <p className={`text-regular-sm ${s.text}`}>
+            Enter your email address and we will send you further instructions{' '}
+          </p>
+          {isResend && (
+            <p className={`text-regular-sm ${s.textSendAgain}`}>
+              The link has been sent by email. If you don’t receive an email send link again
+            </p>
+          )}
+          <Button type={'submit'} disabled={isEmailSubmitting} className={s.btn}>
+            {isEmailSubmitting ? 'Sending...' : isResend ? 'Send Link Again' : 'Send Link'}
+          </Button>
+          <Button type="button" variant="textButton" onClick={handleSignIn} className={s.link}>
+            Back to Sign In
+          </Button>
+          {error && (
+            <p className={`text-regular-sm ${s.error}`} role="alert">
+              {error}
+            </p>
+          )}
+          {!isResend && (
+            <Controller
+              control={emailControl}
+              name="recaptchaToken"
+              render={({ field, fieldState }) => (
+                <ReCaptchaWidget
+                  ref={captchaRef}
+                  siteKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ''}
+                  value={field.value}
+                  onChange={field.onChange}
+                  error={fieldState.error?.message}
+                />
+              )}
             />
-            <p className={`text-regular-sm ${s.text}`}>
-              Enter your email address and we will send you further instructions{' '}
-            </p>
-            {sendEmailAgain && (
-              <p className={`text-regular-sm ${s.textSendAgain}`}>
-                The link has been sent by email. If you don’t receive an email send link again
-              </p>
-            )}
-            <Button type={'submit'} disabled={isEmailSubmitting} className={s.btn}>
-              {isEmailSubmitting ? 'Sending...' : sendEmailAgain ? 'Send Link Again' : 'Send Link'}
-            </Button>
-            <Button type="button" variant="textButton" onClick={handleSignIn} className={s.link}>
-              Back to Sign In
-            </Button>
-            {error && <p className={`text-regular-sm ${s.error}`}>{error}</p>}
-            {!sendEmailAgain && !isVerifying && (
-              <Controller
-                control={emailControl}
-                name="recaptchaToken"
-                render={({ field, fieldState }) => (
-                  <ReCaptchaWidget
-                    siteKey={siteKey}
-                    value={field.value}
-                    onChange={field.onChange}
-                    error={fieldState.error?.message}
-                  />
-                )}
-              />
-            )}
-          </form>
-        </div>
-      )}
+          )}
+        </form>
+      </div>
 
-      {!enterMail && (
-        <div className={s.container}>
-          <h1 className={`text-h1`}>Create New Password</h1>
-          <form onSubmit={handlePasswordSubmit(onPasswordSubmit)} className={s.form}>
-            <div className={s.inputForm}>
-              <Input
-                label="New password"
-                variant="password"
-                error={!!passwordErrors.password}
-                errorText={passwordErrors.password?.message}
-                {...registerPassword('password')}
-              />
-              <Input
-                label="Password confirmation"
-                variant="password"
-                error={!!passwordErrors.confirmPassword}
-                errorText={passwordErrors.confirmPassword?.message}
-                {...registerPassword('confirmPassword')}
-              />
-            </div>
-            <p className={`text-regular-sm ${s.text}`}>
-              Your password must be between 6 and 20 characters
-            </p>
-            {error && <p className={`text-regular-sm ${s.error}`}>{error}</p>}
-            <Button type={'submit'} disabled={isPasswordSubmitting} className={s.btnNewPassword}>
-              {isPasswordSubmitting ? 'Creating...' : 'Create new password'}
-            </Button>
-          </form>
-        </div>
-      )}
+      <Modal open={isModalOpen} onOpenChange={setIsModalOpen} title="Email sent">
+        <p>
+          We have sent a password recovery link to {sentTo}. Follow it to create a new password.
+        </p>
+        <Button className={s.button} onClick={() => setIsModalOpen(false)}>
+          Ok
+        </Button>
+      </Modal>
     </>
   )
 }

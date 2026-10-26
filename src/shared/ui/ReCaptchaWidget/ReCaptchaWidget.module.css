@@ -2,7 +2,7 @@
   position: relative;
 }
 
-/* прячет стили от гугла  по дефолту */
+/* запасной вариант: если ключ когда-нибудь станет invisible, бейдж не полезет в вёрстку */
 .container :global(.grecaptcha-badge) {
   visibility: hidden !important;
   width: 0 !important;
@@ -10,6 +10,56 @@
   overflow: hidden !important;
   pointer-events: none !important;
   opacity: 0 !important;
+}
+
+/*
+ * Слой с настоящей reCAPTCHA (size="normal", ключ-чекбокс).
+ * Растянут по нашей плашке и лежит поверх неё: клик по нашей вёрстке физически
+ * попадает в нативный виджет — иначе капчу не запустить (execute() работает только
+ * для invisible-ключа, а прокликать чужой iframe из JS нельзя).
+ * Сам слой прозрачный, прячется только iframe анкора — см. правило ниже.
+ */
+.nativeLayer {
+  position: absolute;
+  inset: 0;
+  /*
+   * ВАЖНО: z-index должен быть СТРОГО больше 2.
+   * У .checkboxRoot::before в CheckBoxPrimitive.module.css стоит position: absolute;
+   * z-index: 2, а сам .checkboxRoot — position: relative; z-index: auto, то есть
+   * стекинг-контекста не создаёт. Значит ::before конкурирует с этим слоем напрямую,
+   * и при равном z-index выигрывает тот, кто позже в DOM. Плашка чекбокса идёт после
+   * слоя — и 18x18 квадрат съедал клик, поэтому капча срабатывала только «чуть рядом».
+   */
+  z-index: 3;
+}
+
+.nativeLayer > div {
+  display: flex;
+  align-items: center;
+  /* прижимаем нативную капчу к левому краю: наш чекбокс остаётся под ней
+     при любой ширине плашки, а не только когда она уже 304px */
+  justify-content: flex-start;
+  height: 100%;
+}
+
+/*
+ * Прячем ТОЛЬКО iframe анкора (src содержит api2/anchor):
+ * - окно челленджа — это отдельный iframe (api2/bframe) в этом же слое,
+ *   и opacity на самом .nativeLayer сделал бы невидимым и его;
+ * - именно opacity, а не visibility/display/pointer-events — с ними
+ *   анкор перестал бы ловить клики и капча не запускалась бы вообще.
+ */
+.nativeLayer iframe[src*='api2/anchor'] {
+  opacity: 0;
+}
+
+/*
+ * Спиннер и галочка — чистая декорация. Без этого .spin (z-index: 10) оказывается
+ * выше .nativeLayer и, если окно челленджа откроется поверх, перехватит по нему клик.
+ */
+.spin,
+.check {
+  pointer-events: none;
 }
 
 .widget {
@@ -20,6 +70,7 @@
 }
 
 .widgetMain {
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   gap: calc(13 / 16 * var(--font-size-base));
@@ -65,6 +116,28 @@
 
 .checkbox[data-disabled]::before {
   border: none !important;
+}
+
+/*
+ * Ховер-эффект квадратика.
+ * Сам .checkboxRoot накрыт .nativeLayer (иначе клик не долетает до капчи),
+ * поэтому его собственный :hover не срабатывает никогда — ловим ховер на плашке
+ * и повторяем эффект круга из .checkboxRoot::after (CheckBoxPrimitive.module.css).
+ * Специфичность выше базовой, поэтому перекрывает .checkboxRoot:hover::after
+ * независимо от порядка файлов в бандле.
+ * Побочный эффект: круг подсвечивается при наведении на любую точку плашки —
+ * что честно, вся плашка теперь и есть кнопка капчи.
+ */
+.widgetMain:hover .checkbox::after {
+  transform: translate(-25%, -25%) scale(1);
+  transition: transform 0.3s ease-in-out;
+}
+
+/* повторяем гашение эффекта для [data-disabled] из CheckBoxPrimitive.module.css */
+.widgetMain:hover .checkbox[data-disabled]::after {
+  background: var(--dark-100);
+  transform: translate(-25%, -25%) scale(0);
+  transition: none;
 }
 
 .spin {
