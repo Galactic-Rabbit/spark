@@ -10,6 +10,13 @@ const SERVER_ERROR_MESSAGE = 'Server is unavailable. Please try again later.'
  * сообщения бэка молча подменялись на generic.
  */
 export const getApiErrorMessage = (status: number, body: unknown): string => {
+  if (typeof body === 'object' && body !== null && 'messages' in body) {
+    const message = body.messages
+    if (typeof message === 'string') {
+      const trimmed = message.trim()
+      if (trimmed) return trimmed
+    }
+  }
   if (isServerError(body)) {
     return body.messages.map(({ message }) => message).join('. ')
   }

@@ -32,3 +32,9 @@
 .signUpLink {
   margin-top: -1.3rem;
 }
+
+.error {
+  margin: 0;
+  color: var(--danger-500, #cc1439);
+  text-align: center;
+}
