@@ -29,8 +29,15 @@ To learn more about Next.js, take a look at the following resources:
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
+## Деплой
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Чтобы задеплоить, оставь в пулреквесте комментарий:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+run build production
+```
+
+Jenkins соберёт Docker-образ по `Jenkinsfile` и выкатит его в Kubernetes.
+
+- Не путать с npm-скриптом `build:production`: руками для деплоя его запускать не нужно, его вызывает `Dockerfile` внутри Jenkins. Переименовывать скрипт нельзя — сломается сборка.
+- Переменные `NEXT_PUBLIC_*` (адрес бэка) берутся из `.env.production` и подставляются в код во время сборки, поэтому после их изменения нужен новый деплой.
