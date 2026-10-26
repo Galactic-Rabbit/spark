@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button } from '@shared/ui/Button'
@@ -23,7 +22,6 @@ const isRegisterField = (name: string): name is RegisterField =>
 export const RegisterForm = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [email, setEmail] = useState('')
-  const router = useRouter()
   const { mutateAsync: signUp, isPending, isPaused } = useSignUp()
   const {
     register,
@@ -56,10 +54,6 @@ export const RegisterForm = () => {
         }
       })
     }
-  }
-
-  const handleSignIn = () => {
-    router.push('/login')
   }
 
   if (isModalOpen) {
@@ -153,7 +147,7 @@ export const RegisterForm = () => {
 
         <p className="text-regular">Do you have an account?</p>
 
-        <Button variant="textButton" onClick={handleSignIn} className={s.signInLink}>
+        <Button as={Link} href="/login" variant="textButton" className={s.signInLink}>
           Sign In
         </Button>
       </div>

@@ -1,8 +1,9 @@
 'use client'
 
-import s from './EmailVerification.module.css'
-import { EmailVerificationSuccessImage } from '@shared/ui/icons'
 import Link from 'next/link'
+import { Button } from '@shared/ui/Button'
+import { EmailVerificationSuccessImage } from '@shared/ui/icons'
+import s from './EmailVerification.module.css'
 
 export const EmailVerificationSuccess = () => {
   return (
@@ -12,7 +13,9 @@ export const EmailVerificationSuccess = () => {
 
         <p className={s.description}>Your email has been confirmed</p>
 
-        <Link href="/login">Sign In</Link>
+        <Button as={Link} href="/login" variant="primary" className={s.button}>
+          Sign In
+        </Button>
 
         <div className={s.imageWrapper}>
           <EmailVerificationSuccessImage />

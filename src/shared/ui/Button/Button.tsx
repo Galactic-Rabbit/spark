@@ -1,19 +1,38 @@
 'use client'
-import React from 'react'
+
+import type { ComponentPropsWithoutRef, ElementType, ReactNode } from 'react'
 import s from './Button.module.css'
 
 type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'textButton'
 
-type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
+type ButtonOwnProps<T extends ElementType> = {
+  as?: T
+  children?: ReactNode
+  className?: string
   variant?: ButtonVariant
 }
 
-export const Button = ({ className, variant = 'primary', children, ...props }: ButtonProps) => {
+type ButtonProps<T extends ElementType> = ButtonOwnProps<T> &
+  Omit<ComponentPropsWithoutRef<T>, keyof ButtonOwnProps<T>>
+
+export const Button = <T extends ElementType = 'button'>({
+  as,
+  className,
+  variant = 'primary',
+  children,
+  ...props
+}: ButtonProps<T>) => {
+  const Component = as || 'button'
+
   const buttonClass = `${s.button} ${s[variant]} ${className || ''}`.trim()
 
   return (
-    <button className={buttonClass} {...props}>
+    <Component
+      className={buttonClass}
+      {...(Component === 'button' ? { type: 'button' } : {})}
+      {...props}
+    >
       {children}
-    </button>
+    </Component>
   )
 }
