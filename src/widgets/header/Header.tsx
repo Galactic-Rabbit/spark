@@ -6,15 +6,16 @@ import { Button } from '@shared/ui/Button'
 import SelectBox from '@shared/ui/Select/Select'
 import s from './Header.module.css'
 import { Bell } from '@shared/ui/icons'
+import { useSession } from '@entities/session'
 
 const languageOptions = [
   { value: 'en', label: 'English' },
   { value: 'ru', label: 'Русский' },
 ]
 
-export const IS_AUTHENTICATED = true // ← true для авторизованного
-
 export const Header = () => {
+  const { isAuthorized } = useSession()
+
   return (
     <header className={s.header}>
       <div className={s.container}>
@@ -25,7 +26,7 @@ export const Header = () => {
 
         {/* Правая часть */}
         <div className={s.rightGroup}>
-          {IS_AUTHENTICATED ? (
+          {isAuthorized ? (
             // --- Авторизованный ---
             <div className={s.bellSelectGroup}>
               <DropdownMenu.Root>
@@ -60,11 +61,11 @@ export const Header = () => {
                 className={s.selectWrapper}
               />
               <div className={s.actions}>
-                <Button variant="outline" className={s.loginButton}>
+                <Button variant="outline" className={s.loginButton} as={Link} href="/login">
                   Log in
                 </Button>
 
-                <Button variant="primary" className={s.signupButton}>
+                <Button variant="primary" className={s.signupButton} as={Link} href="/register">
                   Sign up
                 </Button>
               </div>
