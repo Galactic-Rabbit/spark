@@ -47,3 +47,10 @@
 ## Сущности — скелеты
 
 - [ ] `entities/user` — реализовать `getMe`, использовать в `widgets/header` (user-menu).
+
+## Документация расходится с кодом
+
+`docs/architecture.md` (шпаргалка «Что где хранить» и раздел про `entities/`) велит класть хуки чтения в `entities/*/model/hooks`. В коде команда кладёт все хуки React Query в `api/` с суффиксом: `features/*/api/useX.mutation.ts`, `features/auth-recovery-password/api/useCheckRecoveryCode.query.ts`. Заготовка `entities/user/model/hooks/useUser.ts` следует доке, но это наследие переезда на FSD, а не решение команды.
+
+- [ ] Договориться с командой, где живут хуки чтения: `api/*.query.ts` (как сейчас в коде) или `model/hooks/` (как в доке).
+- [ ] Привести к одному виду `docs/architecture.md` (и пересказ в `CLAUDE.md`) и код.
