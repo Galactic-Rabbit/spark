@@ -1,16 +1,17 @@
-import { authStorage } from '@/shared/api/authStorage'
-import { useEffect, useState } from 'react'
+import { useGetMe } from '@entities/user'
+
+export type SessionStatus = 'loading' | 'authorized' | 'guest'
 
 export const useSession = () => {
-  const [token, setToken] = useState<string | null>(null)
+  const { data, isPending, isError } = useGetMe()
 
-  useEffect(() => {
-    authStorage.getAccessToken().then(setToken)
-  }, [])
+  let status: SessionStatus = 'authorized'
+  if (isPending) status = 'loading'
+  else if (isError) status = 'guest'
 
   return {
-    token,
-    isAuthenticated: Boolean(token),
+    status,
+    isAuthorized: status === 'authorized',
+    user: data ?? null,
   }
 }
-

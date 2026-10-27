@@ -1,3 +1,2 @@
-export type { User } from './model/types';
-export { userApi } from './api/userApi';
-export { useUser } from './model/hooks/useUser';
+export { type MeViewDto, getMe } from './api/getMe'
+export { useGetMe } from './api/useGetMe.query'
