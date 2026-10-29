@@ -35,5 +35,11 @@
 
 `docs/architecture.md` (шпаргалка «Что где хранить» и раздел про `entities/`) велит класть хуки чтения в `entities/*/model/hooks`. В коде команда кладёт хуки React Query в `api/` с суффиксом: `features/*/api/useX.mutation.ts`, `features/auth-recovery-password/api/useCheckRecoveryCode.query.ts`. Даже внутри `entities` сейчас два варианта: `entities/user/api/useGetMe.query.ts` и `entities/session/model/hooks/useSession.ts`.
 
-- [ ] Договориться с командой, где живут хуки чтения: `api/*.query.ts` (как сейчас в коде) или `model/hooks/` (как в доке).
-- [ ] Привести к одному виду `docs/architecture.md` (и пересказ в `CLAUDE.md`) и код.
+Официальная FSD на стороне кода: сегменты называют по назначению, а не по сути — `hooks`, `components`, `types` там приведены как плохие имена ([slices-segments](https://feature-sliced.design/docs/reference/slices-segments)). Запросы React Query кладут в сегмент `api` ([with-react-query](https://feature-sliced.design/docs/guides/tech/with-react-query)), с тем же суффиксом `.query.ts`, что у нас.
+
+Предложение для команды: хук, который ходит в сеть (`useQuery`, `useMutation`), — в `api/`; хук, который вычисляет что-то из готовых данных (как `useSession` считает статус из `useGetMe`), — в `model/` без подпапки `hooks/`.
+
+- [ ] Обсудить предложение с командой.
+- [ ] Перенести `entities/session/model/hooks/useSession.ts` → `entities/session/model/useSession.ts` (поправить `index.ts` слайса).
+- [ ] Обновить `docs/architecture.md` (шпаргалку и раздел про `entities/`) и пересказ в `CLAUDE.md`.
+- [ ] На потом: когда запросов станет больше, рассмотреть фабрики `queryOptions` в `*.query.ts` вместо хуков, как в гайде FSD, — чтобы ключ (`['auth', 'me']`) жил в одном месте и его удобно было передавать в `invalidateQueries`.
