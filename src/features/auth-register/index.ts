@@ -1,4 +1,3 @@
-export { RegisterForm } from './ui/RegisterForm';
-export { type RegisterFormData, registerSchema } from './model/register.schema';
-export { type RegistrationDto, signUpRequest } from './api/signUp';
-export { useSignUp } from './api/useSignUp.mutation';
+export { RegisterForm } from './ui/RegisterForm'
+export { type RegisterFormData, registerSchema } from './model/register.schema'
+export { useSignUp } from './api/useSignUp.mutation'

@@ -1,1 +1,1 @@
-export { useSession, type SessionStatus } from './model/hooks/useSession'
+export { useSession, type SessionStatus } from './model/useSession'
