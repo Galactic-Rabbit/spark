@@ -67,6 +67,20 @@ _pages/feed/
 
 **Где живут мутации:** в фичах. `useDeletePlaylist`, `useCreatePost` — фича, не сущность.
 
+**Как пишем мутацию:** один файл `api/useX.mutation.ts`, запрос — прямо в `mutationFn`. Отдельный файл с функцией запроса (`api/x.ts`) в фиче не заводим: кроме этого хука, его никто не вызывает.
+
+```ts
+// features/auth-register/api/useSignUp.mutation.ts
+export const useSignUp = () => {
+  return useMutation({
+    mutationFn: async (data: RegistrationDto): Promise<void> => {
+      const { error } = await apiClient.POST('/api/v1/auth/registration', { body: data })
+      if (error) throw error
+    },
+  })
+}
+```
+
 **Где живут схемы форм:** в фичах (`model/*.schema.ts`). Это UI-правила, не контракт с бэком.
 
 ### `src/entities/` — бизнес-сущности
@@ -78,9 +92,12 @@ _pages/feed/
 Что внутри:
 
 - `model/types.ts` — доменный тип (может отличаться от DTO бэка)
-- `api/*.ts` — HTTP-обёртки
-- `model/hooks/*.ts` — хуки **чтения** (`useUser`, `usePlaylists`)
+- `api/x.ts` — HTTP-обёртка, функция запроса (`getMe`). В сущности её держим отдельно: кроме хука, она может понадобиться, например, `queryClient.fetchQuery` при защите страниц
+- `api/useX.query.ts` — хук **чтения** React Query (`useGetMe`)
+- `model/useX.ts` — хук, который **вычисляет** что-то из уже полученных данных и сам в сеть не ходит (`useSession` считает статус из `useGetMe`)
 - `ui/*` — отображение сущности (карточка, аватар)
+
+**Правило для хуков:** ходит в сеть (`useQuery`, `useMutation`) — в `api/`; вычисляет из готовых данных — в `model/`. Подпапку `hooks/` не заводим: FSD называет сегменты по назначению (`api`, `model`, `ui`), а не по типу кода (`hooks`, `components`, `types`).
 
 **Не кладём в `entities/`:** мутации, тосты, редиректы, confirm'ы — это фичи.
 
@@ -106,7 +123,7 @@ import { useSession } from '@entities/session' // ✅ entities
 **Запрещено:**
 
 ```ts
-// entities/session/model/hooks/useSession.ts
+// entities/session/model/useSession.ts
 import { LoginForm } from '@features/auth-login' // ❌ features выше entities
 import { Header } from '@widgets/header' // ❌ widgets выше entities
 ```
@@ -115,19 +132,20 @@ import { Header } from '@widgets/header' // ❌ widgets выше entities
 
 ## Что где хранить — шпаргалка
 
-| Что                                      | Где                                    |
-| ---------------------------------------- | -------------------------------------- |
-| Данные с бэка                            | `entities/*/model/hooks` (React Query) |
-| Мутации (создать, удалить, изменить)     | `features/*/api`                       |
-| Глобальное UI-состояние (модалки, тема)  | `_app/store` (Zustand)                 |
-| Локальное UI-состояние (открыта модалка) | `useState` внутри фичи                 |
-| Форма                                    | `react-hook-form` внутри фичи          |
-| Схема валидации формы                    | `features/*/model/*.schema.ts`         |
-| DTO запроса к бэку                       | Из `paths` OpenAPI                     |
-| Доменный тип (`User`)                    | `entities/*/model/types.ts`            |
-| Переиспользуемая кнопка                  | `shared/ui/Button`                     |
-| Карточка поста                           | `entities/post/ui/PostCard`            |
-| Кнопка «лайкнуть»                        | `features/post-like`                   |
+| Что                                      | Где                                          |
+| ---------------------------------------- | -------------------------------------------- |
+| Данные с бэка                            | `entities/*/api/useX.query.ts` (React Query) |
+| Хук-вычисление из данных (`useSession`)  | `entities/*/model/useX.ts`                   |
+| Мутации (создать, удалить, изменить)     | `features/*/api/useX.mutation.ts`            |
+| Глобальное UI-состояние (модалки, тема)  | `_app/store` (Zustand)                       |
+| Локальное UI-состояние (открыта модалка) | `useState` внутри фичи                       |
+| Форма                                    | `react-hook-form` внутри фичи                |
+| Схема валидации формы                    | `features/*/model/*.schema.ts`               |
+| DTO запроса к бэку                       | Из `paths` OpenAPI                           |
+| Доменный тип (`User`)                    | `entities/*/model/types.ts`                  |
+| Переиспользуемая кнопка                  | `shared/ui/Button`                           |
+| Карточка поста                           | `entities/post/ui/PostCard`                  |
+| Кнопка «лайкнуть»                        | `features/post-like`                         |
 
 ## Стек
 
