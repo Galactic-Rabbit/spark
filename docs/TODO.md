@@ -24,7 +24,8 @@
 
 ## Инструменты команды
 
-- [ ] Настроить `husky` + `lint-staged`: перед каждым коммитом автоматически прогонять `prettier --write`, `stylelint --fix` и `eslint --fix` по изменённым файлам, чтобы не полагаться на ручной `npm run lint:fix` перед пушем.
+- [ ] Настроить `husky` + `lint-staged` — **в PR** `chore/husky-lint-staged`; после мержа пункт удалить.
+- [ ] Запускать `npm run lint` в Jenkins на каждый PR и не мержить при ошибках. Хук перед коммитом обходится через `git commit --no-verify`, а проверку на сервере обойти нельзя.
 
 ## Защита страниц и общий layout — @BalandinaM
 
@@ -41,7 +42,10 @@
 
 Предложение для команды: хук, который ходит в сеть (`useQuery`, `useMutation`), — в `api/`; хук, который вычисляет что-то из готовых данных (как `useSession` считает статус из `useGetMe`), — в `model/` без подпапки `hooks/`.
 
+Запрос и хук мутации в фичах — в одном файле `api/useX.mutation.ts` (запрос прямо в `mutationFn`), без отдельной обёртки `api/x.ts`. Сделано для `auth-confirm-registration` и `auth-register` — **в PR** `fix/unify-auth-hooks-request-pattern`. В `entities` отдельные HTTP-обёртки пока оставляем (`entities/user/api/getMe.ts` + `useGetMe.query.ts`): `getMe` может понадобиться не только хуку, но и, например, `queryClient.fetchQuery` при защите страниц.
+
 - [ ] Обсудить предложение с командой.
+- [ ] Записать правило «запрос и мутация в одном файле» в `docs/architecture.md`, чтобы новые фичи писали так же.
 - [ ] Перенести `entities/session/model/hooks/useSession.ts` → `entities/session/model/useSession.ts` (поправить `index.ts` слайса).
 - [ ] Обновить `docs/architecture.md` (шпаргалку и раздел про `entities/`) и пересказ в `CLAUDE.md`.
 - [ ] На потом: когда запросов станет больше, рассмотреть фабрики `queryOptions` в `*.query.ts` вместо хуков, как в гайде FSD, — чтобы ключ (`['auth', 'me']`) жил в одном месте и его удобно было передавать в `invalidateQueries`.
