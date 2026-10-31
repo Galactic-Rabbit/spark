@@ -1,16 +1,17 @@
 'use client'
-import {zodResolver} from '@hookform/resolvers/zod'
-import {Button} from '@shared/ui/Button'
-import {Input} from '@shared/ui/Input'
-import {Modal} from '@shared/ui/Modal'
-import {ReCaptchaWidget, type ReCaptchaWidgetHandle} from '@shared/ui/ReCaptchaWidget'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Button } from '@shared/ui/Button'
+import { Input } from '@shared/ui/Input'
+import { Modal } from '@shared/ui/Modal'
+import { ReCaptchaWidget, type ReCaptchaWidgetHandle } from '@shared/ui/ReCaptchaWidget'
 import Link from 'next/link'
-import {useEffect, useRef, useState} from 'react'
-import {Controller, SubmitHandler, useForm, useWatch} from 'react-hook-form'
-import {useForgotPasswordMutation} from '../api/useForgotPassword.mutation'
-import {usePasswordRecoveryResendingMutation} from '../api/usePasswordRecoveryResending.mutation'
-import {forgotPasswordSchema, ForgotPasswordValues} from '../model/forgotPassword.schema'
+import { useEffect, useRef, useState } from 'react'
+import { Controller, SubmitHandler, useForm, useWatch } from 'react-hook-form'
+import { useForgotPasswordMutation } from '../api/useForgotPassword.mutation'
+import { usePasswordRecoveryResendingMutation } from '../api/usePasswordRecoveryResending.mutation'
+import { forgotPasswordSchema, ForgotPasswordValues } from '../model/forgotPassword.schema'
 import s from './ForgotPassword.module.css'
+import { isApiError } from '@shared/api/apiError'
 
 export const ForgotPasswordForm = () => {
   const [error, setError] = useState<string | null>(null)
@@ -62,12 +63,9 @@ export const ForgotPasswordForm = () => {
 
       setSentTo(data.email)
       setIsModalOpen(true)
-    } catch (e) {
-      setError(e instanceof Error ? e.message : 'Something went wrong. Please try again.')
+    } catch (error) {
+      setError(isApiError(error) ? error.message : 'Something went wrong. Please try again.')
 
-      // При падении повторной отправки капча не участвовала в запросе —
-      // чистим только когда токен реально уходил на бэк, иначе режим resend
-      // схлопнется, а виджет уже размонтирован.
       if (!isResend) {
         setValue('recaptchaToken', '')
         captchaRef.current?.reset()
@@ -99,9 +97,9 @@ export const ForgotPasswordForm = () => {
           <Button type={'submit'} disabled={isEmailSubmitting} className={s.btn}>
             {isEmailSubmitting ? 'Sending...' : isResend ? 'Send Link Again' : 'Send Link'}
           </Button>
-            <Button as={Link} href="/login" variant="textButton" className={s.link}>
-                Back to Sign In
-            </Button>
+          <Button as={Link} href="/login" variant="textButton" className={s.link}>
+            Back to Sign In
+          </Button>
           {error && (
             <p className={`text-regular-sm ${s.error}`} role="alert">
               {error}

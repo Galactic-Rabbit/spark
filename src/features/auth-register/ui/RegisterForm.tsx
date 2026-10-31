@@ -10,7 +10,7 @@ import s from './RegisterForm.module.css'
 import { useSignUp } from '../api/useSignUp.mutation'
 import { RegisterFormData, registerSchema } from '../model/register.schema'
 import { Modal } from '@/shared/ui/Modal'
-import { isServerError } from '@/shared/api/isServerError'
+import { isApiError } from '@shared/api/apiError'
 import { AuthFormWrapper } from '@/shared/ui/AuthFormWrapper'
 
 const REGISTER_FIELDS = ['userName', 'email', 'password'] as const
@@ -42,17 +42,22 @@ export const RegisterForm = () => {
       setIsModalOpen(true)
       reset()
     } catch (error) {
-      if (!isServerError(error)) {
+      if (!isApiError(error)) {
         setError('root.serverError', { message: 'Something went wrong. Try again later' })
         return
       }
-      error.messages.forEach(({ message, field }) => {
-        if (isRegisterField(field)) {
-          setError(field, { message })
-        } else {
-          setError('root.serverError', { message })
-        }
-      })
+
+      if (error.body) {
+        error.body.messages.forEach(({ message, field }) => {
+          if (isRegisterField(field)) {
+            setError(field, { message })
+          } else {
+            setError('root.serverError', { message })
+          }
+        })
+        return
+      }
+      setError('root.serverError', { message: error.message })
     }
   }
 

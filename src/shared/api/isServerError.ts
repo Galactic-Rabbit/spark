@@ -1,6 +1,15 @@
-export const isServerError = (
-  e: unknown,
-): e is { statusCode: number; messages: { message: string; field: string }[]; error: string } =>
+export type ApiErrorFieldMessage = {
+  message: string
+  field: string
+}
+
+export type ApiErrorResponse = {
+  statusCode: number
+  error: string
+  messages: ApiErrorFieldMessage[]
+}
+
+export const isServerError = (e: unknown): e is ApiErrorResponse =>
   typeof e === 'object' &&
   e !== null &&
   'statusCode' in e &&
@@ -19,14 +28,3 @@ export const isServerError = (
       'field' in m &&
       typeof m.field === 'string',
   )
-
-//  {
-//       "statusCode": 400,
-//       "messages": [
-//           {
-//               "message": "User with this userName is already exist",
-//               "field": "userName"
-//           }
-//       ],
-//       "error": "BAD_REQUEST"
-//   }

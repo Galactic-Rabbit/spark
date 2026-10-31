@@ -10,6 +10,7 @@ import { Input } from '@shared/ui/Input'
 import { useLoginMutation } from '../api/useLogin.mutation'
 import { LoginFormData, loginSchema } from '../model/login.schema'
 import s from './LoginForm.module.css'
+import { isApiError } from '@shared/api/apiError'
 
 export const LoginForm = () => {
   const [error, setError] = useState<string | null>(null)
@@ -30,8 +31,8 @@ export const LoginForm = () => {
     try {
       await loginMutation({ email: data.email, password: data.password })
       router.push('/')
-    } catch (e) {
-      setError(e instanceof Error ? e.message : 'Something went wrong. Please try again.')
+    } catch (error) {
+      setError(isApiError(error) ? error.message : 'Something went wrong. Please try again.')
     }
   }
 
@@ -68,9 +69,9 @@ export const LoginForm = () => {
         </Button>
       </form>
       <p className="text-regular">Don’t have an account?</p>
-        <Button as={Link} href="/register" variant="textButton" className={s.signUpLink}>
-            Sign Up
-        </Button>
+      <Button as={Link} href="/register" variant="textButton" className={s.signUpLink}>
+        Sign Up
+      </Button>
     </div>
   )
 }
