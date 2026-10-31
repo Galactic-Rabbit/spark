@@ -8,7 +8,7 @@ import { useRegistrationEmailResending } from '../api/useRegistrationEmailResend
 import { useForm } from 'react-hook-form'
 import { EmailResendingData, emailSchema } from '../model/email.schema'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { isServerError } from '@shared/api/isServerError'
+import { isApiError } from '@shared/api/apiError'
 import { Modal } from '@shared/ui/Modal'
 import { useState } from 'react'
 
@@ -42,17 +42,21 @@ export const EmailVerificationExpired = ({ email: emailDefault }: Props) => {
       setIsModalOpen(true)
       reset()
     } catch (error) {
-      if (!isServerError(error)) {
+      if (!isApiError(error)) {
         setError('root.serverError', { message: 'Something went wrong. Try again later' })
         return
       }
-      error.messages.forEach(({ message, field }) => {
-        if (field === 'email') {
-          setError(field, { message })
-        } else {
-          setError('root.serverError', { message })
-        }
-      })
+      if (error.body) {
+        error.body.messages.forEach(({ message, field }) => {
+          if (field === 'email') {
+            setError(field, { message })
+          } else {
+            setError('root.serverError', { message })
+          }
+        })
+        return
+      }
+      setError('root.serverError', { message: error.message })
     }
   }
 

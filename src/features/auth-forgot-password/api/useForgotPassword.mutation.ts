@@ -9,7 +9,7 @@ type ForgotPayload = ForgotData & { baseUrl: string }
 export const useForgotPasswordMutation = () => {
   return useMutation({
     mutationFn: async ({ email, recaptcha, baseUrl }: ForgotPayload) => {
-      const { data, error, response } = await apiClient.POST('/api/v1/auth/password-recovery', {
+      const { error, response } = await apiClient.POST('/api/v1/auth/password-recovery', {
         body: {
           email,
           recaptcha,
@@ -17,7 +17,6 @@ export const useForgotPasswordMutation = () => {
         },
       })
       if (!response.ok) throw createApiError(response.status, error)
-      return data
     },
   })
 }

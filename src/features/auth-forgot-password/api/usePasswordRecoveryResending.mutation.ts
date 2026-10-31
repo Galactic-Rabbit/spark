@@ -8,17 +8,13 @@ type RecoveryData = components['schemas']['PasswordRecoveryResendingInputDto']
 export const usePasswordRecoveryResendingMutation = () => {
   return useMutation({
     mutationFn: async ({ email, baseUrl }: RecoveryData) => {
-      const { data, error, response } = await apiClient.POST(
-        '/api/v1/auth/password-recovery-resending',
-        {
-          body: {
-            email,
-            baseUrl,
-          },
+      const { error, response } = await apiClient.POST('/api/v1/auth/password-recovery-resending', {
+        body: {
+          email,
+          baseUrl,
         },
-      )
+      })
       if (!response.ok) throw createApiError(response.status, error)
-      return data
     },
   })
 }

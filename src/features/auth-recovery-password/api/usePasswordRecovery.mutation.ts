@@ -8,14 +8,13 @@ type RecoveryData = components['schemas']['NewPasswordInputDto']
 export const usePasswordRecoveryMutation = () => {
   return useMutation({
     mutationFn: async ({ newPassword, recoveryCode }: RecoveryData) => {
-      const { data, error, response } = await apiClient.POST('/api/v1/auth/new-password', {
+      const { error, response } = await apiClient.POST('/api/v1/auth/new-password', {
         body: {
           newPassword,
           recoveryCode,
         },
       })
       if (!response.ok) throw createApiError(response.status, error)
-      return data
     },
   })
 }
