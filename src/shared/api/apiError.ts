@@ -1,8 +1,11 @@
 import { isServerError } from './isServerError'
+import type { ApiErrorResponse } from './isServerError'
 
 const DEFAULT_MESSAGE = 'Something went wrong. Please try again.'
-const RATE_LIMIT_MESSAGE = 'Too many attempts. Please wait a few seconds and try again.'
+const RATE_LIMIT_MESSAGE = 'Too many attempts. Please wait a few seconds and try again.' //429 ошибка
 const SERVER_ERROR_MESSAGE = 'Server is unavailable. Please try again later.'
+const UNAUTHORIZED_MESSAGE = 'Your session has expired. Please log in again.' //401 ошибка
+const BAD_REQUEST_MESSAGE = 'Invalid request. Please check the entered data and try again.' // 400 ошибка без тела
 
 /**
  * openapi-fetch отдаёт ошибку как распарсенное тело ответа, то есть обычный объект,
@@ -20,6 +23,8 @@ export const getApiErrorMessage = (status: number, body: unknown): string => {
   if (isServerError(body)) {
     return body.messages.map(({ message }) => message).join('. ')
   }
+  if (status === 401) return UNAUTHORIZED_MESSAGE
+  if (status === 400) return BAD_REQUEST_MESSAGE
   if (status === 429) return RATE_LIMIT_MESSAGE
   if (status >= 500) return SERVER_ERROR_MESSAGE
   return DEFAULT_MESSAGE
@@ -27,7 +32,8 @@ export const getApiErrorMessage = (status: number, body: unknown): string => {
 
 export type ApiError = Error & {
   readonly status: number
-  readonly body: unknown
+  /** Тело ошибки в форме сваггера. Если бэк прислал что-то другое (или сети не было) — null. */
+  readonly body: ApiErrorResponse | null
 }
 
 export const isApiError = (value: unknown): value is ApiError =>
@@ -42,5 +48,5 @@ export const createApiError = (status: number, body: unknown): ApiError =>
   Object.assign(new Error(getApiErrorMessage(status, body)), {
     name: 'ApiError',
     status,
-    body,
+    body: isServerError(body) ? body : null,
   })
