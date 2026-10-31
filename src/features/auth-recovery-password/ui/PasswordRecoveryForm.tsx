@@ -24,8 +24,7 @@ export const PasswordRecoveryForm = () => {
 
   // Блокируем форму только на однозначный отказ (400) или отсутствующий code.
   // Сеть, 429 и 500 не должны запирать пользователя на странице — пусть попробует отправить.
-  const isCodeRejected =
-    !code || (isApiError(codeCheckError) && codeCheckError.status === 400)
+  const isCodeRejected = !code || (isApiError(codeCheckError) && codeCheckError.status === 400)
 
   const {
     register: registerPassword,
@@ -40,17 +39,12 @@ export const PasswordRecoveryForm = () => {
   const onPasswordSubmit: SubmitHandler<PasswordRecoveryData> = async (data) => {
     setError(null)
 
-    if (!code) {
-      setError('Recovery link is invalid or expired. Please request a new one.')
-      return
-    }
-
     try {
-      await recoveryPassword({ newPassword: data.password, recoveryCode: code })
+      await recoveryPassword({ newPassword: data.password, recoveryCode: code! })
       // replace, а не push: код одноразовый, и «назад» не должен возвращать на эту форму
       router.replace('/login')
-    } catch (e) {
-      setError(e instanceof Error ? e.message : 'Something went wrong. Please try again.')
+    } catch (error) {
+      setError(isApiError(error) ? error.message : 'Something went wrong. Please try again.')
     }
   }
 
