@@ -7,27 +7,17 @@ import s from './MainPage.module.css'
 import { useGetAllPosts } from '@entities/post'
 import Image from 'next/image'
 import { useState } from 'react'
-import { Modal } from '@shared/ui/Modal'
+import { ModalBase } from '@shared/ui/ModalBase'
 
 //аналогично странице профиля, в зависимости от пропсов, рисуем разные кнопочки
 export const MainPage = () => {
   const { isAuthorized } = useSession()
   const { data: posts } = useGetAllPosts(0)
-  const [isModalOpen, setIsModalOpen] = useState(false)
   const [openedPostId, setOpenedPostId] = useState<number | null>(null)
   const openedPost = posts?.items.find((p) => p.id === openedPostId)
 
   const handleOpenPost = (postId: number) => {
     setOpenedPostId(postId)
-    setIsModalOpen(true)
-  }
-
-  if (isModalOpen && openedPost) {
-    return (
-      <Modal open={isModalOpen} onOpenChange={setIsModalOpen} title="Email sent">
-        <p>Большая карточка поста</p>
-      </Modal>
-    )
   }
 
   return (
@@ -51,6 +41,14 @@ export const MainPage = () => {
               )
             })}
           </ul>
+          <ModalBase
+            open={openedPostId !== null}
+            onOpenChange={(open) => !open && setOpenedPostId(null)}
+            srTitle="Post"
+            withOutsideClose
+          >
+            <p>Большая карточка поста</p>
+          </ModalBase>
         </main>
       </div>
     </div>
