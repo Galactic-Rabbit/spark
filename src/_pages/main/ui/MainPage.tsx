@@ -4,10 +4,9 @@ import { useSession } from '@entities/session'
 import { Header } from '@widgets/header'
 import { Sidebar } from '@widgets/sidebar'
 import s from './MainPage.module.css'
-import { useGetAllPosts } from '@entities/post'
-import Image from 'next/image'
+import { PostCard, useGetAllPosts } from '@entities/post'
 import { useState } from 'react'
-import { ModalBase } from '@shared/ui/ModalBase'
+import { PostModal } from '@widgets/post-modal'
 
 //аналогично странице профиля, в зависимости от пропсов, рисуем разные кнопочки
 export const MainPage = () => {
@@ -29,26 +28,11 @@ export const MainPage = () => {
           <h1>Main Page</h1>
           <ul>
             {posts?.items.map((post) => {
-              const cover = post.images[0]
-
-              return (
-                <li key={post.id} onClick={() => handleOpenPost(post.id)}>
-                  {cover && (
-                    <Image src={cover.url} alt={post.description} width={200} height={200} />
-                  )}
-                  {post.description}
-                </li>
-              )
+              return <PostCard key={post.id} post={post} onOpen={handleOpenPost} />
             })}
           </ul>
-          <ModalBase
-            open={openedPostId !== null}
-            onOpenChange={(open) => !open && setOpenedPostId(null)}
-            srTitle="Post"
-            withOutsideClose
-          >
-            <p>Большая карточка поста</p>
-          </ModalBase>
+
+          <PostModal openedPost={openedPost} onClose={() => setOpenedPostId(null)} />
         </main>
       </div>
     </div>
