@@ -123,7 +123,12 @@ export const ForgotPasswordForm = () => {
         </form>
       </div>
 
-      <Modal open={isModalOpen} onOpenChange={setIsModalOpen} title="Email sent">
+      <Modal
+        open={isModalOpen}
+        onOpenChange={setIsModalOpen}
+        title="Email sent"
+        className={s.emailSentModal}
+      >
         <p>
           We have sent a password recovery link to {sentTo}. Follow it to create a new password.
         </p>

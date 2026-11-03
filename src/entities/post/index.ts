@@ -1,3 +1,5 @@
 export { getAllPosts } from './api/getAllPosts'
+export { PostCard } from './ui/PostCard'
+export { PostDetails } from './ui/PostDetails'
 export type { PostsPage, PostImage, Post } from './model/types'
 export { useGetAllPosts } from './api/useGetAllPosts.query'
