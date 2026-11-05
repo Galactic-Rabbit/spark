@@ -1,0 +1,14 @@
+.card {
+  position: relative;
+  width: 100%;
+  min-width: 14.688rem;
+  min-height: 14.375rem;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
