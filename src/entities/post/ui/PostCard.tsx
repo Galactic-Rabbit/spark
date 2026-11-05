@@ -1,5 +1,6 @@
 import { Post } from '../model/types'
 import Image from 'next/image'
+import s from './PostCard.module.css'
 
 type Props = {
   post: Post
@@ -7,11 +8,13 @@ type Props = {
 }
 
 export const PostCard = ({ post, onOpen }: Props) => {
-  const cover = post.images[0]
+  const cover = post.images?.[0]
+
   return (
-    <li onClick={() => onOpen(post.id)}>
-      {cover && <Image src={cover.url} alt={post.description} width={200} height={200} />}
-      {post.description}
+    <li onClick={() => onOpen(post.id)} className={s.card}>
+      {cover && (
+        <Image src={cover.url} alt={post.description || 'Post image'} fill className={s.img} />
+      )}
     </li>
   )
 }

@@ -7,11 +7,9 @@ import s from './PostList.module.css'
 
 type Props = {
   posts: Post[] | undefined
-  /** на что влияет show у PostCard: true — обрезка (главная), false — квадрат (профиль) */
-  show?: boolean
 }
 
-export const PostList = ({ posts, show }: Props) => {
+export const PostList = ({ posts }: Props) => {
   const [openedPostId, setOpenedPostId] = useState<number | null>(null)
 
   const openedPost = posts?.find((p) => p.id === openedPostId)
@@ -23,7 +21,7 @@ export const PostList = ({ posts, show }: Props) => {
     <div>
       <ul className={s.container}>
         {posts?.map((post) => {
-          return <PostCard key={post.id} post={post} onOpen={handleOpenPost} show={show} />
+          return <PostCard key={post.id} post={post} onOpen={handleOpenPost} />
         })}
       </ul>
       <PostModal openedPost={openedPost} onClose={() => setOpenedPostId(null)} />
