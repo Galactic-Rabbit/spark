@@ -1,0 +1,57 @@
+.image {
+    object-fit: contain;
+}
+
+.imageWrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.slider {
+    width: 100%;
+    max-width: 30.625rem;
+    aspect-ratio: 490 / 562;
+    background-color: #000;
+}
+
+/* Общие стили кнопок */
+.slider :global(.swiper-button-prev),
+.slider :global(.swiper-button-next) {
+    box-sizing: border-box;
+    width: 2rem;
+    height: 2rem;
+    padding: 0.5rem;
+    color: #fff;
+    background-color: rgb(0 0 0 / 50%);
+    border-radius: 4px;
+}
+
+/* Размер иконок стрелок */
+.slider :global(.swiper-button-prev svg),
+.slider :global(.swiper-button-next svg) {
+    width: 1rem;
+    height: 1rem;
+}
+
+.slider :global(.swiper-pagination.swiper-pagination-horizontal) {
+    bottom: 0.75rem;
+    left: 50%;
+    width: fit-content;
+    padding: 0.375rem 0.5rem;
+    background-color: rgb(0 0 0 / 50%);
+    border-radius: 4px;
+    transform: translateX(-50%);
+}
+
+.slider :global(.swiper-pagination-bullet) {
+    width: 0.375rem;
+    height: 0.375rem;
+    margin: 0 0.1875rem;
+    background-color: #fff;
+    opacity: 1;
+}
+
+.slider :global(.swiper-pagination-bullet-active) {
+    background-color: #397df6;
+}
