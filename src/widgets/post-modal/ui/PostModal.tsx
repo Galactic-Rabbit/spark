@@ -2,6 +2,8 @@ import { Post, PostDetails } from '@entities/post'
 import { DeletePostButton } from '@features/post-delete'
 import { EditPostButton } from '@features/post-edit'
 import { ModalBase } from '@shared/ui/ModalBase'
+import { CommentList } from '@widgets/comment-list'
+import s from './PostModal.module.css'
 
 type Props = {
   onClose: () => void
@@ -15,6 +17,7 @@ export const PostModal = ({ onClose, openedPost }: Props) => {
       onOpenChange={(open) => !open && onClose()}
       srTitle="Post"
       withOutsideClose
+      className={s.modal}
     >
       {openedPost && (
         <PostDetails
@@ -26,6 +29,7 @@ export const PostModal = ({ onClose, openedPost }: Props) => {
               <EditPostButton />
             </div>
           }
+          comments={<CommentList />}
         />
       )}
     </ModalBase>

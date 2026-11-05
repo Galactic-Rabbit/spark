@@ -1,28 +1,32 @@
 import { ImageSlider } from '@shared/ui/ImageSlider'
 import { ReactNode } from 'react'
 import { Post } from '../model/types'
-import Image from 'next/image'
+
 import { Input } from '@shared/ui/Input'
+import { UserBadge } from '@entities/user'
+import s from './PostDetails.module.css'
 
 type Props = {
   post: Post
   actions?: ReactNode
+  comments?: ReactNode
 }
 
 //пока просто скелет
 
-export const PostDetails = ({ post, actions }: Props) => {
+export const PostDetails = ({ post, actions, comments }: Props) => {
   return (
-    <div>
+    <div className={s.wrapPost}>
       <ImageSlider images={post.images.map((image) => image.url)} />
-      <header>
-        <Image src={post.avatarOwner} alt={post.userName} width={50} height={50} />
-        <p>{post.userName}</p>
-        {actions} {/* ← «место»: что положат, то и нарисуется */}
-      </header>
-      <ul>Список комментариев</ul>
-      <div>Блок с лайками, поделиться и пр.</div>
-      <Input variant={'text'} />
+      <div>
+        <header>
+          <UserBadge avatar={post.avatarOwner} userName={post.userName} className={s.userBadge} />
+          {actions} {/* ← «место»: что положат, то и нарисуется */}
+        </header>
+        {comments}
+        <div>Блок с лайками, поделиться и пр.</div>
+        <Input variant={'text'} />
+      </div>
     </div>
   )
 }

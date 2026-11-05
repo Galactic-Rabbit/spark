@@ -1,0 +1,8 @@
+.wrapPost {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.userBadge {
+  flex-direction: row;
+}
