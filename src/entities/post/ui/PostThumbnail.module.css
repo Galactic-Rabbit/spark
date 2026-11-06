@@ -1,0 +1,19 @@
+/*
+  Высоту задаёт aspect-ratio, а не min-height: карточка остаётся
+  квадратной при любой ширине колонки сетки.
+  position: relative — опора для <Image fill>, который растягивается по родителю.
+*/
+.thumbnail {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  cursor: pointer;
+  background-color: var(--dark-500); /* фон, пока картинка грузится или если её нет */
+}
+
+/* cover — заполняет квадрат, обрезая фото от центра */
+.image {
+  object-fit: cover;
+  object-position: center;
+}
