@@ -11,9 +11,11 @@ import 'swiper/css/pagination'
 
 type ImageSliderProps = {
   images: string[]
+  /** Класс снаружи — чтобы место использования задало свой размер (например, высоту в карточке) */
+  className?: string
 }
 
-export const ImageSlider = ({ images }: ImageSliderProps) => {
+export const ImageSlider = ({ images, className }: ImageSliderProps) => {
   return (
     <Swiper
       modules={[Navigation, Pagination]}
@@ -21,7 +23,7 @@ export const ImageSlider = ({ images }: ImageSliderProps) => {
       slidesPerView={1}
       navigation={images.length > 1}
       pagination={images.length > 1 ? { clickable: true } : false}
-      className={s.slider}
+      className={className ? `${s.slider} ${className}` : s.slider}
     >
       {images.map((image, index) => (
         <SwiperSlide key={`${image}-${index}`}>
