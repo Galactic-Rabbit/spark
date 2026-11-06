@@ -67,7 +67,7 @@
 
 /* ----- Bold Text 16 (16px / 700) ----- */
 .text-bold {
-  font-family: var(--font-family-base);
+  font-family: var(--font-family);
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-bold);
   line-height: var(--line-height-base);
@@ -76,7 +76,7 @@
 
 /* ----- Regular Text 14 (14px / 400) ----- */
 .text-regular-sm {
-  font-family: var(--font-family-base);
+  font-family: var(--font-family);
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-regular);
   line-height: var(--line-height-sm);
@@ -85,7 +85,7 @@
 
 /* ----- Medium Text 14 (14px / 500) ----- */
 .text-medium-sm {
-  font-family: var(--font-family-base);
+  font-family: var(--font-family);
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-medium);
   line-height: var(--line-height-sm);
@@ -94,7 +94,7 @@
 
 /* ----- Bold Text 14 (14px / 700) ----- */
 .text-bold-sm {
-  font-family: var(--font-family-base);
+  font-family: var(--font-family);
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-bold);
   line-height: var(--line-height-sm);
@@ -103,7 +103,7 @@
 
 /* ----- Small Text (12px / 400) ----- */
 .text-small {
-  font-family: var(--font-family-base);
+  font-family: var(--font-family);
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-regular);
   line-height: var(--line-height-xs);
@@ -112,7 +112,7 @@
 
 /* ----- Semi-bold Small Text (12px / 600) ----- */
 .text-small-semibold {
-  font-family: var(--font-family-base);
+  font-family: var(--font-family);
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-semibold);
   line-height: var(--line-height-xs);
@@ -121,7 +121,7 @@
 
 /* ----- Regular Link (14px / 400 / underline) ----- */
 .link-regular {
-  font-family: var(--font-family-base);
+  font-family: var(--font-family);
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-regular);
   line-height: var(--line-height-sm);
@@ -132,7 +132,7 @@
 
 /* ----- Small Link (12px / 400 / underline) ----- */
 .link-small {
-  font-family: var(--font-family-base);
+  font-family: var(--font-family);
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-regular);
   line-height: var(--line-height-xs);
