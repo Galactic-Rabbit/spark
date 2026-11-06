@@ -11,9 +11,13 @@ import 'swiper/css/pagination'
 
 type ImageSliderProps = {
   images: string[]
+  /** Класс снаружи — чтобы место использования задало свой размер (например, высоту в карточке) */
+  className?: string
+  /** contain — фото целиком (с полями); cover — заполняет блок, обрезаясь от центра */
+  fit?: 'contain' | 'cover'
 }
 
-export const ImageSlider = ({ images }: ImageSliderProps) => {
+export const ImageSlider = ({ images, className, fit = 'contain' }: ImageSliderProps) => {
   return (
     <Swiper
       modules={[Navigation, Pagination]}
@@ -21,7 +25,7 @@ export const ImageSlider = ({ images }: ImageSliderProps) => {
       slidesPerView={1}
       navigation={images.length > 1}
       pagination={images.length > 1 ? { clickable: true } : false}
-      className={s.slider}
+      className={className ? `${s.slider} ${className}` : s.slider}
     >
       {images.map((image, index) => (
         <SwiperSlide key={`${image}-${index}`}>
@@ -31,7 +35,7 @@ export const ImageSlider = ({ images }: ImageSliderProps) => {
               alt={`Post image ${index + 1}`}
               fill
               sizes="(max-width: 490px) 100vw, 490px"
-              className={s.image}
+              className={fit === 'cover' ? `${s.image} ${s.cover}` : s.image}
             />
           </div>
         </SwiperSlide>

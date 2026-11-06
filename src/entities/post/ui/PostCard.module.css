@@ -1,14 +1,49 @@
+/*
+  Карточка фиксированной высоты — сетка ленты не прыгает.
+  Содержимое всегда прижато к верху: картинки в ряду на одной линии.
+*/
 .card {
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
   width: 100%;
   min-width: 14.688rem;
-  min-height: 14.375rem;
+  height: 24.4375rem; /* 391px по макету */
   overflow: hidden;
   cursor: pointer;
 }
 
-.img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+/*
+  Картинка — единственное, что умеет сжиматься (flex-shrink: 1).
+  Раскрылось описание → места меньше → блок картинки становится ниже,
+  а fit="cover" обрезает фото от центра, поровну сверху и снизу.
+
+  height: 15rem — высота по макету (240px), пока места хватает.
+  min-height: 0 — без него flex-элемент не сожмётся меньше своего содержимого.
+  .card .slider — два класса, чтобы гарантированно перебить .slider
+  из ImageSlider.module.css, не завися от порядка подключения CSS.
+*/
+.card .slider {
+  flex-shrink: 1;
+  max-width: none;
+  height: 15rem;
+  min-height: 0;
+  aspect-ratio: auto;
+}
+
+.time {
+  color: var(--light-900); /* шрифт — из .text-small, тут только серый цвет по макету */
+}
+
+.description {
+  flex-shrink: 0;
+  overflow-wrap: anywhere;
+}
+
+/* шрифт и цвет — из .link-regular, тут только сброс браузерных стилей кнопки */
+.toggle {
+  padding: 0;
+  cursor: pointer;
+  background: none;
+  border: none;
 }
