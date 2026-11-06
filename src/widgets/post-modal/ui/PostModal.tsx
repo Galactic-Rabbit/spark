@@ -1,7 +1,7 @@
 import { Post, PostDetails } from '@entities/post'
 import { EditPostButton } from '@features/post-edit'
 import { ModalBase } from '@shared/ui/ModalBase'
-import { DeletePostModal } from '@features/post-delete'
+import { DeletePostButton } from '@features/post-delete'
 
 type Props = {
   onClose: () => void
@@ -22,7 +22,7 @@ export const PostModal = ({ onClose, openedPost }: Props) => {
           actions={
             // тут мы должны передавать дропдаун меню с кнопками
             <div>
-              <DeletePostModal postId={openedPost.id} />
+              <DeletePostButton postId={openedPost.id} />
               <EditPostButton />
             </div>
           }

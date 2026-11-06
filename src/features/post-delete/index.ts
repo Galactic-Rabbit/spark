@@ -1,2 +1,2 @@
-export { DeletePostModal } from './ui/DeletePosModal'
+export { DeletePostButton } from './ui/DeletePosButton'
 export { useDeletePostMutation } from './api/useDeletePost.mutation'

@@ -1,8 +1,9 @@
 //тут описываем ВСЮ логику мутации
 
 import { useDeletePostMutation } from '../api/useDeletePost.mutation'
-import { ModalBase } from '@shared/ui/ModalBase'
 import { Button } from '@shared/ui/Button'
+import s from './DeletePostButton.module.css'
+import { Modal } from '@shared/ui/Modal'
 
 type Props = {
   postId: number
@@ -10,7 +11,7 @@ type Props = {
   onClose?: () => void
 }
 
-export const DeletePostModal = ({ postId, open, onClose }: Props) => {
+export const DeletePostButton = ({ postId, open, onClose }: Props) => {
   const { mutate, isPending } = useDeletePostMutation()
 
   const handleDelete = () => {
@@ -20,17 +21,21 @@ export const DeletePostModal = ({ postId, open, onClose }: Props) => {
   }
 
   return (
-    <ModalBase open={open} onOpenChange={(o) => !o && onClose?.()} srTitle="Delete Post">
-      <h2>Delete Post</h2>
+    <Modal
+      open={open}
+      onOpenChange={(o) => !o && onClose?.()}
+      className={s.modal}
+      title={'Delete post'}
+    >
       <p>Are you sure you want to delete this post?</p>
-      <div>
-        <Button variant="outline" onClick={handleDelete} disabled={isPending}>
+      <div className={s.conteinerBtn}>
+        <Button variant="outline" onClick={handleDelete} disabled={isPending} className={s.button}>
           Yes
         </Button>
-        <Button variant="primary" onClick={onClose}>
+        <Button variant="primary" onClick={onClose} className={s.button}>
           No
         </Button>
       </div>
-    </ModalBase>
+    </Modal>
   )
 }

@@ -1,0 +1,17 @@
+.modal {
+  width: 30.375rem;
+  height: 15rem;
+}
+
+.button {
+  min-width: 0;
+  max-width: 6rem;
+  max-height: 2.25rem;
+}
+
+.conteinerBtn {
+  display: flex;
+  gap: 1.56rem;
+  margin-top: 2.1rem;
+  margin-left: auto;
+}
