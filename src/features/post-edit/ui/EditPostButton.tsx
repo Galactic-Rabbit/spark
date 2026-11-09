@@ -1,5 +1,5 @@
-//тут описываем ВСЮ логику мутации
+import { ComponentProps } from 'react'
 
-export const EditPostButton = () => {
-  return <button>EditPostButton</button>
+export const EditPostButton = (props: ComponentProps<'button'>) => {
+  return <button {...props}>EditPostButton</button>
 }

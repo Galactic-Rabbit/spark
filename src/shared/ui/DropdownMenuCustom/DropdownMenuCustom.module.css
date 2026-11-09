@@ -1,0 +1,9 @@
+.dropdownContent {
+  z-index: 52; /* выше ModalBase (.content: 51), иначе меню внутри модалки оказывается под ней */
+  min-width: 12.5rem; /* 200px */
+  padding: 0.5rem; /* 8px */
+  background: var(--dark-700);
+  border: 1px solid var(--dark-300);
+  border-radius: 2px;
+  box-shadow: 0 10px 40px rgb(0 0 0 / 30%);
+}
