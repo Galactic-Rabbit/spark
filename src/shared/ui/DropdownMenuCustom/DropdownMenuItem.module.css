@@ -1,0 +1,13 @@
+.dropdownItem {
+  padding: 0.5rem 0.75rem; /* 8px 12px */
+  font-family: var(--font-family);
+  font-size: var(--font-size-sm);
+  color: var(--light-100);
+  cursor: pointer;
+  border-radius: 2px;
+  transition: background-color 0.2s ease;
+}
+
+.dropdownItem:hover {
+  background-color: var(--dark-300);
+}

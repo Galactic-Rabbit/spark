@@ -1,0 +1,39 @@
+.notificationButton {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem; /* 36px */
+  height: 2.25rem; /* 36px */
+  color: var(--light-100);
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+}
+
+.notificationButton:hover {
+  background-color: var(--dark-500);
+}
+
+.notificationButton[data-state='open'] {
+  background-color: var(--dark-300);
+}
+
+.badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1rem; /* 16px */
+  height: 1rem; /* 16px */
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--light-100);
+  background: var(--danger-500);
+  border: 2px solid var(--dark-900);
+  border-radius: 50%;
+}
