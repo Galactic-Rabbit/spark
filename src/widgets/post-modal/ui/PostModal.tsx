@@ -4,6 +4,8 @@ import { EditPostButton } from '@features/post-edit'
 import { ModalBase } from '@shared/ui/ModalBase'
 import { CommentList } from '@widgets/comment-list'
 import s from './PostModal.module.css'
+import { DropdownMenuCustom, DropdownMenuItem } from '@shared/ui/DropdownMenuCustom'
+import { MoreHorizontal } from '@shared/ui/icons'
 
 type Props = {
   onClose: () => void
@@ -23,11 +25,17 @@ export const PostModal = ({ onClose, openedPost }: Props) => {
         <PostDetails
           post={openedPost}
           actions={
-            // тут мы должны передавать дропдаун меню с кнопками
-            <div>
-              <DeletePostButton />
-              <EditPostButton />
-            </div>
+            <DropdownMenuCustom
+              ariaLabel="Open menu"
+              trigger={<MoreHorizontal width={24} height={24} className={s.iconMenu} />}
+            >
+              <DropdownMenuItem asChild>
+                <DeletePostButton />
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <EditPostButton />
+              </DropdownMenuItem>
+            </DropdownMenuCustom>
           }
           comments={<CommentList />}
         />

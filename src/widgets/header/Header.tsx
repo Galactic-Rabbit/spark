@@ -1,12 +1,13 @@
 'use client'
 
 import Link from 'next/link'
-import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
+
 import { Button } from '@shared/ui/Button'
 import SelectBox from '@shared/ui/Select/Select'
 import s from './Header.module.css'
-import { Bell } from '@shared/ui/icons'
 import { useSession } from '@entities/session'
+import { NotificationBadge } from '@entities/notification'
+import { DropdownMenuCustom, DropdownMenuItem } from '@shared/ui/DropdownMenuCustom'
 
 const languageOptions = [
   { value: 'en', label: 'English' },
@@ -29,21 +30,14 @@ export const Header = () => {
           {isAuthorized ? (
             // --- Авторизованный ---
             <div className={s.bellSelectGroup}>
-              <DropdownMenu.Root>
-                <DropdownMenu.Trigger className={s.notificationButton} aria-label="Notifications">
-                  <Bell width={18} height={20} />
-                  <span className={s.badge}>1</span>
-                </DropdownMenu.Trigger>
-
-                <DropdownMenu.Portal>
-                  <DropdownMenu.Content className={s.dropdownContent} sideOffset={8}>
-                    <DropdownMenu.Item className={s.dropdownItem}>
-                      Новое уведомление
-                    </DropdownMenu.Item>
-                  </DropdownMenu.Content>
-                </DropdownMenu.Portal>
-              </DropdownMenu.Root>
-
+              <DropdownMenuCustom ariaLabel="notifications" trigger={<NotificationBadge />}>
+                <DropdownMenuItem>Уведомление 1</DropdownMenuItem>
+                <DropdownMenuItem>Уведомление 2</DropdownMenuItem>
+                <DropdownMenuItem>Уведомление 3</DropdownMenuItem>
+                <DropdownMenuItem>Уведомление 4</DropdownMenuItem>
+                <DropdownMenuItem>Уведомление 5</DropdownMenuItem>
+                <DropdownMenuItem>Уведомление 6</DropdownMenuItem>
+              </DropdownMenuCustom>
               <SelectBox
                 options={languageOptions}
                 value="en"
@@ -64,7 +58,6 @@ export const Header = () => {
                 <Button variant="outline" className={s.loginButton} as={Link} href="/login">
                   Log in
                 </Button>
-
                 <Button variant="primary" className={s.signupButton} as={Link} href="/register">
                   Sign up
                 </Button>

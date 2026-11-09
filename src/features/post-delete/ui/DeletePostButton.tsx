@@ -1,5 +1,7 @@
 //тут описываем ВСЮ логику мутации
 
-export const DeletePostButton = () => {
-  return <button>DeletePostButton</button>
+import { ComponentProps } from 'react'
+
+export const DeletePostButton = (props: ComponentProps<'button'>) => {
+  return <button {...props}>DeletePostButton</button>
 }
