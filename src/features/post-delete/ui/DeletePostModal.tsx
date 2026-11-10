@@ -2,16 +2,16 @@
 
 import { useDeletePostMutation } from '../api/useDeletePost.mutation'
 import { Button } from '@shared/ui/Button'
-import s from './DeletePostButton.module.css'
+import s from './DeletePostModal.module.css'
 import { Modal } from '@shared/ui/Modal'
 
 type Props = {
   postId: number
-  open?: boolean
-  onClose?: () => void
+  open: boolean
+  onClose: () => void
 }
 
-export const DeletePostButton = ({ postId, open, onClose }: Props) => {
+export const DeletePostModal = ({ postId, open, onClose }: Props) => {
   const { mutate, isPending } = useDeletePostMutation()
 
   const handleDelete = () => {
