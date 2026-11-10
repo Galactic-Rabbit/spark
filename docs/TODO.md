@@ -28,6 +28,10 @@
 - [ ] Защитить страницы из `(authorized)`: без авторизации — редирект на `/login`.
 - [ ] Рассмотреть переезд логики `Header`/`Sidebar` в layout приложения, если это возможно без усложнения: сейчас `_pages/main/ui/MainPage.tsx` повторяет разметку `app/(authorized)/layout.tsx`.
 
+## UI-кит — доступность — @BalandinaM
+
+- [ ] `shared/ui/Input`: `<label>` не связан с полем. Клик по подписи («Email» на логине) не ставит фокус в поле, а скринридер не читает подпись при фокусе. Сделать как в `shared/ui/Textarea`: `useId` → `id` на поле и `htmlFor` на подписи (`id` из пропсов приоритетнее). Заодно связать текст ошибки через `aria-invalid` и `aria-describedby`.
+
 ## React Query — на потом
 
 Где лежат запросы и хуки, записано в `docs/architecture.md` (разделы про `features/` и `entities/`).
