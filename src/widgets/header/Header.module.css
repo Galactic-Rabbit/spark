@@ -55,46 +55,8 @@
 }
 
 /* --- Колокольчик --- */
-.notificationButton {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.25rem; /* 36px */
-  height: 2.25rem; /* 36px */
-  color: var(--light-100);
-  cursor: pointer;
-  background: transparent;
-  border: none;
-  border-radius: 50%;
-  transition: background-color 0.2s ease;
-}
-
-.notificationButton:hover {
-  background-color: var(--dark-500);
-}
-
-.notificationButton[data-state='open'] {
-  background-color: var(--dark-300);
-}
 
 /* --- Бейдж --- */
-.badge {
-  position: absolute;
-  top: 0;
-  right: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 1rem; /* 16px */
-  height: 1rem; /* 16px */
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-semibold);
-  color: var(--light-100);
-  background: var(--danger-500);
-  border: 2px solid var(--dark-900);
-  border-radius: 50%;
-}
 
 /* --- Кнопки --- */
 .actions {
@@ -136,30 +98,6 @@
   text-align: center;
   white-space: nowrap;
   border-radius: 2px;
-}
-
-/* --- Dropdown Menu (Radix) --- */
-.dropdownContent {
-  min-width: 12.5rem; /* 200px */
-  padding: 0.5rem; /* 8px */
-  background: var(--dark-700);
-  border: 1px solid var(--dark-300);
-  border-radius: 2px;
-  box-shadow: 0 10px 40px rgb(0 0 0 / 30%);
-}
-
-.dropdownItem {
-  padding: 0.5rem 0.75rem; /* 8px 12px */
-  font-family: var(--font-family);
-  font-size: var(--font-size-sm);
-  color: var(--light-100);
-  cursor: pointer;
-  border-radius: 2px;
-  transition: background-color 0.2s ease;
-}
-
-.dropdownItem:hover {
-  background-color: var(--dark-300);
 }
 
 /* --- Обёртка Select --- */

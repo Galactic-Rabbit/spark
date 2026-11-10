@@ -5,6 +5,8 @@ module.exports = {
     'selector-max-id': 0,
     'declaration-no-important': true,
     'max-nesting-depth': 3,
+    // :global — синтаксис CSS Modules (стили сторонних классов, например Swiper), не опечатка
+    'selector-pseudo-class-no-unknown': [true, { ignorePseudoClasses: ['global'] }],
     // Глобально разрешаем только эти единицы
     'unit-allowed-list': ['%', 'deg', 'px', 'rem', 'ms', 'vh', 'vw', 'fr', 's'],
     // Тонкая настройка для конкретных свойств

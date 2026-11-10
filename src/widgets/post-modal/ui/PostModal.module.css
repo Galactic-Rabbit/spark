@@ -1,0 +1,28 @@
+/*
+ * Модалка поста не по центру, а растянута между краями окна:
+ * слева — сайдбар (220px) + зазор 24px, сверху — хедер (60px) + 34px.
+ * Перебиваем центровку из ModalBase: top/left 50% + translate(-50%, -50%).
+ */
+.modal {
+  inset: 5.875rem 4rem 4rem 15.25rem; /* 94px 64px 64px 244px */
+  min-width: 0;
+  max-width: none;
+  transform: none;
+
+  /* базовая анимация тоже двигает translate — без своей окно прыгнет из центра */
+  animation: post-modal-show 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.iconMenu {
+  color: var(--light-100);
+}
+
+@keyframes post-modal-show {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}

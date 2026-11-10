@@ -1,5 +1,7 @@
 export { getAllPosts } from './api/getAllPosts'
 export { PostCard } from './ui/PostCard'
+export { PostThumbnail } from './ui/PostThumbnail'
 export { PostDetails } from './ui/PostDetails'
 export type { PostsPage, PostImage, Post } from './model/types'
 export { useGetAllPosts } from './api/useGetAllPosts.query'
+export { POST_DESCRIPTION_MAX_LENGTH, POST_DESCRIPTION_MIN_LENGTH } from './model/constants'
