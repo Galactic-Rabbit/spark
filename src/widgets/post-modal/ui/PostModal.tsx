@@ -52,9 +52,11 @@ export const PostModal = ({ onClose, openedPost }: Props) => {
       )}
       {openedPost && (
         <DeletePostModal
-          open={isDeleting}
           postId={openedPost.id}
-          onClose={() => {
+          open={isDeleting}
+          onClose={() => setIsDeleting(false)}
+
+          onSuccess={() => {
             setIsDeleting(false)
             onClose()
           }}

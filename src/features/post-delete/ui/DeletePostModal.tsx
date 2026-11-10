@@ -9,14 +9,18 @@ type Props = {
   postId: number
   open: boolean
   onClose: () => void
+  onSuccess?: () => void
 }
 
-export const DeletePostModal = ({ postId, open, onClose }: Props) => {
+export const DeletePostModal = ({ postId, open, onClose, onSuccess }: Props) => {
   const { mutate, isPending } = useDeletePostMutation()
 
   const handleDelete = () => {
     mutate(postId, {
-      onSuccess: () => onClose?.(),
+      onSuccess: () => {
+        onClose?.()
+        onSuccess?.()
+      },
     })
   }
 
