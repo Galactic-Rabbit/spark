@@ -2,17 +2,6 @@
 
 Технический долг и задачи, отложенные на потом. Не забываем возвращаться.
 
-## Обработка ошибок API — договориться о едином подходе — @VitaMirosh
-
-На созвоне 29.10 Вита взяла разработку единого подхода; когда будет готово, расскажет команде.
-
-Сейчас в формах два разных подхода: `RegisterForm` и `EmailVerificationExpired` проверяют сырое тело через `isServerError`, а логин и формы восстановления пароля используют `createApiError` / `isApiError` из `shared/api/apiError.ts`. Остальные формы (логаут) пишем по договорённости, а не «как получится».
-
-- [ ] Сделать общую функцию в `shared/api` (например, `getErrorMessage(e): string`), которая превращает любое значение из `catch` в текст для юзера.
-- [ ] Сетевые ошибки: сейчас в `catch` форм стоит `e instanceof Error ? e.message`, и при недоступном бэке или CORS юзер видит сырое «Failed to fetch». Показывать `e.message` только для `isApiError(e)`.
-- [ ] Офлайн: мутации TanStack Query по умолчанию (`networkMode: 'online'`) встают на паузу без сети, и кнопка зависает в «Sending...» без сообщения. Решить: показывать «Нет сети» или менять `networkMode`.
-- [ ] Перевести на выбранный подход все формы: `auth-register`, `auth-confirm-registration`, `auth-forgot-password`, `auth-recovery-password`, `auth-login`, логаут.
-
 ## Валидация пароля — вынести в общее место — @BalandinaM
 
 Правила пароля (`min(6)`, `max(20)`, `PASSWORD_REGEX` и тексты ошибок) скопированы в `auth-register/model/register.schema.ts` и `auth-recovery-password/model/recovery.schema.ts`. Тексты уже разъехались: `'The passwords must match'` против `'Passwords do not match'`.
@@ -31,6 +20,39 @@
 ## UI-кит — доступность — @BalandinaM
 
 - [ ] `shared/ui/Input`: `<label>` не связан с полем. Клик по подписи («Email» на логине) не ставит фокус в поле, а скринридер не читает подпись при фокусе. Сделать как в `shared/ui/Textarea`: `useId` → `id` на поле и `htmlFor` на подписи (`id` из пропсов приоритетнее). Заодно связать текст ошибки через `aria-invalid` и `aria-describedby`.
+
+## Формы без сети — подсказка через `isPaused`
+
+Мутации TanStack Query по умолчанию работают с `networkMode: 'online'`: без сети мутация встаёт на паузу. Кнопка зависает, `catch` не вызывается, и пользователь не видит никакого сообщения. В `RegisterForm` и `EmailVerificationExpired` это уже решено: берём `isPaused` из хука мутации и показываем подсказку (см. `auth-register/ui/RegisterForm.tsx`). В остальных формах подсказки пока нет.
+
+Как воспроизвести: открыть `/login` → DevTools → Network → Offline → нажать «Sign In». Кнопка зависает без сообщения.
+
+- [ ] `auth-login/ui/LoginForm.tsx`
+- [ ] `auth-forgot-password/ui/ForgotPasswordForm.tsx`
+- [ ] `auth-recovery-password/ui/PasswordRecoveryForm.tsx`
+
+Текст подсказки — как в `RegisterForm`, чтобы формы говорили одинаково.
+
+## UI-кит — `min-width: 182px` у Button — обсудить с командой
+
+У `shared/ui/Button` в базовом `.button` стоит `min-width: 182px`. По макету многие кнопки меньше этой ширины, поэтому эту ширину уже перебивают в двух местах:
+
+- `widgets/header/Header.module.css` — `.loginButton` / `.signupButton` (`min-width: 6.25rem`, 100px);
+- `features/post-edit/ui/EditPostModal.module.css` — кнопки Yes/No в подтверждении закрытия (`.actions > button`, `min-width: 6rem`, 96px).
+
+Чем плохо: каждое такое переопределение — спор специфичности с `.button`. В хедере перебивают одним классом (`.loginButton`), а он весит столько же, сколько `.button`. Значит, победит файл, который загрузился позже, а порядок загрузки CSS-чанков в Next не гарантирован: в dev может работать, а в прод-сборке кнопка снова станет 182px. В `EditPostModal` от этого защитились селектором `.actions > button` (класс + тег), но каждый раз помнить про такую защиту неудобно.
+
+Что посмотреть:
+
+- [ ] Пройтись по макету: каким кнопкам нужна ширина 182px (формы авторизации?), а у каких ширина зависит от текста или задана своя.
+- [ ] Проверить хедер в прод-сборке (`npm run build && npm start`): какая ширина у Log in / Sign up в DevTools → Computed, и не зачёркнут ли `min-width` из `Header.module.css`.
+
+Что обсудить и решить:
+
+- [ ] Вариант 1: убрать `min-width` из базового `.button`, а 182px задавать там, где это нужно по макету (через `className` или обёртку формы). Плюс: базовая кнопка не навязывает размер. Минус: надо пройтись по всем местам, где кнопка должна быть широкой.
+- [ ] Вариант 2: проп или модификатор (например, `fullWidth` или `size`) у Button. Плюс: размер виден в JSX, а не спрятан в CSS. Минус: API кнопки растёт.
+- [ ] Вариант 3: оставить как есть и договориться, что переопределяем только селектором из двух частей. Дешевле всего, но правило легко забыть.
+- [ ] После решения — убрать переопределения из `Header.module.css` и `EditPostModal.module.css`.
 
 ## React Query — на потом
 

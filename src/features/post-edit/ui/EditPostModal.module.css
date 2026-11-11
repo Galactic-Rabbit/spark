@@ -1,0 +1,79 @@
+/* Окно по макету: 972px. Высоту задаёт контент (слайдер 490×503 + шапка) */
+.modal {
+  width: 60.75rem;
+}
+
+/*
+ * Убираем отступы Modal: картинка в макете прижата к краям окна.
+ * Два класса (.modal .body) — чтобы гарантированно перебить .body из Modal.module.css:
+ * при равной специфичности победил бы тот файл, что загрузился позже, а порядок не гарантирован.
+ */
+.modal .body {
+  gap: 0;
+  padding: 0;
+}
+
+.wrapPost {
+  display: grid;
+  grid-template-columns: 30.625rem 1fr; /* 490px под фото, остальное — колонка с формой */
+}
+
+/* Та же причина двух классов: перебиваем aspect-ratio 490/562 из ImageSlider */
+.wrapPost .slider {
+  aspect-ratio: 490 / 503;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  min-width: 0; /* без этого длинное слово в textarea может распереть grid-колонку */
+  padding: 1.5rem;
+}
+
+/* Форма занимает всю оставшуюся высоту — чтобы кнопку можно было прижать к низу */
+.form {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.submit {
+  align-self: flex-end;
+  margin-top: auto;
+}
+
+.error {
+  color: var(--danger-500);
+}
+
+/* ---------- Подтверждение закрытия (Close Post) ---------- */
+
+/* Окно по макету: 486px */
+.confirm {
+  width: 30.375rem;
+}
+
+/* В макете снизу 36px, а у .body из Modal — 30px. Два класса — та же причина, что у .modal .body */
+.confirm .confirmBody {
+  padding-bottom: 2.25rem;
+}
+
+.actions {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: flex-end;
+
+  /* gap у .body — 18px, в макете между текстом и кнопками 30px: добираем 12px */
+  margin-top: 0.75rem;
+}
+
+/*
+ * У Button min-width: 182px, в макете кнопки по 96px.
+ * Не `.actions > *`: у `*` нулевой вес, и такой селектор весит ровно как .button — снова ничья.
+ * `.actions > button` (класс + тег) весит больше и побеждает при любом порядке CSS.
+ */
+.actions > button {
+  min-width: 6rem;
+}
