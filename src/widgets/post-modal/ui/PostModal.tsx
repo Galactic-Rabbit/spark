@@ -1,5 +1,5 @@
 import { Post, PostDetails } from '@entities/post'
-import { DeletePostButton } from '@features/post-delete'
+import { DeletePostModal } from '@features/post-delete'
 import { EditPostModal } from '@features/post-edit'
 import { ModalBase } from '@shared/ui/ModalBase'
 import { CommentList } from '@widgets/comment-list'
@@ -15,7 +15,7 @@ type Props = {
 
 export const PostModal = ({ onClose, openedPost }: Props) => {
   const [isEditing, setIsEditing] = useState(false)
-
+  const [isDeleting, setIsDeleting] = useState(false)
   return (
     <>
       <ModalBase
@@ -33,8 +33,8 @@ export const PostModal = ({ onClose, openedPost }: Props) => {
                 ariaLabel="Open menu"
                 trigger={<MoreHorizontal width={24} height={24} className={s.iconMenu} />}
               >
-                <DropdownMenuItem asChild>
-                  <DeletePostButton />
+                <DropdownMenuItem onSelect={() => setIsDeleting(true)}>
+                  Delete Post{' '}
                 </DropdownMenuItem>
                 <DropdownMenuItem onSelect={() => setIsEditing(true)}>Edit Post</DropdownMenuItem>
               </DropdownMenuCustom>
@@ -48,6 +48,18 @@ export const PostModal = ({ onClose, openedPost }: Props) => {
           open={isEditing}
           post={openedPost}
           onOpenChange={() => setIsEditing(false)}
+        />
+      )}
+      {openedPost && (
+        <DeletePostModal
+          postId={openedPost.id}
+          open={isDeleting}
+          onClose={() => setIsDeleting(false)}
+
+          onSuccess={() => {
+            setIsDeleting(false)
+            onClose()
+          }}
         />
       )}
     </>
