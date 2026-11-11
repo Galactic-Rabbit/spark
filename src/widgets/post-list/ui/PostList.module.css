@@ -3,3 +3,8 @@
   grid-template-columns: 1fr 1fr 1fr 1fr;
   gap: 0.75rem;
 }
+
+/* невидимый маркер конца списка для IntersectionObserver */
+.sentinel {
+  height: 1px;
+}
