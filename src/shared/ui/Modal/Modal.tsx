@@ -19,10 +19,20 @@ type ModalProps = {
 
   // Ширину и прочую геометрию задаёт тот, кто открывает модалку
   className?: string
+  // Класс для области под шапкой — например, убрать отступы, если контент до краёв
+  bodyClassName?: string
 }
 
 // Модалка с шапкой (заголовок + крестик). Окно, оверлей и анимации — в ModalBase
-export function Modal({ open, onOpenChange, title, children, trigger, className }: ModalProps) {
+export function Modal({
+  open,
+  onOpenChange,
+  title,
+  children,
+  trigger,
+  className,
+  bodyClassName,
+}: ModalProps) {
   return (
     <ModalBase open={open} onOpenChange={onOpenChange} trigger={trigger} className={className}>
       <div className={s.modalHeader}>
@@ -33,7 +43,7 @@ export function Modal({ open, onOpenChange, title, children, trigger, className 
           </Button>
         </Dialog.Close>
       </div>
-      <div className={s.body}>{children}</div>
+      <div className={bodyClassName ? `${s.body} ${bodyClassName}` : s.body}>{children}</div>
     </ModalBase>
   )
 }

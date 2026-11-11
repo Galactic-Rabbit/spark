@@ -16,7 +16,7 @@
   resize: none;
   outline: 1px solid var(--dark-100);
   outline-offset: -1px;
-  background-color: transparent;
+  background-color: var(--dark-500);
   border: none;
   border-radius: 2px;
 }
@@ -29,7 +29,6 @@
 .textarea:focus {
   color: var(--light-100);
   outline-color: var(--light-100);
-  background-color: var(--dark-500);
 }
 
 .textarea:disabled {
@@ -64,4 +63,19 @@
   font-weight: var(--font-weight-regular);
   line-height: var(--line-height-sm);
   color: var(--danger-500);
+}
+
+.footer {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: space-between;
+}
+
+.counter {
+  margin-left: auto;
+  font-family: var(--font-family);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-sm);
+  color: var(--light-900);
 }
