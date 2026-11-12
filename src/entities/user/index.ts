@@ -1,3 +1,7 @@
 export { getMe } from './api/getMe'
 export { useGetMe } from './api/useGetMe.query'
 export { UserBadge } from './ui/UserBadge'
+export { useGetProfile } from './api/useGetProfile.query'
+export { getProfile } from './api/getProfile'
+export { UserAvatar } from './ui/UserAvatar'
+export type { ProfileViewModel, PublicProfileViewModel } from './api/getProfile'
