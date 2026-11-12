@@ -33,11 +33,12 @@ async function refreshTokens(): Promise<string | null> {
   return accessToken
 }
 
+const retryRequests = new WeakMap<Request, Request>()
+
 //Функция перезапроса, если токен протух, чтобы пользователь получил свои данные сразу после того как произошла 401 ошибка
 async function retryWithToken(request: Request, token: string) {
-  const retryRequest = new Request(request)
-  retryRequest.headers.set('Authorization', `Bearer ${token}`)
-  return fetch(retryRequest)
+  request.headers.set('Authorization', `Bearer ${token}`)
+  return fetch(request)
 }
 
 const authMiddleware: Middleware = {
@@ -48,11 +49,20 @@ const authMiddleware: Middleware = {
     if (token) {
       request.headers.set('Authorization', `Bearer ${token}`)
     }
+
+    retryRequests.set(request, request.clone())
     return request
   },
   //Тут наоборот, будем что-то делать при response, конкретно здесь если пользователь авторизован всё ОК!, если нет обновляем токен и делаем перезапрос
   async onResponse({ request, response }) {
     if (response.status !== 401) return response
+
+    const retryRequest = retryRequests.get(request)
+
+    // Не пытаемся повторно использовать уже использованное тело.
+    if (!retryRequest) {
+      return response
+    }
 
     if (!mutex.isLocked()) {
       const release = await mutex.acquire()
