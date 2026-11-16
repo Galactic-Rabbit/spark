@@ -1,6 +1,7 @@
 import { Providers } from '@app/Providers'
 import type { Metadata } from 'next'
 import '@app/styles/globals.css'
+import { Header } from '@widgets/header'
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -11,7 +12,10 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
     <html lang="en">
       <body>
-        <Providers>{children}</Providers>
+        <Providers>
+          <Header />
+          {children}
+        </Providers>
       </body>
     </html>
   )

@@ -1,7 +1,6 @@
 /* --- Sidebar --- */
 .sidebar {
   position: sticky;
-  top: 3.75rem; /* 60px */
   width: 13.75rem; /* 220px */
   height: calc(100vh - 3.75rem); /* ← УБИРАЕМ или КОММЕНТИРУЕМ */
 

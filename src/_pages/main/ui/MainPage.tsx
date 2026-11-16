@@ -1,7 +1,6 @@
 'use client'
 
 import { useSession } from '@entities/session'
-import { Header } from '@widgets/header'
 import { Sidebar } from '@widgets/sidebar'
 import s from './MainPage.module.css'
 import { useGetAllPosts } from '@entities/post'
@@ -17,20 +16,17 @@ export const MainPage = () => {
   const handleLoadMore = useCallback(() => fetchNextPage(), [fetchNextPage])
 
   return (
-    <div className={s.layout}>
-      <Header />
-      <div className={s.contentWrapper}>
-        {isAuthorized && <Sidebar />}
-        <main className={s.main}>
-          <h1>Main Page</h1>
-          <PostList
-            posts={posts}
-            hasMore={hasNextPage}
-            isLoadingMore={isFetchingNextPage}
-            onLoadMore={handleLoadMore}
-          />
-        </main>
-      </div>
+    <div className={s.contentWrapper}>
+      {isAuthorized && <Sidebar />}
+      <main className={s.main}>
+        <h1>Main Page</h1>
+        <PostList
+          posts={posts}
+          hasMore={hasNextPage}
+          isLoadingMore={isFetchingNextPage}
+          onLoadMore={handleLoadMore}
+        />
+      </main>
     </div>
   )
 }
