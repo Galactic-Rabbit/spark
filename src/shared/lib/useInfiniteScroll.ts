@@ -1,13 +1,9 @@
 import { useEffect, useRef } from 'react'
 
 type Options = {
-  /** есть ли следующая страница */
   hasMore?: boolean
-  /** грузится ли прямо сейчас — блокирует повторный вызов */
   isLoadingMore?: boolean
-  /** что делать, когда дошли до края */
   onLoadMore?: () => void
-  /** за сколько px до дна начинать грузить */
   rootMargin?: string
 }
 
@@ -19,19 +15,29 @@ export const useInfiniteScroll = ({
 }: Options) => {
   const sentinelRef = useRef<HTMLDivElement>(null)
 
+  const loadMoreRef = useRef(onLoadMore)
+  const isLoadingRef = useRef(isLoadingMore)
+
+  useEffect(() => {
+    loadMoreRef.current = onLoadMore
+    isLoadingRef.current = isLoadingMore
+  })
+
   useEffect(() => {
     const sentinel = sentinelRef.current
-    if (!sentinel || !hasMore || !onLoadMore) return
+    if (!sentinel || !hasMore) return
 
     const observer = new IntersectionObserver(
       (entries) => {
-        if (entries[0]?.isIntersecting && !isLoadingMore) onLoadMore()
+        if (entries[0]?.isIntersecting && !isLoadingRef.current) {
+          loadMoreRef.current?.()
+        }
       },
       { rootMargin },
     )
     observer.observe(sentinel)
     return () => observer.disconnect()
-  }, [hasMore, isLoadingMore, onLoadMore, rootMargin])
+  }, [hasMore, rootMargin]) // Убрали isLoadingMore и onLoadMore!
 
   return sentinelRef
 }
