@@ -1,9 +1,3 @@
-.layout {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-}
-
 .contentWrapper {
   display: flex;
   flex: 1;
