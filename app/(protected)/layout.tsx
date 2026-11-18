@@ -5,7 +5,7 @@ import s from './layout.module.css'
 import { useSession } from '@entities/session'
 import { redirect } from 'next/navigation'
 
-export default function AuthLayout({ children }: { children: React.ReactNode }) {
+export default function ProtectedLayout({ children }: { children: React.ReactNode }) {
   const { isAuthorized } = useSession()
   if (!isAuthorized) {
     redirect('/login')
