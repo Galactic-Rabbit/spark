@@ -6,6 +6,7 @@ import { ImageSlider } from '@shared/ui/ImageSlider'
 import { formatTimeAgo } from '@shared/lib/formatTimeAgo'
 import { Post } from '../model/types'
 import s from './PostCard.module.css'
+import { UserProfileLink } from '@entities/user/ui/UserProfileLink'
 
 // Сколько символов описания видно в свёрнутом виде (≈3 строки по макету)
 const DESCRIPTION_LIMIT = 70
@@ -34,7 +35,9 @@ export const PostCard = ({ post, onOpen }: Props) => {
         className={s.slider}
         fit="cover"
       />
-      <UserBadge avatar={post.avatarOwner} userName={post.userName} />
+      <UserProfileLink userId={post.ownerId}>
+        <UserBadge avatar={post.avatarOwner} userName={post.userName} />
+      </UserProfileLink>
       <time className={`text-small ${s.time}`} dateTime={post.createdAt}>
         {formatTimeAgo(post.createdAt)}
       </time>
