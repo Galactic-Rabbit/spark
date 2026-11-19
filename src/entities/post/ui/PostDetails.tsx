@@ -5,6 +5,7 @@ import { Post } from '../model/types'
 import { Input } from '@shared/ui/Input'
 import { UserBadge } from '@entities/user'
 import s from './PostDetails.module.css'
+import { UserProfileLink } from '@entities/user/ui/UserProfileLink'
 
 type Props = {
   post: Post
@@ -20,7 +21,9 @@ export const PostDetails = ({ post, actions, comments }: Props) => {
       <ImageSlider images={post.images.map((image) => image.url)} />
       <div>
         <header>
-          <UserBadge avatar={post.avatarOwner} userName={post.userName} className={s.userBadge} />
+          <UserProfileLink userId={post.ownerId}>
+            <UserBadge avatar={post.avatarOwner} userName={post.userName} className={s.userBadge} />
+          </UserProfileLink>
           {actions} {/* ← «место»: что положат, то и нарисуется */}
         </header>
         {comments}

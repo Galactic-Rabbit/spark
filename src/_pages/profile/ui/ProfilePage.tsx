@@ -18,6 +18,7 @@ import s from './ProfilePage.module.css'
 // и на основании пропсов будем рендерить страницу профиля юзера или его друзей/не друзей
 export const ProfilePage = () => {
   const params = useParams()
+  console.log(params)
   const { user: currentUser } = useSession()
   const profileId = params?.id as string | undefined
 
