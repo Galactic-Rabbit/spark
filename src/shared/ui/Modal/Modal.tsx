@@ -9,6 +9,7 @@ type ModalProps = {
   // Для программного управления
   open?: boolean
   onOpenChange?: (open: boolean) => void
+  modal?: boolean
 
   // Контент
   title: string
@@ -32,9 +33,16 @@ export function Modal({
   trigger,
   className,
   bodyClassName,
+  modal,
 }: ModalProps) {
   return (
-    <ModalBase open={open} onOpenChange={onOpenChange} trigger={trigger} className={className}>
+    <ModalBase
+      open={open}
+      onOpenChange={onOpenChange}
+      trigger={trigger}
+      className={className}
+      modal={modal}
+    >
       <div className={s.modalHeader}>
         <Dialog.Title className="text-h1">{title}</Dialog.Title>
         <Dialog.Close asChild>

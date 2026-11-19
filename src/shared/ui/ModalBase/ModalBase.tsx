@@ -8,6 +8,7 @@ type ModalBaseProps = {
   // Для программного управления
   open?: boolean
   onOpenChange?: (open: boolean) => void
+  modal?: boolean
 
   children: ReactNode
 
@@ -34,9 +35,10 @@ export function ModalBase({
   srTitle,
   withOutsideClose = false,
   className,
+  modal = true,
 }: ModalBaseProps) {
   return (
-    <Dialog.Root open={open} onOpenChange={onOpenChange}>
+    <Dialog.Root open={open} onOpenChange={onOpenChange} modal={modal}>
       {trigger && <Dialog.Trigger asChild>{trigger}</Dialog.Trigger>}
 
       <Dialog.Portal>

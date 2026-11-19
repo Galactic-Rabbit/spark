@@ -1,108 +1,45 @@
 'use client'
 
-import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import type { SubmitEvent } from 'react'
 
 import { createPostSchema, type CreatePostFormValues } from '../model/createPost.schema'
 import { useCreatePostWithPhotos } from '../model/useCreatePostWithPhotos'
-import { PostImagesPreview } from './PostImagesPreview'
 import { Button } from '@/shared/ui/Button'
+import { EditedImagePreview } from './EditedImagePreview'
 
-type PreviewImage = {
-  id: string
-  url: string
+type CreatePostFormProps = {
+  files: File[]
+  onSuccess: () => void
 }
 
-export const CreatePostForm = () => {
-  const [previews, setPreviews] = useState<PreviewImage[]>([])
-  const previewsRef = useRef<PreviewImage[]>([])
-
+export const CreatePostForm = ({ files, onSuccess }: CreatePostFormProps) => {
   const { createPostWithPhotos, isPending, error } = useCreatePostWithPhotos()
 
   const {
     register,
     handleSubmit,
-    setValue,
-    getValues,
-    reset,
+    watch,
     formState: { errors },
   } = useForm<CreatePostFormValues>({
     resolver: zodResolver(createPostSchema),
     defaultValues: {
       description: '',
-      files: [],
+      files,
     },
   })
 
-  const fileInputRef = useRef<HTMLInputElement>(null)
-
-  useEffect(() => {
-    return () => {
-      previewsRef.current.forEach((preview) => {
-        URL.revokeObjectURL(preview.url)
-      })
-    }
-  }, [])
-
-  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const selectedFiles = Array.from(event.target.files ?? [])
-
-    if (selectedFiles.length === 0) return
-
-    previewsRef.current.forEach((preview) => {
-      URL.revokeObjectURL(preview.url)
-    })
-
-    const newPreviews = selectedFiles.map((file) => ({
-      id: crypto.randomUUID(),
-      url: URL.createObjectURL(file),
-    }))
-
-    previewsRef.current = newPreviews
-    setPreviews(newPreviews)
-
-    setValue('files', selectedFiles, {
-      shouldValidate: true,
-      shouldDirty: true,
-    })
-
-    event.target.value = ''
-  }
-
-  const handleRemoveImage = (index: number) => {
-    const currentPreviews = previewsRef.current
-    const removedPreview = currentPreviews[index]
-
-    if (!removedPreview) return
-
-    URL.revokeObjectURL(removedPreview.url)
-
-    const updatedPreviews = currentPreviews.filter((_, i) => i !== index)
-
-    previewsRef.current = updatedPreviews
-    setPreviews(updatedPreviews)
-
-    const updatedFiles = getValues('files').filter((_, i) => i !== index)
-
-    setValue('files', updatedFiles, {
-      shouldValidate: true,
-      shouldDirty: true,
-    })
-  }
+  const description = watch('description') ?? ''
 
   const onSubmit = async (data: CreatePostFormValues) => {
     try {
-      await createPostWithPhotos(data)
-
-      previewsRef.current.forEach((preview) => {
-        URL.revokeObjectURL(preview.url)
+      await createPostWithPhotos({
+        ...data,
+        files,
       })
 
-      previewsRef.current = []
-      setPreviews([])
-      reset()
+      onSuccess()
     } catch (error) {
       console.error('Failed to create post:', error)
     }
@@ -114,30 +51,29 @@ export const CreatePostForm = () => {
 
   return (
     <form onSubmit={handleFormSubmit}>
-      <h2>Create post</h2>
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: '1fr 1fr',
+          gap: '16px',
+        }}
+      >
+        <div>{files[0] && <EditedImagePreview file={files[0]} />}</div>
 
-      <input
-        ref={fileInputRef}
-        type="file"
-        multiple
-        accept="image/*"
-        onChange={handleFileChange}
-        hidden
-      />
+        <div>
+          <textarea
+            placeholder="Write a description..."
+            maxLength={500}
+            {...register('description')}
+          />
 
-      <Button type="button" variant="primary" onClick={() => fileInputRef.current?.click()}>
-        Add photos
-      </Button>
+          <p>{description.length} / 500</p>
+
+          {errors.description && <p>{errors.description.message}</p>}
+        </div>
+      </div>
 
       {errors.files && <p>{errors.files.message}</p>}
-
-      {previews.length > 0 && (
-        <PostImagesPreview previews={previews} onRemove={handleRemoveImage} />
-      )}
-
-      <textarea placeholder="Write a description..." {...register('description')} />
-
-      {errors.description && <p>{errors.description.message}</p>}
 
       {error && <p>{error.message}</p>}
 
