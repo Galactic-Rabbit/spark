@@ -1,31 +1,25 @@
 'use client'
-
 import { useSession } from '@entities/session'
 import { Sidebar } from '@widgets/sidebar'
+import { Post } from '@entities/post'
 import s from './MainPage.module.css'
-import { useGetAllPosts } from '@entities/post'
-import { PostList } from '@widgets/post-list'
-import { useCallback } from 'react'
+import { MainWidget } from '@widgets/main-widget'
 
-//аналогично странице профиля, в зависимости от пропсов, рисуем разные кнопочки
-export const MainPage = () => {
+type Props = {
+  initialPosts: Post[]
+  totalUsers: number
+}
+
+export const MainPage = ({ initialPosts, totalUsers }: Props) => {
   const { isAuthorized } = useSession()
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useGetAllPosts()
-
-  const posts = data?.pages.flatMap((page) => page.items)
-  const handleLoadMore = useCallback(() => fetchNextPage(), [fetchNextPage])
 
   return (
     <div className={s.contentWrapper}>
       {isAuthorized && <Sidebar />}
+
       <main className={s.main}>
-        <h1>Main Page</h1>
-        <PostList
-          posts={posts}
-          hasMore={hasNextPage}
-          isLoadingMore={isFetchingNextPage}
-          onLoadMore={handleLoadMore}
-        />
+        {/* Вся логика ленты спрятана внутри виджета */}
+        <MainWidget initialPosts={initialPosts} totalUsers={totalUsers} />
       </main>
     </div>
   )
