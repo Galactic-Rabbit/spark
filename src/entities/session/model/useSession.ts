@@ -7,7 +7,7 @@ export const useSession = () => {
 
   let status: SessionStatus = 'authorized'
   if (isPending) status = 'loading'
-  else if (isError) status = 'guest'
+  else if (isError || !data) status = 'guest'
 
   return {
     status,

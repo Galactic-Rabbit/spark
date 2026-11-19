@@ -18,7 +18,8 @@ import {
   Search,
   TrendingUp,
 } from '@shared/ui/icons'
-import {LogoutButton} from '@features/auth-logout'
+import { LogoutButton } from '@features/auth-logout'
+import { useSession } from '@entities/session'
 
 type MenuItem = {
   label: string
@@ -43,24 +44,28 @@ const menuItems: MenuItem[] = [
 
 export const Sidebar = () => {
   const pathname = usePathname()
+  const { user } = useSession()
+  const userId = user?.userId
 
   return (
     <aside className={s.sidebar}>
       <NavigationMenu.Root className={s.navRoot}>
         <NavigationMenu.List className={s.navList}>
           {menuItems.map((item, index) => {
-            const isActive = pathname === item.href
+            const isProfile = item.label === 'My Profile'
+            const href = isProfile && userId != null ? `/profile/${userId}` : item.href
+            const isActive = pathname === href
             const Icon = isActive && item.iconActive ? item.iconActive : item.icon
             const isFirstInGroup = item.isGroupStart && index > 0
 
             return (
               <NavigationMenu.Item
-                key={item.href}
+                key={item.label}
                 className={`${s.navItem} ${isFirstInGroup ? s.groupStart : ''}`}
               >
                 <NavigationMenu.Link asChild>
                   <Link
-                    href={item.href}
+                    href={href}
                     className={`
     ${s.navLink} 
     ${isActive ? `${s.active} text-bold-sm` : 'text-regular-sm'} 
@@ -76,9 +81,9 @@ export const Sidebar = () => {
             )
           })}
 
-            <NavigationMenu.Item className={`${s.navItem} ${s.logoutSection}`}>
-                <LogoutButton />
-            </NavigationMenu.Item>
+          <NavigationMenu.Item className={`${s.navItem} ${s.logoutSection}`}>
+            <LogoutButton />
+          </NavigationMenu.Item>
         </NavigationMenu.List>
       </NavigationMenu.Root>
     </aside>
