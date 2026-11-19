@@ -4,6 +4,10 @@ import { useParams } from 'next/navigation'
 import { useSession } from '@entities/session'
 import { useGetProfile } from '@entities/user'
 import { ProfileHeader } from '@widgets/profile-header'
+import { useGetUserPosts } from '@entities/post'
+import { PostList } from '@widgets/post-list'
+import { useInfiniteScroll } from '@shared/lib/useInfiniteScroll'
+import s from './ProfilePage.module.css'
 
 // import { useGetAllPosts } from '@entities/post'
 // import { PostList } from '@widgets/post-list'
@@ -20,6 +24,20 @@ export const ProfilePage = () => {
   // Получаем профиль: свой или чужой
   const { data: profile, isLoading, isError } = useGetProfile(profileId)
 
+  // посты пользователя
+  const {
+    data: postsData,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useGetUserPosts(profile?.id ?? 0)
+
+  // бесконечный скролл
+  const sentinelRef = useInfiniteScroll({
+    hasMore: hasNextPage,
+    isLoadingMore: isFetchingNextPage,
+    onLoadMore: fetchNextPage,
+  })
   // Превью сетки квадратных карточек (PostThumbnail). Чтобы посмотреть — раскомментировать
   // импорты выше, этот блок и разметку ниже, и добавить 'use client' первой строкой файла.
   // TODO: публичная лента временно — заменить на посты пользователя (/posts/user/{userId}/{cursor})
@@ -43,11 +61,14 @@ export const ProfilePage = () => {
     isFollowing: 'isFollowing' in profile ? profile.isFollowing : false,
     isFollowedBy: 'isFollowedBy' in profile ? profile.isFollowedBy : false,
   }
+  // собираем все посты из всех страниц
+  const posts = postsData?.pages.flatMap((page) => page.items ?? []) ?? []
 
   return (
     <div>
       <ProfileHeader user={profileForHeader} isOwnProfile={isOwnProfile} />
-      {/* <PostList posts={posts?.items} view="grid" /> */}
+      <PostList posts={posts} view="grid" />
+      <div ref={sentinelRef} style={{ height: '1px' }} />
     </div>
   )
 }
