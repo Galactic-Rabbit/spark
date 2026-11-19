@@ -41,7 +41,7 @@ export const PostList = ({ posts, view = 'feed', hasMore, isLoadingMore, onLoadM
           return <Card key={post.id} post={post} onOpen={handleOpenPost} />
         })}
       </ul>
-      {hasMore && <div ref={sentinelRef} className={s.sentinel} aria-hidden />}
+      {hasMore && <div ref={sentinelRef} className={s.sentinel} />}
       <PostModal openedPost={openedPost} onClose={() => setOpenedPostId(null)} />
     </div>
   )
