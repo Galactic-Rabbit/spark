@@ -3,9 +3,8 @@ import { ReactNode } from 'react'
 import { Post } from '../model/types'
 
 import { Input } from '@shared/ui/Input'
-import { UserBadge } from '@entities/user'
+import { UserBadge, UserProfileLink } from '@entities/user'
 import s from './PostDetails.module.css'
-import { UserProfileLink } from '@entities/user/ui/UserProfileLink'
 
 type Props = {
   post: Post
