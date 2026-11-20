@@ -1,0 +1,33 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 100%;
+  height: 4.5rem;
+  padding: 1.5rem;
+  margin-bottom: 2.25rem;
+  background-color: var(--dark-500);
+  border: 1px solid var(--dark-300);
+  border-radius: 2px;
+}
+
+.digitsBox {
+  display: flex;
+  align-items: center;
+  padding: 0 0.5rem;
+  background-color: var(--dark-700);
+  border: 1px solid var(--dark-300);
+  border-radius: 2px;
+}
+
+.digit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 0.75rem;
+}
+
+.withDivider {
+  height: 1.875rem;
+  border-right: 1px solid var(--dark-300);
+}

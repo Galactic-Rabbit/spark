@@ -17,6 +17,8 @@ export const useInfiniteScroll = ({
 
   const loadMoreRef = useRef(onLoadMore)
   const isLoadingRef = useRef(isLoadingMore)
+  // Запоминаем, находится ли сентинел в зоне видимости прямо сейчас
+  const isIntersectingRef = useRef(false)
 
   useEffect(() => {
     loadMoreRef.current = onLoadMore
@@ -29,7 +31,10 @@ export const useInfiniteScroll = ({
 
     const observer = new IntersectionObserver(
       (entries) => {
-        if (entries[0]?.isIntersecting && !isLoadingRef.current) {
+        isIntersectingRef.current = entries[0]?.isIntersecting ?? false
+
+        // Если сентинел виден и мы не грузимся прямо сейчас — грузим
+        if (isIntersectingRef.current && !isLoadingRef.current) {
           loadMoreRef.current?.()
         }
       },
@@ -37,7 +42,19 @@ export const useInfiniteScroll = ({
     )
     observer.observe(sentinel)
     return () => observer.disconnect()
-  }, [hasMore, rootMargin]) // Убрали isLoadingMore и onLoadMore!
+  }, [hasMore, rootMargin])
+
+  // Ловушка «пересечения без перехода»: после загрузки пачки сентинел смещается
+  // вниз, но часто остаётся внутри зоны rootMargin. Тогда IntersectionObserver
+  // не шлёт новый колбэк (состояние не изменилось) и подгрузка вставала бы навсегда.
+  // Как только пачка долетела (isLoadingMore true -> false) — перепроверяем.
+  useEffect(() => {
+    if (isLoadingMore || !hasMore) return
+    if (!isIntersectingRef.current) return
+    if (!sentinelRef.current) return
+
+    loadMoreRef.current?.()
+  }, [isLoadingMore, hasMore])
 
   return sentinelRef
 }
