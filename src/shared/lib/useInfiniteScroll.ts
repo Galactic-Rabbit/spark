@@ -3,6 +3,7 @@ import { useEffect, useRef } from 'react'
 type Options = {
   hasMore?: boolean
   isLoadingMore?: boolean
+  isErrorLoadMore?: boolean // <--- ДОБАВИЛИ
   onLoadMore?: () => void
   rootMargin?: string
 }
@@ -10,6 +11,7 @@ type Options = {
 export const useInfiniteScroll = ({
   hasMore,
   isLoadingMore,
+  isErrorLoadMore, // <--- ДОБАВИЛИ
   onLoadMore,
   rootMargin = '600px',
 }: Options) => {
@@ -17,12 +19,14 @@ export const useInfiniteScroll = ({
 
   const loadMoreRef = useRef(onLoadMore)
   const isLoadingRef = useRef(isLoadingMore)
+  const isErrorRef = useRef(isErrorLoadMore) // <--- ДОБАВИЛИ
   // Запоминаем, находится ли сентинел в зоне видимости прямо сейчас
   const isIntersectingRef = useRef(false)
 
   useEffect(() => {
     loadMoreRef.current = onLoadMore
     isLoadingRef.current = isLoadingMore
+    isErrorRef.current = isErrorLoadMore // <--- ДОБАВИЛИ
   })
 
   useEffect(() => {
@@ -33,8 +37,12 @@ export const useInfiniteScroll = ({
       (entries) => {
         isIntersectingRef.current = entries[0]?.isIntersecting ?? false
 
-        // Если сентинел виден и мы не грузимся прямо сейчас — грузим
-        if (isIntersectingRef.current && !isLoadingRef.current) {
+        // Если сентинел виден, мы не грузимся прямо сейчас и НЕТ ОШИБКИ — грузим
+        if (
+          isIntersectingRef.current &&
+          !isLoadingRef.current &&
+          !isErrorRef.current // <--- ДОБАВИЛИ
+        ) {
           loadMoreRef.current?.()
         }
       },
@@ -44,17 +52,15 @@ export const useInfiniteScroll = ({
     return () => observer.disconnect()
   }, [hasMore, rootMargin])
 
-  // Ловушка «пересечения без перехода»: после загрузки пачки сентинел смещается
-  // вниз, но часто остаётся внутри зоны rootMargin. Тогда IntersectionObserver
-  // не шлёт новый колбэк (состояние не изменилось) и подгрузка вставала бы навсегда.
-  // Как только пачка долетела (isLoadingMore true -> false) — перепроверяем.
+  // Ловушка «пересечения без перехода»
   useEffect(() => {
-    if (isLoadingMore || !hasMore) return
+    // Если есть ошибка, мы НЕ вызываем onLoadMore автоматически
+    if (isLoadingMore || !hasMore || isErrorLoadMore) return // <--- ДОБАВИЛИ isErrorLoadMore
     if (!isIntersectingRef.current) return
     if (!sentinelRef.current) return
 
     loadMoreRef.current?.()
-  }, [isLoadingMore, hasMore])
+  }, [isLoadingMore, hasMore, isErrorLoadMore]) // <--- ДОБАВИЛИ в зависимости
 
   return sentinelRef
 }

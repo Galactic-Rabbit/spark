@@ -29,6 +29,7 @@ export const MainWidget = ({ initialPosts, totalUsers, serverError }: Props) => 
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
+    isFetchNextPageError, // <--- ДОСТАЕМ ФЛАГ ОШИБКИ ПОДГРУЗКИ
   } = useGetAllPosts(
     serverError
       ? undefined
@@ -62,6 +63,7 @@ export const MainWidget = ({ initialPosts, totalUsers, serverError }: Props) => 
     ? error.message
     : (serverError ?? 'Something went wrong. Please try again.')
 
+  // 1. Первичная загрузка (лоадер)
   if (isPending) {
     return (
       <div className={s.errorServer}>
@@ -70,6 +72,7 @@ export const MainWidget = ({ initialPosts, totalUsers, serverError }: Props) => 
     )
   }
 
+  // 2. Глобальная ошибка (лента вообще не загрузилась)
   if (isError && !data) {
     return (
       <div className={s.errorServer}>
@@ -83,22 +86,28 @@ export const MainWidget = ({ initialPosts, totalUsers, serverError }: Props) => 
     )
   }
 
+  // 3. Основной рендер (лента есть, возможно с ошибкой подгрузки)
   return (
     <div>
       <RegisteredUsers>{formattedUsers}</RegisteredUsers>
+
       <PostList
         posts={postsToDisplay}
         hasMore={canLoadMore}
         isLoadingMore={isFetchingNextPage}
+        isErrorLoadMore={isFetchNextPageError} // <--- ПЕРЕДАЕМ В POSTLIST
         onLoadMore={handleLoadMore}
       />
+
       {/* Ошибка догрузки следующей страницы: лента уже есть, не прячем её */}
-      {isError && (
+      {isFetchNextPageError && (
         <div className={s.errorServer}>
           <p className={`text-regular-sm ${s.error}`} role="alert">
-            {errorText}
+            Failed to load more posts. {/* Можно использовать errorText */}
           </p>
-          <Button variant="textButton" onClick={() => refetch()}>
+          <Button variant="textButton" onClick={() => fetchNextPage()}>
+            {' '}
+            {/* <--- ВЫЗЫВАЕМ FETCHNEXTPAGE */}
             Try again
           </Button>
         </div>
