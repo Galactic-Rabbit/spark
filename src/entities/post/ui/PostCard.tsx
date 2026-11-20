@@ -29,11 +29,12 @@ export const PostCard = ({ post, onOpen }: Props) => {
   }
 
   return (
-    <li onClick={() => onOpen(post.id)} className={s.card}>
+    <li className={s.card}>
       <ImageSlider
         images={post.images.map((image) => image.url)}
         className={s.slider}
         fit="cover"
+        onImageClick={() => onOpen(post.id)}
       />
       <UserProfileLink userId={post.ownerId}>
         <UserBadge avatar={post.avatarOwner} userName={post.userName} />
