@@ -1,0 +1,34 @@
+.item {
+  display: grid;
+  grid-template-columns: 2.25rem minmax(0, 1fr) 1rem;
+  gap: 0.75rem;
+  align-items: start;
+}
+
+.body {
+  min-width: 0;
+}
+
+.text {
+  overflow-wrap: anywhere;
+}
+
+.text strong {
+  font-weight: var(--font-weight-bold);
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+  color: var(--light-900);
+}
+
+.likeIcon {
+  color: var(--light-100);
+}
+
+.liked {
+  color: var(--danger-500);
+}
