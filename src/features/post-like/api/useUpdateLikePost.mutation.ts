@@ -16,10 +16,11 @@ export const useUpdateLikePostMutation = () => {
       })
       if (!response.ok) throw createApiError(response.status, error)
     },
-    onSuccess: async () => {
+    onSuccess: async (_data, { postId }) => {
       await Promise.all([
         queryClient.invalidateQueries({ queryKey: ['user-posts'] }),
         queryClient.invalidateQueries({ queryKey: ['posts'] }),
+        queryClient.invalidateQueries({ queryKey: ['post-likes', postId] }),
       ])
     },
   })

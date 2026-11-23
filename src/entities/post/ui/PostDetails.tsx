@@ -5,6 +5,7 @@ import { Post } from '../model/types'
 import { Input } from '@shared/ui/Input'
 import { UserBadge, UserProfileLink } from '@entities/user'
 import s from './PostDetails.module.css'
+import { PostLikes } from './PostLikes'
 
 type Props = {
   post: Post
@@ -24,10 +25,11 @@ export const PostDetails = ({ post, actions, comments, postActions }: Props) => 
           <UserProfileLink userId={post.ownerId}>
             <UserBadge avatar={post.avatarOwner} userName={post.userName} className={s.userBadge} />
           </UserProfileLink>
-          {actions} {/* ← «место»: что положат, то и нарисуется */}
+          {actions}
         </header>
         {comments}
         {postActions}
+        <PostLikes postId={post.id}></PostLikes>
         <Input variant={'text'} />
       </div>
     </div>
