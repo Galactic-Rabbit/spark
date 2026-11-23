@@ -10,7 +10,7 @@ import { MainPage } from '@pages/main'
 export const revalidate = 60
 
 export default async function Page() {
-  const { posts, totalUsers } = await getLatestPosts(4)
+  const { posts, totalUsers, error } = await getLatestPosts(4)
 
-  return <MainPage initialPosts={posts} totalUsers={totalUsers} />
+  return <MainPage initialPosts={posts} totalUsers={totalUsers} serverError={error} />
 }
