@@ -14,6 +14,14 @@
   height: 100%;
 }
 
+.imageButton {
+  display: block;
+  padding: 0;
+  cursor: pointer;
+  background: none;
+  border: 0;
+}
+
 .slider {
   width: 100%;
   max-width: 30.625rem;
@@ -31,6 +39,12 @@
   color: #fff;
   background-color: rgb(0 0 0 / 50%);
   border-radius: 4px;
+}
+
+/* Класс добавляется Swiper на стрелке у края слайдера. */
+.slider :global(.swiper-button-prev).navigationDisabled,
+.slider :global(.swiper-button-next).navigationDisabled {
+  display: none;
 }
 
 /* Размер иконок стрелок */
