@@ -7,6 +7,7 @@ import s from './PostModal.module.css'
 import { useState } from 'react'
 import { DropdownMenuCustom, DropdownMenuItem } from '@shared/ui/DropdownMenuCustom'
 import { MoreHorizontal } from '@shared/ui/icons'
+import { PostActions } from './PostActions'
 
 type Props = {
   onClose: () => void
@@ -40,6 +41,7 @@ export const PostModal = ({ onClose, openedPost }: Props) => {
               </DropdownMenuCustom>
             }
             comments={<CommentList />}
+            postActions={<PostActions isLiked={openedPost.isLiked} postId={openedPost.id} />}
           />
         )}
       </ModalBase>

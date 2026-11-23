@@ -1,0 +1,11 @@
+.likeButton {
+  color: var(--light-100);
+}
+
+.liked {
+  color: var(--danger-500);
+}
+
+.error {
+  color: var(--danger-500);
+}

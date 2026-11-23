@@ -10,11 +10,12 @@ type Props = {
   post: Post
   actions?: ReactNode
   comments?: ReactNode
+  postActions?: ReactNode
 }
 
 //пока просто скелет
 
-export const PostDetails = ({ post, actions, comments }: Props) => {
+export const PostDetails = ({ post, actions, comments, postActions }: Props) => {
   return (
     <div className={s.wrapPost}>
       <ImageSlider images={post.images.map((image) => image.url)} />
@@ -26,7 +27,7 @@ export const PostDetails = ({ post, actions, comments }: Props) => {
           {actions} {/* ← «место»: что положат, то и нарисуется */}
         </header>
         {comments}
-        <div>Блок с лайками, поделиться и пр.</div>
+        {postActions}
         <Input variant={'text'} />
       </div>
     </div>

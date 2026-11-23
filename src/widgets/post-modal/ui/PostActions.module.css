@@ -1,0 +1,15 @@
+.actions {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  width: 100%;
+  padding: 0.75rem 1.5rem 0;
+}
+
+.iconButton {
+  color: var(--light-100);
+}
+
+.bookmarkButton {
+  margin-left: auto;
+}
