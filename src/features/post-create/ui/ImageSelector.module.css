@@ -1,0 +1,25 @@
+.container {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  overflow-x: auto;
+}
+
+.thumbnail {
+  position: relative;
+  flex-shrink: 0;
+  width: 72px;
+  height: 72px;
+  overflow: hidden;
+  cursor: pointer;
+  border: 1px solid gray;
+  border-radius: 4px;
+}
+
+.active {
+  border: 2px solid white;
+}
+
+.image {
+  object-fit: cover;
+}

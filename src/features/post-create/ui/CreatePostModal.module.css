@@ -1,0 +1,178 @@
+.uploadModal {
+  width: 25.5rem;
+}
+
+.editModal {
+  width: min(56.25rem, calc(100vw - 2rem));
+}
+
+.publicationModal {
+  width: min(50.3125rem, calc(100vw - 2rem));
+}
+
+.modalBody {
+  gap: 0;
+  padding: 0;
+}
+
+.uploadContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 3.75rem 1.5rem 2.5rem;
+}
+
+.uploadPlaceholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 11.5rem;
+  height: 11.5rem;
+  margin-bottom: 3rem;
+  color: var(--light-100);
+  background: var(--dark-500);
+  border-radius: 2px;
+}
+
+.uploadActions {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  width: 11.5rem;
+}
+
+.selectButton {
+  min-height: 2.25rem;
+  padding: 0.375rem 0.625rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--light-100);
+  cursor: pointer;
+  background: var(--primary-500);
+  border: none;
+  border-radius: 2px;
+}
+
+.selectButton:hover {
+  background: var(--primary-300);
+}
+
+.draftButton {
+  min-height: 2.25rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--primary-500);
+  background: transparent;
+  border: 1px solid var(--primary-500);
+  border-radius: 2px;
+}
+
+.fileInput {
+  display: none;
+}
+
+.editContent {
+  padding: 1.25rem 1.5rem;
+}
+
+.editActions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.25rem;
+}
+
+.publicationContent {
+  min-height: 26.125rem;
+}
+
+.error {
+  margin: 0.75rem 1.5rem;
+  font-size: 0.875rem;
+  color: var(--danger-500);
+}
+
+@media (width <= 37.5rem) {
+  .uploadModal,
+  .editModal,
+  .publicationModal {
+    width: calc(100vw - 1.5rem);
+    min-width: 0;
+  }
+
+  .uploadContent {
+    padding: 2.5rem 1rem 2rem;
+  }
+}
+
+.headerActions {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  margin-left: auto;
+}
+
+.backButton,
+.headerButton {
+  padding: 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--light-100);
+  cursor: pointer;
+  background: transparent;
+  border: none;
+}
+
+.headerButton {
+  color: var(--primary-500);
+}
+
+.headerButton:hover {
+  color: var(--primary-300);
+}
+
+.confirmActions {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+
+.continueButton,
+.discardButton {
+  min-height: 2.25rem;
+  padding: 0.375rem 1.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  border-radius: 2px;
+}
+
+.continueButton {
+  color: var(--light-100);
+  background: var(--primary-500);
+  border: 1px solid var(--primary-500);
+}
+
+.continueButton:hover {
+  background: var(--primary-300);
+  border-color: var(--primary-300);
+}
+
+.discardButton {
+  color: var(--primary-500);
+  background: transparent;
+  border: 1px solid var(--primary-500);
+}
+
+.discardButton:hover {
+  color: var(--primary-300);
+  border-color: var(--primary-300);
+}
+
+@media (width <= 37.5rem) {
+  .confirmActions {
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+}
