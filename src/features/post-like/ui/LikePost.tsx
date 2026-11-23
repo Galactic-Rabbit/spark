@@ -1,4 +1,5 @@
 import { Heart, HeartFill } from '@shared/ui/icons'
+import { IconButton } from '@shared/ui/IconButton'
 import s from './LikePost.module.css'
 import { useState } from 'react'
 import { isApiError } from '@shared/api/apiError'
@@ -27,15 +28,15 @@ export const LikePost = ({ isLiked, postId }: Props) => {
 
   return (
     <>
-      <button
-        type="button"
+      <IconButton
         className={`${s.likeButton} ${isLiked ? s.liked : ''}`}
-        aria-label={isLiked ? 'Unlike post' : 'Like post'}
+        aria-label="Like post"
+        aria-pressed={isLiked}
         onClick={() => handleLike(postId)}
         disabled={isPending}
       >
         {isLiked ? <HeartFill width={24} height={24} /> : <Heart width={24} height={24} />}
-      </button>
+      </IconButton>
       {error && (
         <p className={`text-regular-sm ${s.error}`} role="alert">
           {error}
