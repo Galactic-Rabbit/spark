@@ -12,7 +12,7 @@ export type LatestPostsResult = {
 export const getLatestPosts = async (pageSize: number): Promise<LatestPostsResult> => {
   try {
     const res = await fetch(
-      `${API_BASE_URL}/api/v1/public-post/all/0?pageSize=${pageSize}&sortBy=id&sortDirection=desc`,
+      `${API_BASE_URL}/api/v1/public-posts/all/0?pageSize=${pageSize}&sortBy=id&sortDirection=desc`,
       { next: { revalidate: 60 } },
     )
 
@@ -30,11 +30,11 @@ export const getLatestPosts = async (pageSize: number): Promise<LatestPostsResul
     }
 
     const data = (await res.json()) as PostsPage
-    if (!Array.isArray(data.items))
-      throw new Error('Failed to fetch latest posts: unexpected payload')
+    const posts = data.items ?? []
+    if (!Array.isArray(posts)) throw new Error('Failed to fetch latest posts: unexpected payload')
 
     // Успешный ответ (даже если posts пустой — это не ошибка)
-    return { posts: data.items, totalUsers: data.totalUsers, error: null }
+    return { posts, totalUsers: data.totalUsers, error: null }
   } catch (e) {
     // Логируем ошибку на сервере (чтобы разработчик видел в консоли при next build)
     console.error('[getLatestPosts] Posts loading error:', e)

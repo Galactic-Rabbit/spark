@@ -105,7 +105,11 @@ export const MainWidget = ({ initialPosts, totalUsers, serverError }: Props) => 
           <p className={`text-regular-sm ${s.error}`} role="alert">
             Failed to load more posts. {/* Можно использовать errorText */}
           </p>
-          <Button variant="textButton" onClick={() => fetchNextPage()}>
+          <Button
+            variant="textButton"
+            onClick={() => fetchNextPage()}
+            disabled={isFetchingNextPage}
+          >
             {' '}
             {/* <--- ВЫЗЫВАЕМ FETCHNEXTPAGE */}
             Try again
