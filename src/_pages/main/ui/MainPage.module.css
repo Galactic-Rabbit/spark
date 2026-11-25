@@ -1,11 +1,13 @@
 .contentWrapper {
   display: flex;
   flex: 1;
+  height: calc(100vh - 3.75rem);
   overflow: hidden;
 }
 
 .main {
   flex: 1;
+  min-height: 0;
   padding: 1.5rem;
   overflow-y: auto;
 }
