@@ -10,12 +10,12 @@ import { PostLikes } from './PostLikes'
 
 type Props = {
   post: Post
-  actions?: ReactNode
+  postMenu?: ReactNode
   comments?: ReactNode
   postActions?: ReactNode
 }
 
-export const PostDetails = ({ post, actions, comments, postActions }: Props) => {
+export const PostDetails = ({ post, postMenu, comments, postActions }: Props) => {
   return (
     <div className={s.wrapPost}>
       <ImageSlider
@@ -28,7 +28,7 @@ export const PostDetails = ({ post, actions, comments, postActions }: Props) => 
           <UserProfileLink userId={post.ownerId}>
             <UserBadge avatar={post.avatarOwner} userName={post.userName} className={s.userBadge} />
           </UserProfileLink>
-          {actions}
+          {postMenu}
         </header>
         <div className={s.comments}>
           {post.description && (
