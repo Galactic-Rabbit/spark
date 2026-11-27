@@ -13,7 +13,7 @@ import s from './PostModal.module.css'
 import { useState } from 'react'
 import { DropdownMenuCustom, DropdownMenuItem } from '@shared/ui/DropdownMenuCustom'
 import { MoreHorizontal } from '@shared/ui/icons'
-import { PostActions } from './PostActions'
+import { PostActions } from '@widgets/post-actions'
 
 type Props = {
   onClose: () => void
@@ -50,7 +50,7 @@ export const PostModal = ({ onClose, openedPost }: Props) => {
         {openedPost && (
           <PostDetails
             post={openedPost}
-            actions={
+            postMenu={
               isAuthorized ? (
                 <DropdownMenuCustom
                   ariaLabel="Open menu"
@@ -79,7 +79,13 @@ export const PostModal = ({ onClose, openedPost }: Props) => {
               ) : null
             }
             comments={<CommentList />}
-            postActions={<PostActions isLiked={openedPost.isLiked} postId={openedPost.id} />}
+            postActions={
+              <PostActions
+                isLiked={openedPost.isLiked}
+                postId={openedPost.id}
+                variant="no-message"
+              />
+            }
           />
         )}
       </ModalBase>
