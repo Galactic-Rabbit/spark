@@ -1,17 +1,24 @@
 'use client'
 
-import { UserAvatar } from '@entities/user'
-import { Button } from '@shared/ui/Button'
 import type { PublicProfileViewModel } from '@entities/user'
+import { ProfileViewModel, UserAvatar } from '@entities/user'
+import { Button } from '@shared/ui/Button'
 import s from './ProfileHeader.module.css'
 
 type ProfileHeaderProps = {
-  user: Partial<PublicProfileViewModel> & { userName: string }
+  user: ProfileViewModel | PublicProfileViewModel
   isOwnProfile: boolean
 }
 
 export const ProfileHeader = ({ user, isOwnProfile }: ProfileHeaderProps) => {
   const avatarUrl = user.avatars?.[0]?.url || ''
+
+  const userMetadata = 'userMetadata' in user ? user.userMetadata : undefined
+
+  const hasPaymentSubscription =
+    'hasPaymentSubscription' in user ? user.hasPaymentSubscription : false
+
+  const isFollowing = 'isFollowing' in user ? user.isFollowing : false
 
   return (
     <div className={s.header}>
@@ -23,7 +30,7 @@ export const ProfileHeader = ({ user, isOwnProfile }: ProfileHeaderProps) => {
         <div className={s.topRow}>
           <div className={s.usernameWrapper}>
             <h1 className={s.username}>{user.userName}</h1>
-            {user.hasPaymentSubscription && <span className={s.paidBadge}>⭐</span>}
+            {hasPaymentSubscription && <span className={s.paidBadge}>⭐</span>}
           </div>
 
           {isOwnProfile ? (
@@ -33,7 +40,7 @@ export const ProfileHeader = ({ user, isOwnProfile }: ProfileHeaderProps) => {
           ) : (
             <div className={s.actions}>
               <Button variant="primary" className={s.actionButton}>
-                {user.isFollowing ? 'Unfollow' : 'Follow'}
+                {isFollowing ? 'Unfollow' : 'Follow'}
               </Button>
               <Button variant="secondary" className={s.actionButton}>
                 Send Message
@@ -43,18 +50,18 @@ export const ProfileHeader = ({ user, isOwnProfile }: ProfileHeaderProps) => {
         </div>
 
         {/* Счётчики */}
-        {user.userMetadata && (
+        {userMetadata && (
           <div className={s.stats}>
             <div className={s.statItem}>
-              <span className={s.statValue}>{user.userMetadata.following}</span>
+              <span className={s.statValue}>{userMetadata.following}</span>
               <span className={s.statLabel}>Following</span>
             </div>
             <div className={s.statItem}>
-              <span className={s.statValue}>{user.userMetadata.followers}</span>
+              <span className={s.statValue}>{userMetadata.followers}</span>
               <span className={s.statLabel}>Followers</span>
             </div>
             <div className={s.statItem}>
-              <span className={s.statValue}>{user.userMetadata.publications}</span>
+              <span className={s.statValue}>{userMetadata.publications}</span>
               <span className={s.statLabel}>Publications</span>
             </div>
           </div>
