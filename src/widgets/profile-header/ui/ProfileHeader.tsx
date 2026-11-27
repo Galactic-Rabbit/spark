@@ -2,6 +2,7 @@
 
 import { UserAvatar } from '@entities/user'
 import { Button } from '@shared/ui/Button'
+import { FollowUnfollowUserButton } from '@features/follow-unfollow-user'
 import type { PublicProfileViewModel } from '@entities/user'
 import s from './ProfileHeader.module.css'
 
@@ -32,9 +33,13 @@ export const ProfileHeader = ({ user, isOwnProfile }: ProfileHeaderProps) => {
             </Button>
           ) : (
             <div className={s.actions}>
-              <Button variant="primary" className={s.actionButton}>
-                {user.isFollowing ? 'Unfollow' : 'Follow'}
-              </Button>
+              {user.id != null && (
+                <FollowUnfollowUserButton
+                  userId={user.id}
+                  isFollowing={Boolean(user.isFollowing)}
+                  className={s.actionButton}
+                />
+              )}
               <Button variant="secondary" className={s.actionButton}>
                 Send Message
               </Button>

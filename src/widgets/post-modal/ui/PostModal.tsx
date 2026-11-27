@@ -1,6 +1,12 @@
+'use client'
+
 import { Post, PostDetails } from '@entities/post'
+import { useSession } from '@entities/session'
+import { useGetProfile } from '@entities/user'
+import { CopyPostLinkMenuItem } from '@features/post-copy-link'
 import { DeletePostModal } from '@features/post-delete'
 import { EditPostModal } from '@features/post-edit'
+import { FollowUnfollowUserButton } from '@features/follow-unfollow-user'
 import { ModalBase } from '@shared/ui/ModalBase'
 import { CommentList } from '@widgets/comment-list'
 import s from './PostModal.module.css'
@@ -17,6 +23,21 @@ type Props = {
 export const PostModal = ({ onClose, openedPost }: Props) => {
   const [isEditing, setIsEditing] = useState(false)
   const [isDeleting, setIsDeleting] = useState(false)
+
+  const { user, isAuthorized } = useSession()
+
+  const isOwnPost = Boolean(openedPost && user?.userId === openedPost.ownerId)
+  const ownerId = openedPost?.ownerId
+
+  const { data: ownerProfile } = useGetProfile(
+    ownerId ? String(ownerId) : undefined,
+    Boolean(openedPost && !isOwnPost && isAuthorized),
+  )
+
+  const isFollowing = Boolean(
+    ownerProfile && 'isFollowing' in ownerProfile && ownerProfile.isFollowing,
+  )
+
   return (
     <>
       <ModalBase
@@ -30,15 +51,32 @@ export const PostModal = ({ onClose, openedPost }: Props) => {
           <PostDetails
             post={openedPost}
             actions={
-              <DropdownMenuCustom
-                ariaLabel="Open menu"
-                trigger={<MoreHorizontal width={24} height={24} className={s.iconMenu} />}
-              >
-                <DropdownMenuItem onSelect={() => setIsDeleting(true)}>
-                  Delete Post{' '}
-                </DropdownMenuItem>
-                <DropdownMenuItem onSelect={() => setIsEditing(true)}>Edit Post</DropdownMenuItem>
-              </DropdownMenuCustom>
+              isAuthorized ? (
+                <DropdownMenuCustom
+                  ariaLabel="Open menu"
+                  trigger={<MoreHorizontal width={24} height={24} className={s.iconMenu} />}
+                >
+                  {isOwnPost ? (
+                    <>
+                      <DropdownMenuItem onSelect={() => setIsDeleting(true)}>
+                        Delete Post
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onSelect={() => setIsEditing(true)}>
+                        Edit Post
+                      </DropdownMenuItem>
+                    </>
+                  ) : (
+                    <>
+                      <FollowUnfollowUserButton
+                        userId={openedPost.ownerId}
+                        isFollowing={isFollowing}
+                        asMenuItem
+                      />
+                      <CopyPostLinkMenuItem postId={openedPost.id} />
+                    </>
+                  )}
+                </DropdownMenuCustom>
+              ) : null
             }
             comments={<CommentList />}
             postActions={<PostActions isLiked={openedPost.isLiked} postId={openedPost.id} />}
