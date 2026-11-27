@@ -8,6 +8,7 @@ const invalidateFollowQueries = (queryClient: QueryClient, selectedUserId: numbe
   queryClient.invalidateQueries({ queryKey: ['users', selectedUserId] })
   queryClient.invalidateQueries({ queryKey: ['users', 'following'] })
   queryClient.invalidateQueries({ queryKey: ['users', selectedUserId, 'followers'] })
+  queryClient.invalidateQueries({ queryKey: ['user', 'profile', String(selectedUserId)] })
 }
 
 export const useFollowUser = () => {
